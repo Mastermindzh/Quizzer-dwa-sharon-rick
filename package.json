@@ -1,0 +1,12 @@
+{
+    "name": "fall2017-quizz-sharonenrick",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "docker-compose up",
+        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
+
+    },
+    "dependencies": {
+        "spectacle-docs": "^0.9.10"
+    }
+}

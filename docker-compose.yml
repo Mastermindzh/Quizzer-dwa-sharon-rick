@@ -1,0 +1,29 @@
+version: "2"
+services:
+  server:
+    image: mastermindzh/generic_node
+    volumes:
+      - ./apps/server:/app
+    ports:
+      - 8001:8080
+
+  scoreboard:
+    image: mastermindzh/generic_node
+    volumes:
+      - ./apps/scoreboard:/app
+    ports:
+      - 8002:8080
+
+  quiz-master:
+    image: mastermindzh/generic_node
+    volumes:
+      - ./apps/quiz-master:/app
+    ports:
+      - 8003:8080
+
+  team-app:
+    image: mastermindzh/generic_node
+    volumes:
+      - ./apps/team-app:/app
+    ports:
+      - 8004:8080

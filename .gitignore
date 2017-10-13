@@ -57,4 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# Important! Ignore all British spelled variables.
+# spectacle api
+definitions/public
+
+# more node modules
+apps/*/node_modules
