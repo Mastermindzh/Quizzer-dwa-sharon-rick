@@ -3,7 +3,7 @@
 This repo holds all the code for the Quizzer app made by Sharon Franke and <a href = "http://mastermindzh.com">Rick van Lieshout</a>
 
 <h2>Tracking our work</h2>
-To make working on this app together easier we work with a method similar to Kanban. To do this we use a [Trello board](https://trello.com/b/6IQNr0Xl/quizzer).
+To make working on this app together easier we work with a method similar to Kanban. To do this we use a <a href = "https://trello.com/b/6IQNr0Xl/quizzer">Trello Board</a>
 
 This repo contains a `package.json` file instead of a Makefile to easily start several repo related tasks (e.g generate, run in Docker etc.) The commands include:
 
@@ -34,7 +34,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 
 
 ## 3.1. Api specification
-We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. We'll give an overview of the endpoints and why we chose them below. To see the entire specification check out the [swagger file](definitions/swagger.yml).
+We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. We'll give an overview of the endpoints and why we chose them below. To see the entire specification check out the [swagger file](definitions/swagger.yml) or run the "npm run docs" command.
 
 ### 3.1.1. Websocket endpoints
 
