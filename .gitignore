@@ -63,6 +63,12 @@ definitions/public
 # more node modules
 apps/*/node_modules
 
+# container npms
+apps/*/.config
+apps/*/.npm
+
+dbdata
+
 # idea
 .idea
 .idea/

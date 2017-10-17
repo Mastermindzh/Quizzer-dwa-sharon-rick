@@ -27,3 +27,9 @@ services:
       - ./apps/team-app:/app
     ports:
       - 8004:8080
+  mongo:
+    image: mongo
+    volumes:
+      - ./dbdata:/data/db
+    ports:
+      - 8009:27017
