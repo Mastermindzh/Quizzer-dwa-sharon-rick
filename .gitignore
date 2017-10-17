@@ -68,3 +68,7 @@ apps/*/.config
 apps/*/.npm
 
 dbdata
+
+# idea
+.idea
+.idea/

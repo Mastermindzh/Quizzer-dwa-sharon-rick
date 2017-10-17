@@ -4,9 +4,9 @@
     "scripts": {
         "start": "docker-compose up",
         "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
-
     },
     "dependencies": {
+        "markdown-toc": "^1.2.0",
         "spectacle-docs": "^0.9.10"
     }
 }
