@@ -62,3 +62,7 @@ definitions/public
 
 # more node modules
 apps/*/node_modules
+
+# idea
+.idea
+.idea/
