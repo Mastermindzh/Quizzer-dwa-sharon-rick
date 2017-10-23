@@ -112,6 +112,17 @@ Available topics:
 
 ## mongo
 
+rounds niet in quizzes object omdat je er heel vaak bij moet (e.g "get last question from current round in current quiz" -> select LAST(*) from rounds where quizid = 5) + groot ding, wordt veel data
+
+| Collection 	|           Description           	| Example document                                                                          	|
+|------------	|:-------------------------------:	|-------------------------------------------------------------------------------------------	|
+| questions  	|            a question           	| question, answer, category                                                                	|
+| categories 	|            a category           	| id, categoryname                                                                          	|
+| quizzes    	| The main object ... bla bla bla 	| id - password - teams (id) - status                                                       	|
+| teams      	| team object                     	| id , name, picture                                                                        	|
+| rounds     	| round object                    	| round: {categories,  question: { question(id) , status, asnwers: [teamid+answer]}, ...  } 	|
+
+
 <!-- RELATIE FOTO -->
 
 [example]('https://webassets.mongodb.com/_com_assets/cms/image03-e90f8e8989.png')

@@ -46,7 +46,7 @@ definitions:
     properties:
       id:
         type: "integer"
-        format: "int64"
+        format: "int32"
       username:
         type: "string"
       password:
