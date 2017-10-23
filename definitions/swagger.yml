@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "Quizzer application"
+  description: "Quizzer app"
   version: "0.0.1"
   title: "Quizzer"
   contact:
