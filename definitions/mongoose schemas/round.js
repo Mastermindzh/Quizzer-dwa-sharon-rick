@@ -8,7 +8,7 @@ var roundSchema = new Schema({
         ref: 'categories',
         validate: [val => { return val.length <= 3 }, 'too many categories']
     }],
-    question: [{
+    questions: [{
         questionId: {
             type: Schema.Types.ObjectId,
             ref: 'questions',

@@ -3,7 +3,7 @@
     "categories": [
         "categoryId1", "categoryId2", "categoryId3"
     ],
-    "question": [{
+    "questions": [{
         "questionId": "questionId1",
         "status": "closed",
         "answers": [{

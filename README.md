@@ -1,6 +1,6 @@
 
 <h1>fall2017-quizz-SharonEnRick</h1>
-This repo holds all the code for the Quizzer app made by <a href = "https://github.com/sharonfranke">Sharon Franke</a> and <a href = "http://mastermindzh.com">Rick van Lieshout</a>
+This repo holds all the code for the Quizzer app made by <a href = "https://github.com/sharonfranke">Sharon Franke</a> and <a href = "http://mastermindzh.com">Rick van Lieshout</a>.
 
 
 <h2>Tracking our work</h2>
@@ -110,24 +110,35 @@ Available topics:
 - question
 - score
 
-## mongo
+## 4.1 MongoDB
 
-rounds niet in quizzes object omdat je er heel vaak bij moet (e.g "get last question from current round in current quiz" -> select LAST(*) from rounds where quizid = 5) + groot ding, wordt veel data
+To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document withing the collection can be viewed in the table below.
+<!--rounds niet in quizzes object omdat je er heel vaak bij moet (e.g "get last question from current round in current quiz" -> select LAST(*) from rounds where quizid = 5) + groot ding, wordt veel data-->
 
 | Collection 	|           Description           	| Example document                                                                          	|
 |------------	|:-------------------------------:	|-------------------------------------------------------------------------------------------	|
 | questions  	|            a question           	| question, answer, category                                                                	|
 | categories 	|            a category           	| id, categoryname                                                                          	|
-| quizzes    	| The main object ... bla bla bla 	| id - password - teams (id) - status                                                       	|
-| teams      	| team object                     	| id , name, picture                                                                        	|
-| rounds     	| round object                    	| round: {categories,  question: { question(id) , status, asnwers: [teamid+answer]}, ...  } 	|
+| quizzes    	| The main object which will contain all the data of a quiz 	| id - password - teams (id) - status                                                       	|
+| teams      	| a team                     	| id , name, picture                                                                        	|
+| rounds     	| a round belonging to a quiz                    	| round: {categories,  question: { question(id) , status, asnwers: [teamid+answer]}, ...  } 	|
 
 
-<!-- RELATIE FOTO -->
+The following picture visualizes the relations between the collections and documents.[Relations example](./pictures/DataModel.png) In the picture, embedded documents have a blue header.
 
-[example]('https://webassets.mongodb.com/_com_assets/cms/image03-e90f8e8989.png')
+### Relationships
+**Question**
+***Question to Category*** This is a many-to-one relationship. A Question has one Category. A category can have multiple questions associated with it. <!-- todo In Question there is a link to the category because categories need to be accessed on their own.-->
+**Quiz**
+***Quiz to Round*** This is a one-to-many relationship. A Quiz contains multiple rounds. This is done by linking to rounds within the Quiz document. The reason behind this is that there are multiple rounds whithin a Quiz. A round is a complicated document and embedding this within a Quiz would make it unnecessarily difficult, and a round needs to be available for access by itself. If the round were embedded within the Quiz document, each time you need to access a round you need to query the whole quiz document. This produces a lot of overhead.
+***Quiz to Team*** This is a one-to-many relationship. A Quiz contains multiple teams. Like rounds, teams need to be able to be accessed independently. This is why there is a reference to a Team within the Quiz document.
+**Round**
+***Round to Category***
+***Round to Question***
+***Question to Answer*** this concerns the embedded question field
+***Answer to Team***
 
-- list collections
+
 
 <!-- table -->
 
