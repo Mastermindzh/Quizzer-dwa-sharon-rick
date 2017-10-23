@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "start": "docker-compose up",
+        "mockups": "http-server -c-1 mockups",
         "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
 
     },
