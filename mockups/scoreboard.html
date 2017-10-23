@@ -10,7 +10,6 @@
 
     <title>scoreboard</title>
 
-
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
@@ -34,22 +33,275 @@
         </div>
 
         <div class="row">
-
-
             <div class="col-lg-6">
                 <div class="wobbly-border col-lg-12">
-                    <h3>Teams ranked by points</h3>
-                    <div id="chart_div"></div>
+                    <h3 style="background: repeating-linear-gradient(45deg,#8fd639,#8fd639 10px,#8fd639 10px,#8fd639 20px); padding: 5px;max-width: 65%;">
+                        Quiz info:
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <table class="scores">
+                                <thead>
+                                    <tr>
+                                        <td>Team</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mushrooms</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Onions</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Olives</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Zucchini</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Pepperoni</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Last</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-3 col-lg-offset-1">
+                            <p class="smallText bold">
+                                Rounds played: 1 <br /><br /> Current Question: 12
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="wobbly-border wobbly-border-2 col-lg-12">
                     <h3 style="background: repeating-linear-gradient(45deg,yellow,yellow 10px,yellow 10px,yellow 20px); padding: 5px;max-width: 65%;">
-                        Some other statistic
+                        Teams ranked by points
                     </h3>
                     <div id="bar_chart_div"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="row">
+            <div class="wobbly-border col-lg-12">
+                <h4 class="center">From: Art and Literature</h4>
+                <h3 class="center">Who wrote Twilight series of novels?</h3>
+                <div id=""></div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and correct
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and wrong
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer under review
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer not given
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Actual statuses  -->
+
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border correct">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and correct
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border wrong">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and wrong
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border review">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer under review
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            -
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
@@ -77,25 +329,29 @@
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Topping');
             data.addColumn('number', 'Slices');
+            data.addColumn({
+                type: 'string',
+                role: 'style'
+            });
             data.addRows([
-                ['Mushrooms', 3],
-                ['Onions', 1],
-                ['Olives', 1],
-                ['Zucchini', 1],
-                ['Pepperoni', 2]
+                ['Mushrooms', 3, 'color: #4fc4ff'],
+                ['Onions', 1, 'color: #4fc4ff'],
+                ['Olives', 1, 'color: #4fc4ff'],
+                ['Zucchini', 1, 'color: #4fc4ff'],
+                ['Pepperoni', 2, 'color: #4fc4ff'],
+                ['last', 6, 'color: #4fc4ff']
             ]);
 
             // Set chart options
             var options = {
-                'title': 'How Much Pizza I Ate Last Night',
-                'width': 600,
-                'height': 400,
-                'backgroundColor': "transparent"
+                'title': '',
+                'width': 800,
+                'height': 265,
+                'backgroundColor': "transparent",
+                legend: {
+                    position: 'none'
+                },
             };
-
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
 
             var bar = new google.visualization.BarChart(document.getElementById('bar_chart_div'));
             bar.draw(data, options);
