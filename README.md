@@ -94,23 +94,23 @@ We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger
 
 ## Websocket communication
 
-According to the [Architecture]('#Architecture') section
-
-An example message:
+According to the [Architecture]('#Architecture') section, WebSockets will be used in a Publish/Subscriber pattern, which focuses on topics.
+This entails that in each message at least a topic must be present. Because multiple quizzes can be played at the time, a quizId must also be present. For traceability we have decided to also add the sender to the message. The following example message shows this:
 ```js
 {
     topic: 'question',
-    quizId: 'mongoid',
+    quizId: '123',
     sender: 'quizz master',
 }
 ```
 
 Available topics:
 
-<!-- TABLE -->
+<!-- TODO, na overleg verder uitwerken. -->
 
 - question
-- score
+- answer
+- team
 
 ## 4.1 MongoDB
 
