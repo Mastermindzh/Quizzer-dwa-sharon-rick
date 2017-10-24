@@ -77,7 +77,14 @@ Separation of concerns -> data logic over http -> limited amount of data
 
 How to connect, why.
 
-## 3.3 Why multi tier
+## 3.3 Multi Tier
+
+
+Scalability and deployment flexibility—concentrating different kinds of logic into specialized components makes it easier to deploy application components in a distributed, scalable environment, reducing network traffic and I/O overheads.
+Maintainability—isolating functionality into specialized components reduces code complexity and makes debugging easier. It also provides a good basis for component-based development and reusability.
+Stateless communication—XML is used to communicate between components in the presentation tier and those in the business logic tier.
+Enhanced infrastructure independence—the presentation and data access, which are often infrastructure-dependent, are separated from the application’s business logic.
+A specific set of skills is required for the development of each tier, so tiers can be developed independently of each other. For example, the thin presentation tier allows front-end experts to do their work without being affected by developments taking place in the business logic tier.
 
 ## 3.x Technologies
 
