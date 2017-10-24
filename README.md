@@ -112,16 +112,15 @@ Available topics:
 
 ## 4.1 MongoDB
 
-To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document withing the collection can be viewed in the table below.
-<!--rounds niet in quizzes object omdat je er heel vaak bij moet (e.g "get last question from current round in current quiz" -> select LAST(*) from rounds where quizid = 5) + groot ding, wordt veel data-->
+To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document within the collection can be viewed in the table below.
 
 | Collection 	|           Description           	| Example document                                                                          	|
 |------------	|:-------------------------------:	|-------------------------------------------------------------------------------------------	|
-| questions  	|            a question           	| question, answer, category                                                                	|
-| categories 	|            a category           	| id, categoryname                                                                          	|
-| quizzes    	| The main object which will contain all the data of a quiz 	| id - password - teams (id) - status                                                       	|
-| teams      	| a team                     	| id , name, picture                                                                        	|
-| rounds     	| a round belonging to a quiz                    	| round: {categories,  question: { question(id) , status, asnwers: [teamid+answer]}, ...  } 	|
+| questions  	|            a question           	| [Question](./definitions/mongo%20examples/question.json)                                                                	|
+| categories 	|            a category           	| [Category](./definitions/mongo%20examples/category.json)                                                                          	|
+| quizzes    	| The main object which will contain all the data of a quiz 	| [Quiz](./definitions/mongo%20examples/quiz.json)                                                       	|
+| teams      	| a team                     	| [Team](./definitions/mongo%20examples/team.json)                                                                        	|
+| rounds     	| a round belonging to a quiz                    	| [Round](./definitions/mongo%20examples/round.json) 	|
 
 
 The following picture visualizes the relations between the collections and documents.
@@ -141,24 +140,12 @@ To explain the relationships seen in the picture above, they will be listed belo
 ***Answer to Team*** This is a one-to-one relationship. Each team has one answer to each question, and each answer given belongs to one team. This is why there is a link to the teams in each answer.\
 
 
-## mongoose schemas
+## Mongoose Schemas
 
-Ik ben een korte voorbeeldbeschrijving
+To combine MongoDB and NodeJs the NodeJs library [Mongoose]('http://mongoosejs.com/') will be used.
+Mongoose uses Schemas to organize data. These Schemas are derived from the collections and documents mentioned above.
 
-```js
-  var blogSchema = new Schema({
-    title:  String,
-    author: String,
-    body:   String,
-    comments: [{ body: String, date: Date }],
-    date: { type: Date, default: Date.now },
-    hidden: Boolean,
-    meta: {
-      votes: Number,
-      favs:  Number
-    }
-  });
-```
+
 
 
 ## 5. Mockups & Screenshots
