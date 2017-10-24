@@ -47,9 +47,6 @@ The Quizzer app combines server side and client side techniques. These technique
 
 2. Containerized software
 
-3. multi-tiered -> include image
-
-4. pub/sub
 
 ### 2.3 Multi-tiered application
 The Quizzer app will be a multi-tiered application, this means that presentation, application processing and data management functions will be separated physically. The picture below illustrates this.\
@@ -58,6 +55,11 @@ The Quizzer app will be a multi-tiered application, this means that presentation
 The Data-Tier will contain the MongoDB database. There is a data acces layer in between the Data and Application tiers. This will be fulfilled by the Mongoose NodeJs library.\
 The Application-Tier will contain all the application logic. \
 The Presentation-Tier will contain the front-end for the Quiz master app, Team app and Scoreboard app.
+
+### 2.4 Publish/Subscriber pattern
+The Publish/Subscriber pattern is a messaging pattern in which senders, called publishers send messages without knowing who will receive the messages. Listeners, or Subscribers, express interest in a certain type of content and receive messages about it. \
+The variant that will be used in Quizzer is a topic based Publish/Subscriber pattern. This allows Subscribers to subscribe to a certain or multiple topics and receive messages about them. Messages are filtered through the topics, which means that Subscribers will only receive messages of their interest. They will receive all messages published to those topics. \
+This type of communication will be implemented using WebSockets. See WebSocket sections for more details.
 
 # 3. Design decisions / rationale
 
@@ -143,9 +145,7 @@ To explain the relationships seen in the picture above, they will be listed belo
 ## Mongoose Schemas
 
 To combine MongoDB and NodeJs the NodeJs library [Mongoose]('http://mongoosejs.com/') will be used.
-Mongoose uses Schemas to organize data. These Schemas are derived from the collections and documents mentioned above.
-
-
+Mongoose uses Schemas to organize data. These Schemas are derived from the collections and documents mentioned above. Appropriate data validation is added to these Schemas to ensure data integrity.
 
 
 ## 5. Mockups & Screenshots
