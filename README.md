@@ -39,6 +39,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team.
 
 # 2. Architecture
+The Quizzer app combines server side and client side techniques. These techniques are elaborated upon below. An explenation of why certain techniques have been chosen can be read in the Design decisions chapter.
 
 <!-- This chapter describes what we're doing -->
 
@@ -49,6 +50,14 @@ Quizzer is a web application that can be used for Quiz nights with your friends,
 3. multi-tiered -> include image
 
 4. pub/sub
+
+### 2.3 Multi-tiered application
+The Quizzer app will be a multi-tiered application, this means that presentation, application processing and data management functions will be separated physically. The picture below illustrates this.\
+![Three-Tiered Architecture](./pictures/Three-Tiered-Architecture.png)
+
+The Data-Tier will contain the MongoDB database. There is a data acces layer in between the Data and Application tiers. This will be fulfilled by the Mongoose NodeJs library.\
+The Application-Tier will contain all the application logic. \
+The Presentation-Tier will contain the front-end for the Quiz master app, Team app and Scoreboard app.
 
 # 3. Design decisions / rationale
 
