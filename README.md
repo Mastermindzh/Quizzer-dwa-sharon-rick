@@ -36,16 +36,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 
 # 1. Introduction
 
-The Quizzer is a web application that can be used in bars, sports canteens and maybe even prisons to play quizzes as a team. A pub quiz, basically.
-
-<!-- INSERT PUB QUIZ EXPLANATION -->
-
-Some of the rules:
-* Players are placed in teams. A typical team would consist of anywhere between three and eight players.
-* A Quizz Night consists of multiple rounds, each round contains twelve questions, chosen from three categories.
-* Besides the teams there is also a Quizz Master who selects questions, approves or disproves answers and keeps the mood up using humour and enthusiasm.
-* Every team shares a table.
-* Finally, a large screen is used to display everyone's score, the current question and the teams that have answered this question.
+Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team.
 
 # 2. Architecture
 
