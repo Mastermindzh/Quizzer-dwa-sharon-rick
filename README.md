@@ -124,23 +124,22 @@ To structure our MongoDB we have decided to use five collections. The collection
 | rounds     	| a round belonging to a quiz                    	| round: {categories,  question: { question(id) , status, asnwers: [teamid+answer]}, ...  } 	|
 
 
-The following picture visualizes the relations between the collections and documents.[Relations example](./pictures/DataModel.png) In the picture, embedded documents have a blue header.
+The following picture visualizes the relations between the collections and documents.
+[Relations example](./pictures/DataModel.png)\
+![DataModel](./pictures/DataModel.png)
+
+In the picture above, embedded documents have a blue header.
 
 ### Relationships
-**Question**
-***Question to Category*** This is a many-to-one relationship. A Question has one Category. A category can have multiple questions associated with it. <!-- todo In Question there is a link to the category because categories need to be accessed on their own.-->
-**Quiz**
-***Quiz to Round*** This is a one-to-many relationship. A Quiz contains multiple rounds. This is done by linking to rounds within the Quiz document. The reason behind this is that there are multiple rounds whithin a Quiz. A round is a complicated document and embedding this within a Quiz would make it unnecessarily difficult, and a round needs to be available for access by itself. If the round were embedded within the Quiz document, each time you need to access a round you need to query the whole quiz document. This produces a lot of overhead.
-***Quiz to Team*** This is a one-to-many relationship. A Quiz contains multiple teams. Like rounds, teams need to be able to be accessed independently. This is why there is a reference to a Team within the Quiz document.
-**Round**
-***Round to Category***
-***Round to Question***
-***Question to Answer*** this concerns the embedded question field
-***Answer to Team***
+To explain the relationships seen in the picture above, they will be listed below.\
+***Question to Category*** This is a many-to-one relationship. A Question has one Category. A category can have multiple questions associated with it.\
+***Quiz to Round*** This is a one-to-many relationship. A Quiz contains multiple rounds. This is done by linking to rounds within the Quiz document. The reason behind this is that there are multiple rounds whithin a Quiz. A round is a complicated document and embedding this within a Quiz would make it unnecessarily difficult, and a round needs to be available for access by itself. If the round were embedded within the Quiz document, each time you need to access a round you need to query the whole quiz document. This produces a lot of overhead.\
+***Quiz to Team*** This is a one-to-many relationship. A Quiz contains multiple teams. Like rounds, teams need to be able to be accessed independently. This is why there is a reference to a Team within the Quiz document.\
+***Round to Category*** This is a one-to-many relationship. Each round has three categories. These are links to Category documents. They are linked because you often need a list of all categories and embedding would result in a lot of overhead.\
+***Round to Question*** This is a one-to-many relationship. Each round has multiple questions. This is a link to the Question document, plus two fields are added.\
+***Question to Answer*** This is a one-to-many relationship. Each question is answered multiple times by the teams participating. This is why in each Question in the round, answers are embedded for each team.\
+***Answer to Team*** This is a one-to-one relationship. Each team has one answer to each question, and each answer given belongs to one team. This is why there is a link to the teams in each answer.\
 
-
-
-<!-- table -->
 
 ## mongoose schemas
 
