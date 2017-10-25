@@ -35,6 +35,8 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
         - [Relationships](#relationships)
     - [4.3 Mongoose Schemas](#43-mongoose-schemas)
 - [5. Application testing](#5-application-testing)
+    - [5.1 API tests for our Express routes](#51-api-tests-for-our-express-routes)
+    - [5.2 Unit tests for Mongoose Models](#52-unit-tests-for-mongoose-models)
 - [6. Mockups & Screenshots](#6-mockups--screenshots)
     - [6.1 Scoreboard - winners](#61-scoreboard---winners)
     - [6.2 Scoreboard - playing](#62-scoreboard---playing)
@@ -225,10 +227,44 @@ Mongoose uses Schemas to organize data. These Schemas are derived from the colle
 
 # 5. Application testing
 
-W.I.P
+Testing an application can be done in a thousand different ways, we are going to test the following things:
+
+- API tests for Express routes with [supertest](https://github.com/visionmedia/supertest).
+- Unit tests for Mongoose Models with [Mocha](https://mochajs.org/), [chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/).
+
+## 5.1 API tests for our Express routes
+
+Supertest aims to provide a high-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by [superagent](https://github.com/visionmedia/superagent).
+
+An example of a test with supertest:
+
+```js
+request(app)
+  .get('/user')
+  .expect('Content-Type', /json/)
+  .expect('Content-Length', '15')
+  .expect(200)
+  .end(function(err, res) {
+    if (err) throw err;
+  });
+```
+
+This bit of code tests the `/user` path and expects a HTTP-status code 200 and a json string with the length of 15.
+
+## 5.2 Unit tests for Mongoose Models
+
+Unit testing our Mongoose models is a tad harder. We've collected two tutorials which will, hopefully, point us in the right direction when we get started.
+
+- [Mongoose unit tests using mocha-chai](https://medium.com/nongaap/beginners-guide-to-writing-mongodb-mongoose-unit-tests-using-mocha-chai-ab5bdf3d3b1d)
+- [mongoose models and unit tests the definitive guide](https://codeutopia.net/blog/2016/06/10/mongoose-models-and-unit-tests-the-definitive-guide/)
 
 # 6. Mockups & Screenshots
 
+Our application follows a bit of the pub-quiz lore. No pub in their right minds would just think of an application as advanced and technical like this. They obviously played the games before, they obviously have some kind of an idea what they want. And most likely they have implemented the game before... only on paper......
+
+Our design therefore looks like a big sheet of squared paper drawn upon with a marker. This ensures the rustic, pub-like feeling we've all come to know and love.
+
+Now....
 ***BEHOLD our beautiful application.***
 
 ## 6.1 Scoreboard - winners
