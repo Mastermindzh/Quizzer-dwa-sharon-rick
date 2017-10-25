@@ -101,6 +101,19 @@ We've opted to use "Docker" to containerize our application. We've done this for
 
 Because this Quizz is a game we need <sup>(near)</sup> "live" updates for the game master and the scoreboard. To achieve this we are going to use websockets. The alternative would be letting the scoreboard and quiz-master app poll the backend for data updates, something which would cost lots of processing power and unnecassary network traffic.
 
+This doesn't mean we'd send *all* traffic over websockets obviously. We'll only send "events", some of these events will carry data (because they are tiny) and some will trigger an API call.
+
+Examples of events that carry data:
+
+- Submitting a question (for review by the quiz master)
+- Approving / disapproving a team question (changes scoreboard view)
+
+Examples of events that do **not** carry data and thus will be fetched from the api (caching, validations, etc):
+
+- New team submission
+- Scoreboard displaying teams
+- Questions / categories for the team master (those he picks from)
+
 More information, and specific details about our usage, can be found in Chapter [4.1 Websocket communication](#41-websocket-communication).
 
 ## 3.3 Multi Tier
@@ -130,7 +143,21 @@ In this chapter we'll take a look at the formats the application uses. The main 
 ## 4.1 Websocket communication
 
 According to the [Architecture]('#Architecture') section, WebSockets will be used in a [Publish/Subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern, which focuses on topics.
-This entails that in each message at least a topic must be present. Because multiple quizzes can be played at the time, a quizId must also be present. For traceability we have decided to also add the sender to the message. The following example message shows this:
+This entails that in each message at least a topic must be present. Because multiple quizzes can be played at the time, a quizId must also be present. For traceability we have decided to also add the sender to the message.
+
+A lot of the messages will not carry data but trigger an "update" event. Such a message will look something like this:
+
+```js
+{
+    topic: 'new team'
+    quizId: '123',
+    sender: 'teamname'
+}
+```
+
+The app which receives this message can, if it needs to, fetch the team from the API. Which, coincidentally will cache their information including the picture.
+
+A message that does carry data looks like this:
 
 ```js
 {
