@@ -19,18 +19,22 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 
 - [1. Introduction](#1-introduction)
 - [2. Architecture](#2-architecture)
+        - [2.3 Multi-tiered application](#23-multi-tiered-application)
+        - [2.4 Publish/Subscriber pattern](#24-publishsubscriber-pattern)
 - [3. Design decisions / rationale](#3-design-decisions--rationale)
     - [3.1 Containerization](#31-containerization)
     - [3.2 Websockets](#32-websockets)
-        - [3.2.1. Websocket endpoints](#321-websocket-endpoints)
-    - [3.3 Why multi tier](#33-why-multi-tier)
-    - [3.x Technologies](#3x-technologies)
+    - [3.3 Multi Tier](#33-multi-tier)
+    - [3.4 Technologies](#34-technologies)
     - [3.x Api specification](#3x-api-specification)
-    - [4. Format specification](#4-format-specification)
-    - [Websocket communication](#websocket-communication)
-    - [mongo](#mongo)
-    - [mongoose schemas](#mongoose-schemas)
-    - [5. Mockups & Screenshots](#5-mockups--screenshots)
+- [4. Format specification](#4-format-specification)
+    - [4.1 Websocket communication](#41-websocket-communication)
+        - [4.1.1 available websocket topics](#411-available-websocket-topics)
+    - [4.2 MongoDB](#42-mongodb)
+        - [Relationships](#relationships)
+    - [4.3 Mongoose Schemas](#43-mongoose-schemas)
+- [5. Application testing](#5-application-testing)
+- [6. Mockups & Screenshots](#6-mockups--screenshots)
 
 <!-- /TOC -->
 
@@ -39,7 +43,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team.
 
 # 2. Architecture
-The Quizzer app combines server side and client side techniques. These techniques are elaborated upon below. An explenation of why certain techniques have been chosen can be read in the Design decisions chapter.
+The Quizzer app combines server side and client side techniques. These techniques are elaborated upon below. An explanation of why certain techniques have been chosen can be read in the Design decisions chapter.
 
 <!-- This chapter describes what we're doing -->
 
@@ -63,59 +67,108 @@ This type of communication will be implemented using WebSockets. See WebSocket s
 
 # 3. Design decisions / rationale
 
-<!-- This chapter describes why (and why not something else). -->
+This chapter details our choices and rationale about the software design. Each chapter will specify the details about a decision and the chapter title mostly reflects the actual choice.
 
 ## 3.1 Containerization
 
-explanation
+Containerization makes applications truly isolated and portable because it ecapsulates systems which are kernel based. By including its own operating system layer it eliminates even more dependencies.
+We've opted to use "Docker" to containerize our application. We've done this for a couple of reasons, key being that Docker makes applications able to run anywhere, on any machine.
+
+- General separation of concerns (e.g a node server doesn't have to run a webserver)
+- Multiple developers, having containers set up is really the way to go. (especially in regards to making the apps run everywhere.)
+- More truly reflects the end goal (single, separate server with possibly many clients attached)
+- Docker is just plain cool (and popular).
 
 ## 3.2 Websockets
 
-Separation of concerns -> data logic over http -> limited amount of data
+Because this Quizz is a game we need <sup>(near)</sup> "live" updates for the game master and the scoreboard. To achieve this we are going to use websockets. The alternative would be letting the scoreboard and quiz-master app poll the backend for data updates, something which would cost lots of processing power and unnecassary network traffic.
 
-### 3.2.1. Websocket endpoints
-
-How to connect, why.
+More information, and specific details about our usage, can be found in Chapter 4.1.
 
 ## 3.3 Multi Tier
+
 Multi Tiered applications are easy to maintain because of the division of functionality. This makes the code easier to read and debug. Each part of the software has a specific task, and will stick to only that task.
 The separation also makes the application more scalable and easier to deploy. Tiers can easily be expanded upon or moved from server to server. Because of this, development is made easier as well. Collaboration is easier because of
 
+## 3.4 Technologies
 
-## 3.x Technologies
+The following chapter will list all the technology choices made during this project. Links are provided for those that are unfamiliar with the specific products. Some choices are influenced by school and some haven't been listed. (e.g nodejs)
 
-- docker
-- swagger
-- [redux]('http://redux.js.org/')
+- [Docker](https://www.docker.com/)
+- [Swagger](swagger.io)
+- [Redux]('http://redux.js.org/')
 - [socket.io]('https://socket.io/')
+- [Mocha](https://mochajs.org/)
+- [Supertest](https://github.com/visionmedia/supertest)
 
 ## 3.x Api specification
 We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. We'll give an overview of the endpoints and why we chose them below. To see the entire specification check out the [swagger file](definitions/swagger.yml) or run the "npm run docs" command.
 
-## 4. Format specification
+# 4. Format specification
 
+In this chapter we'll take a look at our the formats the application uses. The main use of this chapter is to convey the idea of our websocket communication ,which can't be specified in the Swagger file, and the database design.
 
-## Websocket communication
+## 4.1 Websocket communication
 
-According to the [Architecture]('#Architecture') section, WebSockets will be used in a Publish/Subscriber pattern, which focuses on topics.
+According to the [Architecture]('#Architecture') section, WebSockets will be used in a [Publish/Subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern, which focuses on topics.
 This entails that in each message at least a topic must be present. Because multiple quizzes can be played at the time, a quizId must also be present. For traceability we have decided to also add the sender to the message. The following example message shows this:
+
 ```js
 {
     topic: 'question',
     quizId: '123',
     sender: 'quizz master',
+    data: '{"question": "How many loafs of bread does a baker bake daily?"}'
 }
 ```
 
-Available topics:
+Because we will use Socket.io for our websocket communication the "topic" part will be handled in the communication layer and will therefore dissappear from the message, leaving us with the following example messages:
 
-<!-- TODO, na overleg verder uitwerken. -->
+**When the quizzer chooses a new question (topic: *new question*)**
+```js
+let question = {
+    quizId: '123',
+    sender: 'quizz master',
+    data: '{"question": "How many loafs of bread does a baker bake daily?"}'
+}
+```
 
-- question
+**When someone answers the question (topic: *answer*)**
+
+```js
+let answer = {
+    quizId: '123',
+    sender: 'team a',
+    data: '{"answer": "How many loafs of bread does a baker bake daily?"}'
+}
+```
+
+Code to send such messages would then look something like the following code:
+
+```js
+let socket = require('socket.io')(80);
+socket.broadcast.emit('new question', question);
+socket.broadcast.emit('answer', answer);
+```
+
+Client code can listen to a topic and receive its data like so:
+
+```js
+    socket.on('answer', function (msg) {
+      // my msg
+    });
+````
+
+### 4.1.1 available websocket topics
+
+The following list houses all, currently known, websocket topics:
+
+- new question
 - answer
-- team
+- new team
+- score
 
-## 4.1 MongoDB
+## 4.2 MongoDB
 
 To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document within the collection can be viewed in the table below.
 
@@ -145,13 +198,14 @@ To explain the relationships seen in the picture above, they will be listed belo
 ***Answer to Team*** This is a one-to-one relationship. Each team has one answer to each question, and each answer given belongs to one team. This is why there is a link to the teams in each answer.\
 
 
-## Mongoose Schemas
+## 4.3 Mongoose Schemas
 
 To combine MongoDB and NodeJs the NodeJs library [Mongoose]('http://mongoosejs.com/') will be used.
 Mongoose uses Schemas to organize data. These Schemas are derived from the collections and documents mentioned above. Appropriate data validation is added to these Schemas to ensure data integrity.
 
+# 5. Application testing
 
-## 5. Mockups & Screenshots
+# 6. Mockups & Screenshots
 
 BEHOLD our beautiful application:
 
