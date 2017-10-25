@@ -16,6 +16,7 @@ var roundSchema = new Schema({
         },
         status: {
             type: String,
+            enum: ['Open', 'Closed', 'Queued'], //Open-> open for submission of answers, Closed -> question is done, Queued -> quizmaster has already determined this question will be in this round.
             required: true
         },
         answers: [{
@@ -26,6 +27,7 @@ var roundSchema = new Schema({
             },
             answer: {
                 type: String,
+                minlength: 1, //Empty answers are not allowed
                 required: true
             },
             approved: Boolean

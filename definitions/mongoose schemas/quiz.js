@@ -13,6 +13,7 @@ var quizSchema = new Schema({
     },
     status: {
         type: String,
+        enum: ['Open', 'Closed', 'Playing'], //Open -> open for submissions, Closed -> quiz night is over, Playing -> Quiz night is being played
         required: true
     },
     teams: [{
@@ -24,3 +25,4 @@ var quizSchema = new Schema({
         ref: 'rounds'
     }]
 });
+
