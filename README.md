@@ -61,7 +61,7 @@ The Quizzer app combines server side and client side techniques. These technique
 The websocket protocol offers two-way communication with a remote host.
 As such WebSockets provide an enormous reduction in unnecessary network traffic and latency compared to the unscalable polling and long-polling solutions used to simulate a full-duplex connection by maintaining two connections.
 
-This application will use WebSockets to transfer update data. More on this can be found in chapters [3.1 Containerization](#31-containerization) and [4.1 Websocket communication](#41-websocket-communication).
+This application will use WebSockets to transfer update data. More on this can be found in chapters [3.2 Websockets](#32-websockets) and [4.1 Websocket communication](#41-websocket-communication).
 
 ## 2.2 Containerized software
 
@@ -125,7 +125,7 @@ We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger
 
 # 4. Format specification
 
-In this chapter we'll take a look at our the formats the application uses. The main use of this chapter is to convey the idea of our websocket communication ,which can't be specified in the Swagger file, and the database design.
+In this chapter we'll take a look at the formats the application uses. The main use of this chapter is to convey the idea of our websocket communication ,which can't be specified in the Swagger file, and the database design.
 
 ## 4.1 Websocket communication
 
