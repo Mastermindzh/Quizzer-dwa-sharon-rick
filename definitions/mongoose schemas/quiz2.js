@@ -32,7 +32,7 @@ var quizSchema = new Schema({
         validate: [val => {
           return val.length <= 3
         }, 'too many categories']
-      }], //todo category ook geen ref meer maken
+      }],
       questions: [{
         questionId: {
           type: Schema.Types.ObjectId,
