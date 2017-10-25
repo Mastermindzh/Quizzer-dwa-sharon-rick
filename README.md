@@ -2,7 +2,6 @@
 <h1>fall2017-quizz-SharonEnRick</h1>
 This repo holds all the code for the Quizzer app made by <a href = "https://github.com/sharonfranke">Sharon Franke</a> and <a href = "http://mastermindzh.com">Rick van Lieshout</a>.
 
-
 <h2>Tracking our work</h2>
 To make working on this app together easier we work with a method similar to Kanban. To do this we use a <a href = "https://trello.com/b/6IQNr0Xl/quizzer">Trello Board</a>
 
@@ -19,14 +18,16 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 
 - [1. Introduction](#1-introduction)
 - [2. Architecture](#2-architecture)
-        - [2.3 Multi-tiered application](#23-multi-tiered-application)
-        - [2.4 Publish/Subscriber pattern](#24-publishsubscriber-pattern)
+    - [2.1 Websockets](#21-websockets)
+    - [2.2 Containerized software](#22-containerized-software)
+    - [2.3 Multi-tiered application](#23-multi-tiered-application)
+    - [2.4 Publish/Subscriber pattern](#24-publishsubscriber-pattern)
 - [3. Design decisions / rationale](#3-design-decisions--rationale)
     - [3.1 Containerization](#31-containerization)
     - [3.2 Websockets](#32-websockets)
     - [3.3 Multi Tier](#33-multi-tier)
     - [3.4 Technologies](#34-technologies)
-    - [3.x Api specification](#3x-api-specification)
+    - [3.5 Api specification](#35-api-specification)
 - [4. Format specification](#4-format-specification)
     - [4.1 Websocket communication](#41-websocket-communication)
         - [4.1.1 available websocket topics](#411-available-websocket-topics)
@@ -35,6 +36,13 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [4.3 Mongoose Schemas](#43-mongoose-schemas)
 - [5. Application testing](#5-application-testing)
 - [6. Mockups & Screenshots](#6-mockups--screenshots)
+    - [6.1 Scoreboard - winners](#61-scoreboard---winners)
+    - [6.2 Scoreboard - playing](#62-scoreboard---playing)
+    - [6.3 Scoreboard login](#63-scoreboard-login)
+    - [6.4 Player app](#64-player-app)
+    - [6.5 Register team](#65-register-team)
+    - [6.6 Register team](#66-register-team)
+    - [6.7 Quiz master app](#67-quiz-master-app)
 
 <!-- /TOC -->
 
@@ -43,16 +51,24 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team.
 
 # 2. Architecture
+
 The Quizzer app combines server side and client side techniques. These techniques are elaborated upon below. An explanation of why certain techniques have been chosen can be read in the Design decisions chapter.
 
-<!-- This chapter describes what we're doing -->
+## 2.1 Websockets
 
-1. Websockets -> msg "hey we've got an update" -> fetch data
+The websocket protocol offers two-way communication with a remote host.
+As such WebSockets provide an enormous reduction in unnecessary network traffic and latency compared to the unscalable polling and long-polling solutions used to simulate a full-duplex connection by maintaining two connections.
 
-2. Containerized software
+This application will use WebSockets to transfer update data. More on this can be found in chapters [3.1 Containerization](#31-containerization) and [4.1 Websocket communication](#41-websocket-communication).
 
+## 2.2 Containerized software
 
-### 2.3 Multi-tiered application
+Containerization makes applications truly isolated and portable because it ecapsulates systems which are kernel based. By including its own operating system layer it eliminates even more dependencies.
+
+Our specific use case is detailed in chapter [3.1 Containerization](#31-containerization).
+
+## 2.3 Multi-tiered application
+
 The Quizzer app will be a multi-tiered application, this means that presentation, application processing and data management functions will be separated physically. The picture below illustrates this.\
 ![Three-Tiered Architecture](./pictures/Three-Tiered-Architecture.png)
 
@@ -60,7 +76,8 @@ The Data-Tier will contain the MongoDB database. There is a data acces layer in 
 The Application-Tier will contain all the application logic. \
 The Presentation-Tier will contain the front-end for the Quiz master app, Team app and Scoreboard app.
 
-### 2.4 Publish/Subscriber pattern
+## 2.4 Publish/Subscriber pattern
+
 The Publish/Subscriber pattern is a messaging pattern in which senders, called publishers send messages without knowing who will receive the messages. Listeners, or Subscribers, express interest in a certain type of content and receive messages about it. \
 The variant that will be used in Quizzer is a topic based Publish/Subscriber pattern. This allows Subscribers to subscribe to a certain or multiple topics and receive messages about them. Messages are filtered through the topics, which means that Subscribers will only receive messages of their interest. They will receive all messages published to those topics. \
 This type of communication will be implemented using WebSockets. See WebSocket sections for more details.
@@ -71,7 +88,6 @@ This chapter details our choices and rationale about the software design. Each c
 
 ## 3.1 Containerization
 
-Containerization makes applications truly isolated and portable because it ecapsulates systems which are kernel based. By including its own operating system layer it eliminates even more dependencies.
 We've opted to use "Docker" to containerize our application. We've done this for a couple of reasons, key being that Docker makes applications able to run anywhere, on any machine.
 
 - General separation of concerns (e.g a node server doesn't have to run a webserver)
@@ -83,7 +99,7 @@ We've opted to use "Docker" to containerize our application. We've done this for
 
 Because this Quizz is a game we need <sup>(near)</sup> "live" updates for the game master and the scoreboard. To achieve this we are going to use websockets. The alternative would be letting the scoreboard and quiz-master app poll the backend for data updates, something which would cost lots of processing power and unnecassary network traffic.
 
-More information, and specific details about our usage, can be found in Chapter 4.1.
+More information, and specific details about our usage, can be found in Chapter [4.1 Websocket communication](#41-websocket-communication).
 
 ## 3.3 Multi Tier
 
@@ -101,7 +117,8 @@ The following chapter will list all the technology choices made during this proj
 - [Mocha](https://mochajs.org/)
 - [Supertest](https://github.com/visionmedia/supertest)
 
-## 3.x Api specification
+## 3.5 Api specification
+
 We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. We'll give an overview of the endpoints and why we chose them below. To see the entire specification check out the [swagger file](definitions/swagger.yml) or run the "npm run docs" command.
 
 # 4. Format specification
@@ -188,15 +205,18 @@ The following picture visualizes the relations between the collections and docum
 In the picture above, embedded documents have a blue header.
 
 ### Relationships
-To explain the relationships seen in the picture above, they will be listed below.\
-***Question to Category*** This is a many-to-one relationship. A Question has one Category. A category can have multiple questions associated with it.\
-***Quiz to Round*** This is a one-to-many relationship. A Quiz contains multiple rounds. This is done by linking to rounds within the Quiz document. The reason behind this is that there are multiple rounds whithin a Quiz. A round is a complicated document and embedding this within a Quiz would make it unnecessarily difficult, and a round needs to be available for access by itself. If the round were embedded within the Quiz document, each time you need to access a round you need to query the whole quiz document. This produces a lot of overhead.\
-***Quiz to Team*** This is a one-to-many relationship. A Quiz contains multiple teams. Like rounds, teams need to be able to be accessed independently. This is why there is a reference to a Team within the Quiz document.\
-***Round to Category*** This is a one-to-many relationship. Each round has three categories. These are links to Category documents. They are linked because you often need a list of all categories and embedding would result in a lot of overhead.\
-***Round to Question*** This is a one-to-many relationship. Each round has multiple questions. This is a link to the Question document, plus two fields are added.\
-***Question to Answer*** This is a one-to-many relationship. Each question is answered multiple times by the teams participating. This is why in each Question in the round, answers are embedded for each team.\
-***Answer to Team*** This is a one-to-one relationship. Each team has one answer to each question, and each answer given belongs to one team. This is why there is a link to the teams in each answer.\
 
+To explain the relationships seen in the picture above, they will be listed below.
+
+| Relation | Explanation |
+|----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Question to Category | This is a many-to-one relationship. A Question has one Category. A category can have multiple questions associated with it. |
+|  Quiz to Round | This is a one-to-many relationship. A Quiz contains multiple rounds. This is done by linking to rounds within the Quiz document. The reason behind this is that there are multiple rounds whithin a Quiz. A round is a complicated document and embedding this within a Quiz would make it unnecessarily difficult, and a round needs to be available for access by itself. If the round were embedded within the Quiz document, each time you need to access a round you need to query the whole quiz document. This produces a lot of overhead. |
+| Quiz to Team | This is a one-to-many relationship. A Quiz contains multiple teams. Like rounds, teams need to be able to be accessed independently. This is why there is a reference to a Team within the Quiz document. |
+| Round to Category | This is a one-to-many relationship. Each round has three categories. These are links to Category documents. They are linked because you often need a list of all categories and embedding would result in a lot of overhead. |
+| Round to Question | This is a one-to-many relationship. Each round has multiple questions. This is a link to the Question document, plus two fields are added. |
+| Question to Answer | This is a one-to-many relationship. Each question is answered multiple times by the teams participating. This is why in each Question in the round, answers are embedded for each team. |
+| Answer to Team | This is a one-to-one relationship. Each team has one answer to each question, and each answer given belongs to one team. This is why there is a link to the teams in each answer. |
 
 ## 4.3 Mongoose Schemas
 
@@ -205,8 +225,36 @@ Mongoose uses Schemas to organize data. These Schemas are derived from the colle
 
 # 5. Application testing
 
+W.I.P
+
 # 6. Mockups & Screenshots
 
-BEHOLD our beautiful application:
+***BEHOLD our beautiful application.***
 
+## 6.1 Scoreboard - winners
 
+![scoreboard - winners](./pictures/mockups/scoreboard.gif)
+
+## 6.2 Scoreboard - playing
+
+![scoreboard - playing](./pictures/mockups/scoreboard.png)
+
+## 6.3 Scoreboard login
+
+![scoreboard - playing](./pictures/mockups/scoreboard_login.png)
+
+## 6.4 Player app
+
+![Player app](./pictures/mockups/player_app.png)
+
+## 6.5 Register team
+
+![Register team](./pictures/mockups/register_team.png)
+
+## 6.6 Register team
+
+![Register team](./pictures/mockups/register_team.png)
+
+## 6.7 Quiz master app
+
+W.I.P
