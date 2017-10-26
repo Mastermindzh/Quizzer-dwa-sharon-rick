@@ -43,7 +43,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [6.3 Scoreboard login](#63-scoreboard-login)
     - [6.4 Player app](#64-player-app)
     - [6.5 Register team](#65-register-team)
-    - [6.6 Register team](#66-register-team)
+    - [6.6 Team Login](#66-team-login)
     - [6.7 Quiz master app](#67-quiz-master-app)
 
 <!-- /TOC -->
@@ -314,9 +314,9 @@ Now....
 
 ![Register team](./pictures/mockups/register_team.png)
 
-## 6.6 Register team
+## 6.6 Team Login
 
-![Register team](./pictures/mockups/register_team.png)
+![Team login](./pictures/mockups/team_login.png)
 
 ## 6.7 Quiz master app
 
