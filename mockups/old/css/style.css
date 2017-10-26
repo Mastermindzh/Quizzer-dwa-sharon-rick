@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.icon-block {
+    padding: 0 15px;
+}
+
+.icon-block .material-icons {
+    font-size: inherit;
+}
+
+.logo {
+    font-family: 'Permanent Marker', cursive;
+    color: #2b2b2b;
+    font-size: 45px;
+}
+
+body {
+    background-color: #F4F4F4;
+}
+
+
+/* input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #29B6F6;
+    -webkit-box-shadow: 0 1px 0 0 #29B6F6;
+    box-shadow: 0 1px 0 0 #29B6F6;
+} */
+
+
+/* label color */
+
+.input-field label {
+    color: #29B6F6;
+}
+
+
+/* label focus color */
+
+.input-field input[type=text]:focus+label {
+    color: #29B6F6;
+}
+
+
+/* label underline focus color */
+
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #29B6F6;
+    box-shadow: 0 1px 0 0 #29B6F6;
+}
+
+
+/* icon prefix focus color */
+
+.input-field .prefix.active {
+    color: #29B6F6;
+}
