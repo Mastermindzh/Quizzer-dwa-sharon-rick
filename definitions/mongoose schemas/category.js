@@ -1,10 +1,9 @@
-var categorySchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    }
+var mongoose = require('mongoose');
+var categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  }
 });
+
+mongoose.model('Category', categorySchema);
