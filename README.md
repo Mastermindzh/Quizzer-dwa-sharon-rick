@@ -44,7 +44,13 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [6.4 Player app](#64-player-app)
     - [6.5 Register team](#65-register-team)
     - [6.6 Team Login](#66-team-login)
-    - [6.7 Quiz master app](#67-quiz-master-app)
+    - [6.7 Quiz master open quiz night](#67-quiz-master-open-quiz-night)
+    - [6.8 Quiz master teams](#68-quiz-master-teams)
+    - [6.9 Quiz master dashboard](#69-quiz-master-dashboard)
+    - [6.9 Quiz master add round](#69-quiz-master-add-round)
+    - [6.1x Quiz master select question](#61x-quiz-master-select-question)
+    - [6.1x Quiz master team answers](#61x-quiz-master-team-answers)
+    - [6.1x Quiz master question overview](#61x-quiz-master-question-overview)
 
 <!-- /TOC -->
 
@@ -126,9 +132,9 @@ The separation also makes the application more scalable and easier to deploy. Ti
 The following chapter will list all the technology choices made during this project. Links are provided for those that are unfamiliar with the specific products. Some choices are influenced by school and some haven't been listed. (e.g nodejs)
 
 - [Docker](https://www.docker.com/)
-- [Swagger]('https://swagger.io')
-- [Redux]('http://redux.js.org/')
-- [socket.io]('https://socket.io/')
+- [Swagger](https://swagger.io)
+- [Redux](http://redux.js.org/)
+- [socket.io](https://socket.io/)
 - [Mocha](https://mochajs.org/)
 - [Supertest](https://github.com/visionmedia/supertest)
 
@@ -308,7 +314,7 @@ Now....
 
 ## 6.4 Player app
 
-![Player app](./pictures/mockups/player_app.png)
+![Player app](./pictures/mockups/team_app.png)
 
 ## 6.5 Register team
 
@@ -318,6 +324,40 @@ Now....
 
 ![Team login](./pictures/mockups/team_login.png)
 
-## 6.7 Quiz master app
+## 6.7 Quiz master open quiz night
 
-W.I.P
+![Open quiz night](./pictures/mockups/quizmaster_openquiznight.png)
+
+## 6.8 Quiz master teams
+
+![Quiz master team](./pictures/mockups/quizmaster_teams.png)
+
+## 6.9 Quiz master dashboard
+
+The following picture shows the quiz master dashboard, this is the place the quiz master will be most of the time. In here he/she can decide what she wants to do next. (be it adding a round or picking questions)
+
+![dashboard](./pictures/mockups/dashboard.png)
+
+## 6.9 Quiz master add round
+
+The following pictures shows the screen where the quiz master can add new rounds by picking 3 categories for that round.
+
+![Start round](./pictures/mockups/quizmaster_startround.png)
+
+## 6.1x Quiz master select question
+
+The following screen shows how you can add questions to a round.
+
+![quiz master select question](./pictures/mockups/quizmaster_selectquestion.png)
+
+## 6.1x Quiz master team answers
+
+The following screen illustrates how the quiz master can judge the question currently being played.
+
+![quiz master team answers](./pictures/mockups/quizmaster_questionanswers.png)
+
+## 6.1x Quiz master question overview
+
+Currently unknown what this screen does.
+
+![quiz master question overview](./pictures/mockups/quizmaster_questionoverview.png)
