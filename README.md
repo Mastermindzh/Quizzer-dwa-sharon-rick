@@ -126,7 +126,7 @@ The separation also makes the application more scalable and easier to deploy. Ti
 The following chapter will list all the technology choices made during this project. Links are provided for those that are unfamiliar with the specific products. Some choices are influenced by school and some haven't been listed. (e.g nodejs)
 
 - [Docker](https://www.docker.com/)
-- [Swagger](swagger.io)
+- [Swagger]('https://swagger.io')
 - [Redux]('http://redux.js.org/')
 - [socket.io]('https://socket.io/')
 - [Mocha](https://mochajs.org/)
@@ -170,7 +170,7 @@ A message that does carry data looks like this:
 
 Because we will use Socket.io for our websocket communication the "topic" part will be handled in the communication layer and will therefore dissappear from the message, leaving us with the following example messages:
 
-**When the quizzer chooses a new question (topic: *new question*)**
+**When the Quizmaster chooses a new question (topic: *new question*)**
 ```js
 let question = {
     quizId: '123',
