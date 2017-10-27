@@ -9,5 +9,8 @@
     "dependencies": {
         "markdown-toc": "^1.2.0",
         "spectacle-docs": "^0.9.10"
+    },
+    "devDependencies": {
+        "http-server": "^0.10.0"
     }
 }
