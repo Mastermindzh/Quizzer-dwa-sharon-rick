@@ -208,6 +208,15 @@ div.wobbly-border-2 {
     background-color: #cc3737;
 }
 
+.center-content {
+    text-align: center;
+}
+
+.button-image {
+    width: 90px;
+    height: 90px;
+}
+
 
 /*******************
    input styling
