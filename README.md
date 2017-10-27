@@ -178,6 +178,7 @@ A message that does carry data looks like this:
 Because we will use Socket.io for our websocket communication the "topic" part will be handled in the communication layer and will therefore dissappear from the message, leaving us with the following example messages:
 
 **When the Quizmaster chooses a new question (topic: *new question*)**
+
 ```js
 let question = {
     quizId: '123',
@@ -225,15 +226,12 @@ The following list houses all, currently known, websocket topics:
 
 To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document within the collection can be viewed in the table below.
 
-| Collection 	|           Description           	| Example document                                                                          	|
-|------------	|:-------------------------------:	|-------------------------------------------------------------------------------------------	|
-| questions  	|            a question           	| [Question](./definitions/mongo%20examples/question.json)                                                                	|
-| categories 	|            a category           	| [Category](./definitions/mongo%20examples/category.json)                                                                          	|
-| quizzes    	| The main object which will contain all the data of a quiz 	| [Quiz](./definitions/mongo%20examples/quiz.json)                                                       	|
-| teams      	| a team                     	| [Team](./definitions/mongo%20examples/team.json)                                                                        	|
-| rounds     	| a round belonging to a quiz                    	| [Round](./definitions/mongo%20examples/round.json) 	|
-
-
+| Collection |           Description           | Example document                                                                          |
+|------------|:-------------------------------:|-------------------------------------------------------------------------------------------|
+| questions  |            a question           | [Question](./definitions/mongo%20examples/question.json)                                                                |
+| categories |            a category           | [Category](./definitions/mongo%20examples/category.json)                                                                          |
+| quizzes    | The main object which will contain all the data of a quiz | [Quiz](./definitions/mongo%20examples/quiz.json)                                                       |
+| teams      | a team                     | [Team](./definitions/mongo%20examples/team.json)                                                                        |
 The following picture visualizes the relations between the collections and documents.
 [Relations example](./pictures/DataModel.png)\
 ![DataModel](./pictures/DataModel.png)
