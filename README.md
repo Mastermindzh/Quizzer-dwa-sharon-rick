@@ -48,10 +48,10 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [6.7 Quiz master open quiz night](#67-quiz-master-open-quiz-night)
     - [6.8 Quiz master teams](#68-quiz-master-teams)
     - [6.9 Quiz master dashboard](#69-quiz-master-dashboard)
-    - [6.9 Quiz master add round](#69-quiz-master-add-round)
-    - [6.1x Quiz master select question](#61x-quiz-master-select-question)
-    - [6.1x Quiz master team answers](#61x-quiz-master-team-answers)
-    - [6.1x Quiz master question overview](#61x-quiz-master-question-overview)
+    - [6.10 Quiz master add round](#610-quiz-master-add-round)
+    - [6.11 Quiz master select question](#611-quiz-master-select-question)
+    - [6.12 Quiz master team answers](#612-quiz-master-team-answers)
+    - [6.13 Quiz master question overview](#613-quiz-master-question-overview)
 
 <!-- /TOC -->
 
@@ -335,27 +335,27 @@ Now....
 
 The following picture shows the quiz master dashboard, this is the place the quiz master will be most of the time. In here he/she can decide what she wants to do next. (be it adding a round or picking questions)
 
-![dashboard](./pictures/mockups/dashboard.png)
+![dashboard](./pictures/mockups/quizmaster_dashboard.png)
 
-## 6.9 Quiz master add round
+## 6.10 Quiz master add round
 
 The following pictures shows the screen where the quiz master can add new rounds by picking 3 categories for that round.
 
 ![Start round](./pictures/mockups/quizmaster_startround.png)
 
-## 6.1x Quiz master select question
+## 6.11 Quiz master select question
 
 The following screen shows how you can add questions to a round.
 
 ![quiz master select question](./pictures/mockups/quizmaster_selectquestion.png)
 
-## 6.1x Quiz master team answers
+## 6.12 Quiz master team answers
 
 The following screen illustrates how the quiz master can judge the question currently being played.
 
 ![quiz master team answers](./pictures/mockups/quizmaster_questionanswers.png)
 
-## 6.1x Quiz master question overview
+## 6.13 Quiz master question overview
 
 Currently unknown what this screen does.
 
