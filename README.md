@@ -11,6 +11,7 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 |---------|-------------------------------|
 | start   | Runs all apps in docker       |
 | docs    | Exposes api spec on port 7999 |
+| mockups | Run a simple (http-server) webserver and display the pages |
 
 <h2>Table of contents</h2>
 <!--  use markdown styled headers below -->
@@ -67,7 +68,7 @@ The Quizzer app combines server side and client side techniques. These technique
 The websocket protocol offers two-way communication with a remote host.
 As such WebSockets provide an enormous reduction in unnecessary network traffic and latency compared to the unscalable polling and long-polling solutions used to simulate a full-duplex connection by maintaining two connections.
 
-This application will use WebSockets to transfer update data. More on this can be found in chapters [3.2 Websockets](#32-websockets) and [4.1 Websocket communication](#41-websocket-communication).
+This application will use WebSockets to transfer update data which doesn't have to be cached. More on this can be found in chapters [3.2 Websockets](#32-websockets) and [4.1 Websocket communication](#41-websocket-communication).
 
 ## 2.2 Containerized software
 
@@ -107,7 +108,7 @@ We've opted to use "Docker" to containerize our application. We've done this for
 
 Because this Quizz is a game we need <sup>(near)</sup> "live" updates for the game master and the scoreboard. To achieve this we are going to use websockets. The alternative would be letting the scoreboard and quiz-master app poll the backend for data updates, something which would cost lots of processing power and unnecassary network traffic.
 
-This doesn't mean we'd send *all* traffic over websockets obviously. We'll only send "events", some of these events will carry data (because they are tiny) and some will trigger an API call.
+This doesn't mean we'd send *all* traffic over websockets obviously. We'll only send "events", some of these events will carry data (because they are tiny) and some will trigger an API call. (and API calls can be cached)
 
 Examples of events that carry data:
 
