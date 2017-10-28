@@ -72,3 +72,6 @@ dbdata
 # idea
 .idea
 .idea/
+
+# swagger generators
+generators/output

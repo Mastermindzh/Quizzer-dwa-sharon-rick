@@ -4,7 +4,9 @@
     "scripts": {
         "start": "docker-compose up",
         "mockups": "http-server -c-1 mockups",
-        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
+        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml",
+        "generate": "npm run generate:nodejs",
+        "generate:nodejs": "java -jar generators/swagger-codegen-cli.jar generate -i ./definitions/swagger.yml -l nodejs-server -o ./generators/output/nodejs"
     },
     "dependencies": {
         "markdown-toc": "^1.2.0",
