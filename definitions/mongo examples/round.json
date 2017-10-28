@@ -1,0 +1,27 @@
+{
+    "_id": "1",
+    "categories": [
+        "categoryId1", "categoryId2", "categoryId3"
+    ],
+    "questions": [{
+        "questionId": "questionId1",
+        "status": "closed",
+        "answers": [{
+            "teamId": "teamId1",
+            "answer": "Stephanie",
+            "approved": true
+        }, {
+            "teamId": "teamId2",
+            "answer": "Stephany",
+            "approved": false
+        }]
+    }, {
+        "questionId": "questionId2",
+        "status": "open",
+        "answers": [{
+            "teamId": "teamId1",
+            "answer": "Dolfy",
+            "approved": false
+        }]
+    }]
+}

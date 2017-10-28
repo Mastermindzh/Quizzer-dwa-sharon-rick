@@ -6,11 +6,23 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[{lib,src,test}/**.js]
+[**.js]
 indent_style = space
 indent_size = 2
 
-[*.json]
+[**.json]
+indent_style = space
+indent_size = 2
+
+[**.css]
+indent_style = space
+indent_size = 2
+
+[**.html]
+indent_style = space
+indent_size = 2
+
+[**.jsx]
 indent_style = space
 indent_size = 2
 
@@ -35,3 +47,4 @@ charset = ignore
 
 [{test/fixtures,deps,tools/eslint,tools/gyp,tools/icu,tools/msvs}/**]
 insert_final_newline = false
+

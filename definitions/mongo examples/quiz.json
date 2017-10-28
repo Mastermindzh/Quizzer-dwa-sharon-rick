@@ -1,0 +1,8 @@
+{
+    "_id": "1",
+    "password": "supersecurepassword",
+    "name": "Our awesome quiz night",
+    "status": "open",
+    "teams": ["teamId1", "teamId2", "teamId3"],
+    "rounds": ["roundId1", "roundId2", "roundId3"]
+}

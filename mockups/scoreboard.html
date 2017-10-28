@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>scoreboard</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Page Content -->
+    <div class="container-full">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">Quizzer - scoreboard</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="wobbly-border col-lg-12">
+                    <h3 style="background: repeating-linear-gradient(45deg,#8fd639,#8fd639 10px,#8fd639 10px,#8fd639 20px); padding: 5px;max-width: 65%;">
+                        Quiz info:
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <table class="scores">
+                                <thead>
+                                    <tr>
+                                        <td>Team</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                        <td>12</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mushrooms</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Onions</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Olives</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Zucchini</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Pepperoni</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>Last</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                        <td>4</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-3 col-lg-offset-1">
+                            <p class="smallText bold">
+                                Rounds played: 1 <br /><br /> Current Question: 12
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="wobbly-border wobbly-border-2 col-lg-12">
+                    <h3 style="background: repeating-linear-gradient(45deg,yellow,yellow 10px,yellow 10px,yellow 20px); padding: 5px;max-width: 65%;">
+                        Teams ranked by points
+                    </h3>
+                    <div id="bar_chart_div"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="wobbly-border col-lg-12">
+                <h4 class="center" style="background: repeating-linear-gradient(45deg,mediumpurple,mediumpurple 10px,mediumpurple 10px,mediumpurple 20px); padding: 5px;">From: Art and Literature</h4>
+                <h2 class="center">Who wrote Twilight series of novels?</h2>
+                <div id=""></div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and correct
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and wrong
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer under review
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer not given
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Actual statuses  -->
+
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border correct">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and correct
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border wrong">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer visible and wrong
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border review">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            Team answer under review
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="row wobbly-border">
+                    <div class="col-lg-2 wobbly-border profile-picture">
+                        img
+                    </div>
+                    <div class="col-lg-10 team-description">
+                        <h3>Team name</h3>
+                        <p>
+                            -
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Team');
+            data.addColumn('number', 'Points');
+            data.addColumn({
+                type: 'string',
+                role: 'style'
+            });
+            data.addRows([
+                ['Mushrooms', 3, 'color: #4fc4ff'],
+                ['Onions', 1, 'color: #4fc4ff'],
+                ['Olives', 1, 'color: #4fc4ff'],
+                ['Zucchini', 1, 'color: #4fc4ff'],
+                ['Pepperoni', 2, 'color: #4fc4ff'],
+                ['last', 6, 'color: #4fc4ff']
+            ]);
+
+            // Set chart options
+            var options = {
+                'title': '',
+                'width': 800,
+                'height': 265,
+                'backgroundColor': "transparent",
+                legend: {
+                    position: 'none'
+                },
+            };
+
+            var bar = new google.visualization.BarChart(document.getElementById('bar_chart_div'));
+            bar.draw(data, options);
+        }
+    </script>
+
+</body>
+
+</html>

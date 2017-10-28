@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard</title>
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Page Content -->
+    <div class="container-full">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">Quizzer - Dashboard</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="wobbly-border col-lg-12">
+              <!-- add round -->
+              
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Team');
+            data.addColumn('number', 'Points');
+            data.addColumn({
+                type: 'string',
+                role: 'style'
+            });
+            data.addRows([
+                ['Mushrooms', 3, 'color: #4fc4ff'],
+                ['Onions', 1, 'color: #4fc4ff'],
+                ['Olives', 1, 'color: #4fc4ff'],
+                ['Zucchini', 1, 'color: #4fc4ff'],
+                ['Pepperoni', 2, 'color: #4fc4ff'],
+                ['last', 6, 'color: #4fc4ff']
+            ]);
+
+            // Set chart options
+            var options = {
+                'title': '',
+                'width': 800,
+                'height': 265,
+                'backgroundColor': "transparent",
+                legend: {
+                    position: 'none'
+                },
+            };
+
+            var bar = new google.visualization.BarChart(document.getElementById('bar_chart_div'));
+            bar.draw(data, options);
+        }
+    </script>
+
+</body>
+
+</html>

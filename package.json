@@ -3,11 +3,15 @@
     "version": "1.0.0",
     "scripts": {
         "start": "docker-compose up",
+        "mockups": "http-server -c-1 mockups",
         "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
     },
     "dependencies": {
         "markdown-toc": "^1.2.0",
         "mongoose": "^4.12.4",
         "spectacle-docs": "^0.9.10"
+    },
+    "devDependencies": {
+        "http-server": "^0.10.0"
     }
 }
