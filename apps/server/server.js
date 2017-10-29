@@ -22,7 +22,7 @@ App.use(Swaggerize({
     handlers: Path.resolve('./handlers')
 }));
 
-Server.listen(8000, function() {
+Server.listen(8080, function() {
     App.swagger.api.host = this.address().address + ':' + this.address().port;
     console.log('App running on %s:%d', this.address().address, this.address().port);
 });

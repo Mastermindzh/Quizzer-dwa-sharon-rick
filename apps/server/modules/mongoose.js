@@ -13,9 +13,8 @@ var Question = mongoose.model('Question');
 var Quiz = mongoose.model('Quiz');
 
 var dbName = 'Quizzer';
-let port = '8009';
 
-mongoose.connect('mongodb://localhost:' + port + '/' + dbName);
+mongoose.connect('mongodb://mongo/' + dbName);
 
 exports.mongoose = mongoose;
 exports.Category = Category;
