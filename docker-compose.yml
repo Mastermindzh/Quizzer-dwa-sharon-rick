@@ -1,11 +1,12 @@
 version: "2"
 services:
-  server:
-    image: mastermindzh/generic_node
+
+  mongo:
+    image: mongo
     volumes:
-      - ./apps/server:/app
+      - ./dbdata:/data/db
     ports:
-      - 8001:8080
+      - 8009:27017
 
   scoreboard:
     image: mastermindzh/generic_node
@@ -27,9 +28,12 @@ services:
       - ./apps/team-app:/app
     ports:
       - 8004:8080
-  mongo:
-    image: mongo
+
+  server:
+    image: mastermindzh/generic_node
+    depends_on:
+      - "mongo"
     volumes:
-      - ./dbdata:/data/db
+      - ./apps/server:/app
     ports:
-      - 8009:27017
+      - 8001:8080

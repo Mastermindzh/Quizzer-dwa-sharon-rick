@@ -23,6 +23,9 @@ App.use(Swaggerize({
 }));
 
 Server.listen(8080, function() {
+    this.server.reconnectTries = 60;
+    this.server.reconnectInterval = 1000;
+
     App.swagger.api.host = this.address().address + ':' + this.address().port;
     console.log('App running on %s:%d', this.address().address, this.address().port);
 });
