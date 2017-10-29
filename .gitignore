@@ -75,3 +75,4 @@ dbdata
 
 # swagger generators
 generators/output
+generated
