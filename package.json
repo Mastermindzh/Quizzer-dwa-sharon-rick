@@ -2,7 +2,8 @@
     "name": "fall2017-quizz-sharonenrick",
     "version": "1.0.0",
     "scripts": {
-        "start": "docker-compose up",
+        "start": "docker-compose up -d",
+        "seed": "node test/populateDatabase.js",
         "mockups": "http-server -c-1 mockups",
         "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
     },
