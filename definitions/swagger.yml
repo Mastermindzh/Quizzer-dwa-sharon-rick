@@ -1,53 +1,258 @@
 swagger: "2.0"
 info:
-  description: "Quizzer app"
+  description: "Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team."
   version: "0.0.1"
   title: "Quizzer"
+  termsOfService: "https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick"
   contact:
-    email: ""
+    email: "rick_en_sharon_quizzer@rickvanlieshout.com"
   license:
     name: "MIT"
-    url: "https://opensource.org/licenses/MIT"
-host: ""
+    url: "https://choosealicense.com/licenses/mit/"
+host: "localhost"
 basePath: "/"
-tags:
-- name: "user"
-  description: "Users"
 schemes:
 - "http"
+
+tags:
+- name: "Categories"
+  description: "Everything about the categories"
+- name: "Teams"
+  description: "Everything about the teams"
+- name: "Questions"
+  description: "Everything about the questions"
+- name: "Quizzes"
+  description: "Everything about the quizzes"
+
 paths:
-  /user/{username}:
+  /categories/:
     get:
       tags:
-      - "user"
-      summary: "Get user by user name"
-      description: "Get user by user name"
-      operationId: "getUserByName"
+      - "Categories"
+      summary: "Get all categories"
+      description: "Get all categories"
+      operationId: "getCategories"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "categories fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Category"
+
+  /questions/:
+    get:
+      tags:
+      - "Questions"
+      summary: "Get all questions"
+      description: "Get all questions"
+      operationId: "getQuestions"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "questions fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Question"
+
+  /questions/{id}:
+    get:
+      tags:
+      - "Questions"
+      summary: "Get a specific question by id"
+      description: "Get a specific question by id"
+      operationId: "getQuestionById"
       produces:
       - "application/json"
       parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched."
+      - name: id
+        in: path
+        description: 'id of the question you want'
         required: true
-        type: "string"
+        type: string
       responses:
         200:
-          description: "successful operation"
+          description: "question fetched"
           schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
+            $ref: "#/definitions/Question"
+
+  /teams/:
+    get:
+      tags:
+      - "Teams"
+      summary: "Get all teams"
+      description: "Get all teams"
+      operationId: "getTeams"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "teams fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Team"
+    post:
+      tags:
+      - "Teams"
+      summary: "Add a new team"
+      description: "Add a new team"
+      operationId: "addTeam"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Team object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Team"
+      responses:
+        200:
+          description: "team added"
+
+  /quizzes/:
+    get:
+      tags:
+      - "Quizzes"
+      summary: "Get all quizzes"
+      description: "Get all quizzes"
+      operationId: "getQuizzes"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "quizzes fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Quiz"
+
+
+  /quizzes/{id}:
+    get:
+      tags:
+      - "Quizzes"
+      summary: "Get a specific quiz by id"
+      description: "Get a specific quiz by id"
+      operationId: "getQuizById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the quiz you want'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "quiz fetched"
+          schema:
+            $ref: "#/definitions/Quiz"
+
 definitions:
-  User:
+  Category:
     type: "object"
+    description: "Every question belongs to a category, these are those categories"
     properties:
-      id:
-        type: "integer"
-        format: "int32"
-      username:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+  Team:
+    type: "object"
+    description: "A quiz is played by multiple teams, this is the team schema."
+    properties:
+      _id:
+        type: "string"
+      name:
         type: "string"
       password:
         type: "string"
+        format: "password"
+      picture:
+        type: "string"
+  Question:
+    type: "object"
+    description: "The questions in the quiz"
+    properties:
+      _id:
+        type: "string"
+      question:
+        type: "string"
+      answer:
+        type: "string"
+      category:
+        $ref: '#/definitions/Category'
+  Quiz:
+    type: "object"
+    description: "the object housing the entire quiz night"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      password:
+        type: "string"
+        format: "password"
+      status:
+        type: "string"
+        enum: [Open, Closed, Playing]
+      teams:
+        type: "array"
+        items:
+          $ref: "#/definitions/Team"
+      rounds:
+        type: "array"
+        items:
+          $ref: "#/definitions/Round"
+  Answer:
+    description: "An answer, given by a team, to a question"
+    type: "object"
+    properties:
+      teamId:
+        $ref: "#/definitions/Team"
+      answer:
+        type: "string"
+      approved:
+        type: "boolean"
+
+  RoundQuestion:
+    description: "A question as it appears in the quiz object"
+    type: "object"
+    properties:
+      questionId:
+        $ref: "#/definitions/Question"
+      status:
+        type: "string"
+        enum: [Open, Closed, Queued]
+      answers:
+        type: "array"
+        items:
+          $ref: "#/definitions/Answer"
+  Round:
+    description: "Object which holds all the round info in a quiz"
+    type: "object"
+    properties:
+        _id:
+          type: "string"
+        categories:
+          type: "array"
+          items:
+            $ref: "#/definitions/Category"
+          minItems: 0
+          maxItems: 3
+        questions:
+          type: "array"
+          items:
+            $ref: "#/definitions/RoundQuestion"
+
+externalDocs:
+  description: "Find out more about Quizzer"
+  url: "https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick"

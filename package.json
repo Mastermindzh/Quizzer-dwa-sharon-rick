@@ -5,7 +5,8 @@
         "start": "docker-compose up -d",
         "seed": "node test/populateDatabase.js",
         "mockups": "http-server -c-1 mockups",
-        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml"
+        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml",
+        "generate:nodejs": "mkdir generated && cd generated && yo swaggerize --apiPath ./../definitions/swagger.yml --framework express && cd ../"
     },
     "dependencies": {
         "markdown-toc": "^1.2.0",
@@ -13,6 +14,8 @@
         "spectacle-docs": "^0.9.10"
     },
     "devDependencies": {
-        "http-server": "^0.10.0"
+        "generator-swaggerize": "^3.1.0",
+        "http-server": "^0.10.0",
+        "yo": "^2.0.0"
     }
 }
