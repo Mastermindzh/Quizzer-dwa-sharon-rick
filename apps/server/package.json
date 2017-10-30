@@ -16,11 +16,14 @@
         "generator-swaggerize": "^3.1.0",
         "is-my-json-valid": "^2.13.1",
         "js-yaml": "^3.2.6",
+        "nodemon": "^1.12.1",
         "supertest": "^1.2.0",
         "swagger-parser": "^3.4.1",
         "yo": "^2.0.0"
     },
-    "scripts": {},
+    "scripts": {
+        "start": "nodemon server.js"
+    },
     "generator-swaggerize": {
         "version": "3.1.0"
     },
