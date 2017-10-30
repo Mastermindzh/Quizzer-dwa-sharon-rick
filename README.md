@@ -12,6 +12,8 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
 | start   | Runs all apps in docker       |
 | docs    | Exposes api spec on port 7999 |
 | mockups | Run a simple (http-server) webserver and display the pages |
+| seed | fill the database with sample data|
+|shared_modules| Copy the shared modules to each react app.|
 
 <h2>Table of contents</h2>
 <!--  use markdown styled headers below -->
@@ -52,6 +54,8 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [6.11 Quiz master select question](#611-quiz-master-select-question)
     - [6.12 Quiz master team answers](#612-quiz-master-team-answers)
     - [6.13 Quiz master question overview](#613-quiz-master-question-overview)
+- [7. Development](#7-development)
+    - [7.1 Automatic filewatchers and shared modules](#71-automatic-filewatchers-and-shared-modules)
 
 <!-- /TOC -->
 
@@ -360,3 +364,11 @@ The following screen illustrates how the quiz master can judge the question curr
 Currently unknown what this screen does.
 
 ![quiz master question overview](./pictures/mockups/quizmaster_questionoverview.png)
+
+# 7. Development
+
+Simply running `npm start` after running `npm install` should do the trick. (note: docker-compose and ports 8000-8010 have to be available)
+
+## 7.1 Automatic filewatchers and shared modules
+
+Pretty much all file updates automatically reflect in the current (working) application. The exception to this rule are the "shared_modules". The shared_modules directory has to be copied over to the individual app directories in order to sync their changes. We have provided the npm task `npm run shared_modules` to do exactly that.

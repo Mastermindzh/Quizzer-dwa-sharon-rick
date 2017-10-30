@@ -2,10 +2,11 @@
     "name": "fall2017-quizz-sharonenrick",
     "version": "1.0.0",
     "scripts": {
-        "start": "docker-compose up -d",
+        "start": "npm run shared_modules && docker-compose up -d",
         "seed": "node test/populateDatabase.js",
         "mockups": "http-server -c-1 mockups",
         "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml",
+        "shared_modules": "node ./copy_shared_components.js",
         "generate:nodejs": "mkdir generated && cd generated && yo swaggerize --apiPath ./../definitions/swagger.yml --framework express && cd ../"
     },
     "dependencies": {
@@ -14,6 +15,7 @@
         "spectacle-docs": "^0.9.10"
     },
     "devDependencies": {
+        "fs-extra": "^4.0.2",
         "generator-swaggerize": "^3.1.0",
         "http-server": "^0.10.0",
         "yo": "^2.0.0"
