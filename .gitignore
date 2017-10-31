@@ -76,3 +76,5 @@ dbdata
 # swagger generators
 generators/output
 generated
+
+apps/*/src/components/shared
