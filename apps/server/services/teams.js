@@ -24,7 +24,10 @@ exports.getAllTeams = function(req, res, callback){
  */
 exports.getTeam = function(req, res, callback){
   try{
-
+    mongoose.Team.findOne({_id: req.body._id}).exec((err, team) => {
+      if(err) throw new Error(err);
+      return callback(err, {responses: team})
+    })
   }
   catch(err){
     console.log("Error found in service Teams: "+err.message);
