@@ -59,16 +59,6 @@ function refreshDatabase() {
 
                 Promise.all(quizPromises).then(function(quizzes) {
                     console.log("===QUIZ CREATED===")
-                        //
-                        // var quizPromises2 = quizzes.map(function (quiz) {
-                        //   return createQuizStep2(quiz);
-                        // })
-                        //
-                        // Promise.all(quizPromises2).then(function (rounds) {
-                        //   console.log("2 is done")
-                        //   quiz.rounds = rounds;
-                        //   //done();
-                        // })
                 });
             })
         });
@@ -94,24 +84,18 @@ function refreshDatabase() {
             Team.find({}).limit(3).select({ 'name': 0, 'password': 0, 'picture': 0, '__v': 0 }).exec(function(err, teams) {
                 if (err) reject(err);
                 quiz.teams = teams;
-                console.log("teams" + quiz.teams)
-
                 var promises1 = quiz.rounds.map(function(round) {
                     return new Promise(function(resolve, reject) {
                         Category.find({}).limit(3).select({ '__v': 0, 'name': 0 }).exec(function(err, categories) {
                             if (err) reject(err);
                             round.categories = categories;
-                            console.log("categories:" + round.categories)
                             resolve(round)
                         })
                     })
                 })
 
                 Promise.all(promises1).then(function(rounds) {
-                    console.log(JSON.stringify(rounds))
-                    console.log("===here its fine====")
                     var promises2 = rounds.map(function(round) {
-                        console.log("round counter")
                         return new Promise(function(resolve, reject) {
                             Question.find({}).limit(12).select({
                                 'question': 0,
@@ -120,7 +104,6 @@ function refreshDatabase() {
                                 '__v': 0
                             }).exec(function(err, questionsResult) {
                                 if (err) reject(err);
-                                console.log("which questions does it find? " + questionsResult)
                                     //add questions
                                 var questionPromises = round.questions.map(function(question) {
                                     return new Promise(function(resolve, reject) {
@@ -148,7 +131,6 @@ function refreshDatabase() {
 
                                 Promise.all(questionPromises).then(function(questions) {
                                     round.questions = questions;
-                                    console.log("just put q in r, whats r? " + JSON.stringify(round))
                                     resolve(rounds);
                                 })
                             })
@@ -156,14 +138,10 @@ function refreshDatabase() {
                     })
 
                     Promise.all(promises2).then(function(rounds) {
-                        console.log("===weird rounds: " + JSON.stringify(rounds))
                         quiz.rounds = rounds[0];
-                        console.log("quiz: " + JSON.stringify(quiz))
                         Quiz.create(quiz, function(err) {
                             if (err) done(err);
                             done();
-                            //todo question id's
-                            //todo teamid is an object?
                         });
                         resolve();
                     });
