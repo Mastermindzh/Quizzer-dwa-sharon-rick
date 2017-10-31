@@ -1,6 +1,7 @@
 'use strict';
 var Mockgen = require('./mockgen.js');
 var mongoose = require('./../modules/mongoose.js');
+var teams = require('./../services/teams.js')
 
 /**
  * Operations on /teams/
@@ -16,9 +17,7 @@ module.exports = {
      */
     get: {
         200: function(req, res, callback) {
-            mongoose.Team.find({}).exec((err, teams) => {
-                callback(err, { responses: teams });
-            });
+            teams.getAllTeams(req, res, callback)
         }
     },
     /**
@@ -31,6 +30,8 @@ module.exports = {
      */
     post: {
         200: function(req, res, callback) {
+
+
             /**
              * Using mock data generator module.
              * Replace this by actual data for the api.
