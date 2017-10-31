@@ -26,11 +26,6 @@ var quizSchema = new mongoose.Schema({
       categories: [{
         type: mongoose.Schema.ObjectId,
         ref: 'categories',
-        // validate: {
-        //     validator: val => {
-        //         return val.length <= 3
-        //     }, message: 'too many categories'
-        // }
       }],
       questions: [{
         questionId: {
@@ -56,15 +51,20 @@ var quizSchema = new mongoose.Schema({
           },
           approved: Boolean
         }],
-        // validate: {
-        //     validator: val => {
-        //         return val.length <= 12
-        //     }, message: 'too many questions!'
-        // }
       }]
     }
   ]
 });
+
+quizSchema.path('rounds').schema.path('categories').validate(function(categories){
+  if(categories.length !== 3){return false}
+  return true;
+}, 'There need to be three categories in a round.')
+
+quizSchema.path('rounds').schema.path('questions').validate(function(questions){
+  if(questions.length >12){return false}
+  return true;
+}, 'There cannot be more than 12 questions in a round.')
 
 mongoose.model('Quiz', quizSchema);
 
