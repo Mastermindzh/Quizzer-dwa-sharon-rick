@@ -117,6 +117,27 @@ paths:
         200:
           description: "team added"
 
+  /teams/{id}:
+    get:
+      tags:
+      - "Teams"
+      summary: "Get a specific team by id"
+      description: "Get a specific team by id"
+      operationId: "getTeamById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the team you want'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "team fetched"
+          schema:
+            $ref: "#/definitions/Team"
+
   /quizzes/:
     get:
       tags:
@@ -133,6 +154,26 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Quiz"
+    post:
+      tags:
+      - "Quizzes"
+      summary: "Update or add a new quiz"
+      description: "Update or add a new quiz"
+      operationId: "addQuiz"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Quiz object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Quiz"
+      responses:
+        200:
+          description: "quiz added"
 
 
   /quizzes/{id}:
