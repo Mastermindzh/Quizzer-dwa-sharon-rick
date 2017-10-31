@@ -179,11 +179,14 @@ div.wobbly-border-2 {
     text-align: center;
 }
 
+
+
 .podium {
     display: table;
     width: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
+    transition: height 1000ms ease-in-out;
 }
 
 .podium>* {
@@ -298,4 +301,20 @@ a.wobbly-border.dotted.thin {
 
 a.wobbly-border.dashed.thin {
     border: dashed 2px #41403E;
+}
+
+.quizInfo{
+    background: repeating-linear-gradient(45deg,#8fd639,#8fd639 10px,#8fd639 10px,#8fd639 20px);
+    padding: 5px;
+    max-width: 65%;
+    margin-top: -15px;
+    margin-left: -10px;
+}
+
+.teamByPoints{
+    background: repeating-linear-gradient(45deg,yellow,yellow 10px,yellow 10px,yellow 20px);
+    padding: 5px;
+    max-width: 65%;
+    margin-top: -15px;
+    margin-left: -10px;
 }
