@@ -40,6 +40,7 @@ exports.getTeam = function(req, res, callback){
  * @param req, request object that contains the data of the team that has to be created.
  */
 exports.createNewTeam = function(req, res, callback){
+  console.log('hello');
   try{
     console.log(JSON.stringify(req.body));
     let team = {
@@ -47,7 +48,8 @@ exports.createNewTeam = function(req, res, callback){
       password: req.body.password,
       picture: req.body.picture
     };
-    mongoose.Team.create(team).exec((err, team) => {
+
+    mongoose.Team.create(team, (err, team) => {
       callback(err, {responses: team});
     })
   }
