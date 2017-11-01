@@ -10,7 +10,7 @@ import currentQuestion from "../icons/current_question.png";
 import addRound from "../icons/add_quiz.png";
 import editRound from "../icons/edit_quiz.png";
 
-class LoginComponent extends Component {
+class DashboardComponent extends Component {
 
   render() {
 
@@ -92,4 +92,4 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+export default DashboardComponent;

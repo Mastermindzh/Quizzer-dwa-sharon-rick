@@ -28,10 +28,11 @@ class LoginComponent extends Component {
               </div>
             </div>
             <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-              <ButtonComponent path="/dashboard" text="Open Quizznight!" />
+              <ButtonComponent path="/" text="Open Quizznight!" />
             </div>
           </BoxComponent>
         </div>
+        <ButtonComponent path={"/"} text={"Back"}/>
       </div>
 
     );
