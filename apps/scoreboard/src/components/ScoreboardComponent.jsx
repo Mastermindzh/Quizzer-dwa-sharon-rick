@@ -42,7 +42,7 @@ class ScoreboardComponent extends Component {
         "_id": "59f8752e3c77d92d2a98ac30",
         "name": "Team5",
         "password": "1a2b",
-        "picture": "https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235",
+        "picture": "/uploads/805c40fe96cca78618e38246c4e3ec661509530914684.jpeg",
         "__v": 0
       }
     ]
