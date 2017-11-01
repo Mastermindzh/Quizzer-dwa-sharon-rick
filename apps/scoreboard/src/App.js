@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import SampleComponent from "./components/SampleComponent";
+import { Switch, Route } from 'react-router-dom'
+import LoginComponent from './components/LoginComponent.jsx'
+import ScoreboardComponent from './components/ScoreboardComponent.jsx'
+import WinnerComponent from './components/WinnerComponent.jsx'
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h2 className="text-info">Bootstrap + marker title</h2>
-        <a href="http://getbootstrap.com/" className={`btn btn-success`}>Bootstrap button</a>
-        <hr />
-        <SampleComponent />
-      </div>
+      <Switch>
+        <Route exact path='/' component={LoginComponent}/>
+        <Route path='/scores' component={ScoreboardComponent}/>
+        <Route path='/winner' component={WinnerComponent}/>
+      </Switch>
     );
   }
 }

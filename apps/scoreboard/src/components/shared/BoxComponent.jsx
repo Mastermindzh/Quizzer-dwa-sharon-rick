@@ -29,6 +29,7 @@ class BoxComponent extends Component {
       return (
         <div className={classes} style={styles}>
             {this.props.children}
+            <div style = {{clear:'both'}} />
         </div>
       );
     }
