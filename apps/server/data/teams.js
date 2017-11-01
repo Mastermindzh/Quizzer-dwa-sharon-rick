@@ -16,7 +16,12 @@ module.exports = {
    */
   get: {
     200: function (req, res, callback) {
-      teams.getAllTeams(req, res, callback);
+      teams.getAllTeams()
+        .then(teams => {
+          res.send(teams);
+        }).catch(err => {
+          res.status(404).send("no teams found");
+        })
     }
   },
   /**
@@ -29,17 +34,13 @@ module.exports = {
    */
   post: {
     200: function (req, res, callback) {
-
-      teams.createNewTeam(req, res, callback);
-      /**
-       * Using mock data generator module.
-       * Replace this by actual data for the api.
-       */
-      Mockgen().responses({
-        path: '/teams/',
-        operation: 'post',
-        response: '200'
-      }, callback);
+      teams.createNewTeam(req)
+      .then(team => {
+        res.send(team);
+      })
+      .catch(err => {
+        res.status(500).send("team not created");
+      })
     }
   }
 };
