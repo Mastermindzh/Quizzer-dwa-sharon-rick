@@ -78,3 +78,4 @@ generators/output
 generated
 
 apps/*/src/components/shared
+.node-gyp
