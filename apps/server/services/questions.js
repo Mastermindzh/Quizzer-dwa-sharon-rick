@@ -5,25 +5,17 @@ var mongoose = require('./../modules/mongoose.js');
  * Get all Questions from the database
  *
  */
-exports.getAllQuestions = function(req, res, callback){
-  try {
-
-  }catch(err){
-    console.log("Error found in service Questions: "+err.message);
-  }
+exports.getAllQuestions = function(){
+  return mongoose.Question.find({}).exec();
 };
 
 /**
  * Get a specific question from the database
  * @param req, request object that contains the id of the requested question
  */
-exports.getQuestion = function(req, res, callback){
-  try{
-
-  }
-  catch(err){
-    console.log("Error found in service Questions: "+err.message);
-    callback(err);
-  }
+exports.getQuestion = function(id){
+  return mongoose.Question.findOne({
+    _id: id
+  }).exec();
 };
 

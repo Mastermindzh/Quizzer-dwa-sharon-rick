@@ -5,17 +5,21 @@ var teams = require('./../../services/teams.js')
  * Operations on /teams/{id}
  */
 module.exports = {
-    /**
-     * summary: Get a specific team by id
-     * description: Get a specific team by id
-     * parameters: id
-     * produces: application/json
-     * responses: 200
-     * operationId: getTeamById
-     */
-    get: {
-        200: function (req, res, callback) {
-          teams.getTeam(req.params.id, team=> res.send(team));
-        }
+  /**
+   * summary: Get a specific team by id
+   * description: Get a specific team by id
+   * parameters: id
+   * produces: application/json
+   * responses: 200
+   * operationId: getTeamById
+   */
+  get: {
+    200: function (req, res, callback) {
+      teams.getTeam(req.params.id).then(data => {
+        res.send(data);
+      }).catch(err => {
+        res.status(404).send("no such team");
+      })
     }
+  }
 };

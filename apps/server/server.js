@@ -14,6 +14,7 @@ var Server = Http.Server(App);
 
 /* services */
 var teams = require('./services/teams.js')
+var quizzes = require('./services/quizzes.js')
 
 /**Multer setup */
 const uploadPath = './images';
@@ -63,18 +64,43 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
-var privateQuiz = io.of("/my-private-quiz");
 
 App.get('/websocketTestCall', (req, res) => {
-  privateQuiz.emit('new-question', 'this is the new question')
+  io.emit('new-question', 'this is the new question')
   res.send('websocket message fired!')
 });
 
-privateQuiz.on('connection', function (client) {
+io.on('connection', function (client) {
   console.log('a client connected');
   client.on("disconnect", () => console.log("a client disconnected"));
 });
 
+App.post('/login', (req, res) => {
+  quizzes.getQuiz(req.body.quizId).then(quiz => {
+    if(
+      (quiz.password != req.body.pubPass) ||
+      (quiz.status == "Closed")
+    ){
+      return Promise.reject();
+    }else{
+      if(quiz.status.toLowerCase() === "open"){
+        res.send("please call the quiz master");
+      }else{
+        teams.getTeamByName(req.body.name).then(team=>{
+          if(quiz.teams.indexOf(team.id) > -1 && team.password == req.body.password){
+            res.send("welcome back");
+          }else{
+            return Promise.reject();
+          }
+        }).catch(err=>{
+          res.status(401).send("not authorized");
+        })
+      }
+    }
+  }).catch(err => {
+    res.status(401).send("not authorized");
+  })
+})
 
 // listen to all active quizzes
 try {
@@ -88,6 +114,10 @@ try {
 
     quizzes.forEach(quiz => {
       let socket = io.of("/" + quiz._id)
+
+      socket.on('test', data => {
+        console.log('test');
+      })
 
       socket.on('connection', function (client) {
         console.log('Client connection on:' + quiz.id);
@@ -104,9 +134,12 @@ try {
             } else {
               // check whether team is in quiz
               teams.getTeamByName(data.name, team => {
-                if(quiz.teams.indexOf(team.id) > -1){
+                console.log(data.name)
+                if (quiz.teams.indexOf(team.id) > -1) {
                   console.log("this team is in the quiz!");
-                  // send message to client -> join!
+                  client.emit('join', {
+                    currentQuestion: 'test'
+                  })
                 }
               })
             }
