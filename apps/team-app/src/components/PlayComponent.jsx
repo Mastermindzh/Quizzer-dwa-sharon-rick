@@ -10,7 +10,7 @@ class PlayComponent extends Component {
     super();
     this.state = {
       question: 'Who wrote the Twilight series of novels?',
-      endpoint: "http://localhost:8001/my-private-quiz"
+      endpoint: "http://localhost:8001"
     };
   }
 
