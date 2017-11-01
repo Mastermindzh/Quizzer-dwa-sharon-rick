@@ -2,8 +2,24 @@ import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import ButtonComponent from './shared/ButtonComponent'
+import socketIOClient from "socket.io-client";
 
 class PlayComponent extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      question: 'Who wrote the Twilight series of novels?',
+      endpoint: "http://localhost:8001/my-private-quiz"
+    };
+  }
+
+  componentDidMount() {
+    const { endpoint } = this.state;
+    const socket = socketIOClient(endpoint);
+
+    socket.on("new-question", data => this.setState({question: data}));
+  }
 
   render() {
 
@@ -15,7 +31,7 @@ class PlayComponent extends Component {
           <div className="col-lg-3" />
           <BoxComponent size="6">
             <h2 className="header-distance">Question</h2>
-            <p>Who wrote the Twilight series of novels?</p>
+            <p>{this.state.question}</p>
 
             <div className="col-lg-12">
               <div className="form-group">
