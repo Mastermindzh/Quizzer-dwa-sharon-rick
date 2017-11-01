@@ -16,8 +16,12 @@ exports.getAllQuizzes = function(){
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
  */
-exports.getQuiz = function(req, res, callback){
+exports.getQuiz = function(id, callback){
   try{
+    mongoose.Quiz.findOne({_id: id}).exec((err, quiz) => {
+      if(err) throw new Error(err);
+      return callback(quiz)
+    })
   }
   catch(err){
     console.log("Error found in service Quizzes: "+err.message);

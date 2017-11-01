@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import ButtonComponent from './shared/ButtonComponent'
+import SubmitButton from './shared/SubmitButton'
 import socketIOClient from "socket.io-client";
 
 class LoginComponent extends Component {
@@ -11,11 +12,12 @@ class LoginComponent extends Component {
     this.state = {
       name: '',
       password: '',
+      quizId: '',
       pubPassword: '',
       backendUrl: 'http://localhost:8001',
-      fireRedirect: false
+      fireRedirect: false,
+      endpoint: "59f9928e0287d21fc55e0668"
     }
-    this.handler = this.handler.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -28,6 +30,28 @@ class LoginComponent extends Component {
     this.setState({ [field]: event.target.value });
   }
 
+  // componentDidMount() {
+  //   const { backendUrl, endpoint } = this.state;
+  //   const socket = socketIOClient(backendUrl + '/' + endpoint);
+
+  //   socket.on("new-question", data => this.setState({question: data}));
+  // }
+  // componentDidMount() {
+  //   const { endpoint } = "http://localhost:8001/my-private-quiz";
+  //   const socket = socketIOClient(endpoint);
+
+  //   socket.on("new-question", data => this.setState({question: data}));
+  // }
+  // componentDidMount(){
+
+  //   const { endpoint } = 'http://localhost:8001/my-private-quiz';
+  //   const socket = socketIOClient(endpoint);
+
+  //   console.log(socket);
+
+
+
+  // }
   /**
    * form submit
    * @param {*} event
@@ -35,12 +59,10 @@ class LoginComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    // const { endpoint } = this.state.backendUrl + '/' + this.state.pubPassword;
-    let endpoint = "localhost:8001/bullshit";
-    const socket = socketIOClient(endpoint);
-    // socket.on("new-question", data => this.setState({question: data}));
+    const { backendUrl, endpoint } = this.state;
+    const socket = socketIOClient(backendUrl + '/' + endpoint);
 
-
+    socket.emit('authenticate', this.state);
 
     // send websocket join request on submitted pub quiz
 
@@ -55,7 +77,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { name, password, pubPassword } = this.state;
+    const { name, password, pubPassword, quizId } = this.state;
     return (
 
       <div className="container">
@@ -75,10 +97,13 @@ class LoginComponent extends Component {
                   <input type="password" name="password" className="form-control" id="password" placeholder="password" onChange={this.handleChange.bind(this, "password")} />
                 </div>
                 <div className="form-group">
-                  <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="pub password" onChange={this.handleChange.bind(this, "pubpass")} />
+                  <input type="text" name="quizId" className="form-control" id="quizId" placeholder="quizId" onChange={this.handleChange.bind(this, "quizId")} />
+                </div>
+                <div className="form-group">
+                  <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="pub password" onChange={this.handleChange.bind(this, "pubPassword")} />
                 </div>
                 <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-                  <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && pubPassword.length > 0} />
+                  <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && quizId.length > 0 && pubPassword.length > 0} />
                 </div>
               </form>
             </div>

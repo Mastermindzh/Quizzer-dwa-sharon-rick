@@ -22,11 +22,11 @@ exports.getAllTeams = function(req, res, callback){
  * Get a specific team from the database
  * @param req, request object that contains the id of the requested team
  */
-exports.getTeam = function(req, res, callback){
+exports.getTeam = function(id, callback){
   try{
-    mongoose.Team.findOne({_id: req.body._id}).exec((err, team) => {
+    mongoose.Team.findOne({_id: id}).exec((err, team) => {
       if(err) throw new Error(err);
-      return callback(err, {responses: team})
+      return callback(team)
     })
   }
   catch(err){
@@ -34,6 +34,25 @@ exports.getTeam = function(req, res, callback){
     callback(err);
   }
 };
+
+/**
+ * get a specific team from the database by using its name
+ * @param name name of the team you want
+ * @param callback method which will receive the team
+ */
+exports.getTeamByName = function(name, callback){
+  try{
+    mongoose.Team.findOne({name: name}).exec((err, team) => {
+      if(err) throw new Error(err);
+      return callback(team)
+    })
+  }
+  catch(err){
+    console.log("Error found in service Teams: "+err.message);
+    callback(err);
+  }
+}
+
 
 /**
  * Create a new Team and add it to the database
