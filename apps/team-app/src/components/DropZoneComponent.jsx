@@ -15,7 +15,12 @@ class DropZoneComponent extends Component {
     this.setState({
       imageFiles: imageFiles
     })
+
+    // tell parent our image has changed
+    this.props.handler(imageFiles[0]);
   }
+
+
 
   render() {
 

@@ -79,3 +79,4 @@ generated
 
 apps/*/src/components/shared
 .node-gyp
+apps/server/images
