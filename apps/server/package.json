@@ -17,6 +17,7 @@
         "express": "^4.0.0",
         "mongoose": "^4.12.5",
         "socket.io": "^2.0.4",
+        "nodemon": "^1.12.1",
         "swaggerize-express": "^4.0.0",
         "swagmock": "~0.0.2"
     },

@@ -23,7 +23,6 @@ App.use(function(req, res, next) {
   next();
 });
 
-
 App.use(Swaggerize({
   api: Path.resolve('./config/swagger.yml'),
   handlers: Path.resolve('./handlers')
