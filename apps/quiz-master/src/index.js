@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
+import { BrowserRouter } from 'react-router-dom'
 
 import './css/main.css';
 
@@ -16,10 +17,12 @@ let render = () => {
     const App = require("./App").default;
 
     ReactDOM.render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        rootEl
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>,
+      rootEl
     );
 };
 
