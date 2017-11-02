@@ -57,9 +57,7 @@ class LoginComponent extends Component {
       quizId: this.state.quizId,
       pubPass: this.state.pubPassword
     }).then(response => {
-
       store.dispatch({ type: actions.LOGIN, payload: this.state.quizId })
-      // this.setState({ fireRedirect: true })
     }).catch(error => {
       alert("no dice");
     })

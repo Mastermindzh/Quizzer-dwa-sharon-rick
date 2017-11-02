@@ -5,7 +5,8 @@ var appState = {
   quizId: '',
   password: '',
   category: '',
-  rounds: '',
+  rounds: [],
+  teams: [],
   loggedIn: false,
   question: {
     question: "no question yet"
@@ -27,7 +28,8 @@ export default function rootReducer(state = appState, action) {
       }
     case actions.UPDATE_TABLE:
       return { ...state,
-        rounds: action.payload
+        rounds: action.payload.rounds,
+        teams: action.payload.teams,
       }
     default:
       return state;

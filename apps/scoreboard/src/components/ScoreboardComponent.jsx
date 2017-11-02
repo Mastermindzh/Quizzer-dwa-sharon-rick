@@ -101,7 +101,7 @@ class ScoreboardComponent extends Component {
   quizUpdate(data) {
     if (data.quizId === this.state.quizId) {
       axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
-        store.dispatch({ type: actions.UPDATE_TABLE, payload: response.data.rounds })
+        store.dispatch({ type: actions.UPDATE_TABLE, payload: {rounds: response.data.rounds, teams: response.data.teams} })
       })
 
       axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
