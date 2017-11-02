@@ -31,8 +31,13 @@ exports.updateQuiz = function(req, res, callback){
  * Create a new quiz with the data provided in req param.
  * @param req, request object that contains the data of the quiz that has to be created.
  */
-exports.createQuiz = function(req, res, callback){
-  //use promises please :)
+exports.createQuiz = function(req){
+  let quiz = new mongoose.Quiz({
+    name: req.body.name,
+    code: req.body.code
+  });
+
+  return quiz.save();
 };
 
 /**
