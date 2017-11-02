@@ -219,6 +219,28 @@ paths:
           description: quiz fetched
           schema:
             $ref: '#/definitions/Quiz'
+  '/quizzes/{id}/currentQuestion':
+    get:
+      tags:
+        - Questions
+      summary: Get current quiz question
+      description: Get current quiz question
+      operationId: getCurrentQuestionByQuizId
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz you want
+          required: true
+          type: string
+      responses:
+        '200':
+          description: question fetched
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
 definitions:
   Category:
     type: object

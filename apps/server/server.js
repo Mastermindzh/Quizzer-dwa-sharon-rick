@@ -72,7 +72,10 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
 
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
-    io.emit('new-question', { question: questions[Math.floor(Math.random() * questions.length)], quizId: '59f9928e0287d21fc55e0668'})
+    io.emit('new-question', {
+      question: questions[Math.floor(Math.random() * questions.length)],
+      quizId: '59f9928e0287d21fc55e0668'
+    })
     res.send('websocket message fired!')
   }).catch(err => {
     res.send(err);

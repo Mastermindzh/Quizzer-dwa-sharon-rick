@@ -10,6 +10,7 @@ import config from '../config.js'
 import actions from '../reducers/actions.js'
 import axios from "axios"
 import socketIOClient from "socket.io-client";
+import QuizInfoComponent from './QuizInfoComponent'
 
 class ScoreboardComponent extends Component {
 
@@ -60,15 +61,16 @@ class ScoreboardComponent extends Component {
     };
 
     this.socket = '';
-
+    this.updateState = this.updateState.bind(this);
+    this.quizUpdate = this.quizUpdate.bind(this);
   }
 
-    /**
-   * update local state with global state
-   * @param {*} state store state
-   */
+  /**
+ * update local state with global state
+ * @param {*} state store state
+ */
   updateState(state) {
-    this.setState({ quizId: state.quizId})
+    this.setState({ quizId: state.quizId })
   }
 
   componentDidMount() {
@@ -88,13 +90,28 @@ class ScoreboardComponent extends Component {
      * update score table
      */
     this.socket.on("new-question", data => {
-      if (data.quizId === this.state.quizId) {
-        axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
-          store.dispatch({type: actions.UPDATE_TABLE, payload: response.data.rounds})
-        })
-      }
+      this.quizUpdate(data)
     });
+
+    setTimeout(()=>{
+      this.quizUpdate({quizId: store.getState().quizId})
+    })
   }
+
+  quizUpdate(data) {
+    if (data.quizId === this.state.quizId) {
+      axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
+        store.dispatch({ type: actions.UPDATE_TABLE, payload: response.data.rounds })
+      })
+
+      axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
+        axios.get(config.backend + '/categories/' + response.data.category).then(data => {
+          store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: response.data, category: data.data } })
+        })
+      })
+    }
+  }
+
   render() {
     return (
       <div className="container-full">
@@ -111,9 +128,7 @@ class ScoreboardComponent extends Component {
                   <ScoreTableComponent />
                 </div>
                 <div className="col-lg-3 col-lg-offset-1">
-                  <p className="smallText bold">
-                    Rounds played: 1 <br /><br /> Current Question: 12
-                            </p>
+                  <QuizInfoComponent />
                 </div>
               </div>
 
