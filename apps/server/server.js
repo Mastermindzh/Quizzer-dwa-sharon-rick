@@ -15,6 +15,7 @@ var Server = Http.Server(App);
 /* services */
 var teams = require('./services/teams.js')
 var quizzes = require('./services/quizzes.js')
+var questions = require('./services/questions.js')
 
 /**Multer setup */
 const uploadPath = './images';
@@ -59,40 +60,63 @@ App.use(Swaggerize({
   handlers: Path.resolve('./handlers')
 }));
 
-// Custom endpoints
-App.post('/image', upload.single('teamImage'), function (req, res, next) {
-  res.send(req.file.filename);
-})
-
-
-App.get('/websocketTestCall', (req, res) => {
-  io.emit('new-question', 'this is the new question')
-  res.send('websocket message fired!')
-});
-
 io.on('connection', function (client) {
   console.log('a client connected');
   client.on("disconnect", () => console.log("a client disconnected"));
 });
 
+// Custom endpoints
+App.post('/image', upload.single('teamImage'), function (req, res, next) {
+  res.send(req.file.filename);
+})
+
+App.get('/newQuestionTest', (req, res) => {
+  questions.getAllQuestions().then(questions => {
+    io.emit('new-question', questions[Math.floor(Math.random() * questions.length)])
+    res.send('websocket message fired!')
+  }).catch(err => {
+    res.send(err);
+  })
+});
+
+/**
+ * Login to the current quiz (will give you the answer back)
+ */
 App.post('/login', (req, res) => {
   quizzes.getQuiz(req.body.quizId).then(quiz => {
-    if(
+    if (
       (quiz.password != req.body.pubPass) ||
       (quiz.status == "Closed")
-    ){
+    ) {
       return Promise.reject();
-    }else{
-      if(quiz.status.toLowerCase() === "open"){
+    } else {
+      if (quiz.status.toLowerCase() === "open") {
         res.send("please call the quiz master");
-      }else{
-        teams.getTeamByName(req.body.name).then(team=>{
-          if(quiz.teams.indexOf(team.id) > -1 && team.password == req.body.password){
-            res.send("welcome back");
-          }else{
+      } else {
+        teams.getTeamByName(req.body.name).then(team => {
+          if (quizzes.teamInQuiz(team, quiz) && teams.verifyPassword(team.password, req.body.password)) {
+            var currentQuestion = {}
+            quiz.rounds.some(round => {
+              let answer = round.questions.filter(question => (question.status === "Open"))
+              if (answer.length !== 0) { // if answer isn't empty
+                currentQuestion = answer[0]; // return element
+                return true; // some will exit if we return true :)
+              } else {
+                return false;
+              }
+            });
+            questions.getQuestion(currentQuestion.questionId).then(question => {
+              res.send({
+                quizId: quiz._id,
+                question: question
+              });
+            }).catch(err => {
+              res.status(401).send("not authorized")
+            })
+          } else {
             return Promise.reject();
           }
-        }).catch(err=>{
+        }).catch(err => {
           res.status(401).send("not authorized");
         })
       }
@@ -101,59 +125,6 @@ App.post('/login', (req, res) => {
     res.status(401).send("not authorized");
   })
 })
-
-// listen to all active quizzes
-try {
-  mongoose.Quiz.find({
-    $or: [{
-      status: "Playing"
-    }, {
-      status: "Open"
-    }]
-  }).exec((err, quizzes) => {
-
-    quizzes.forEach(quiz => {
-      let socket = io.of("/" + quiz._id)
-
-      socket.on('test', data => {
-        console.log('test');
-      })
-
-      socket.on('connection', function (client) {
-        console.log('Client connection on:' + quiz.id);
-
-        client.on('authenticate', (data) => {
-          // check whether pub password is correct
-          if (data.pubPassword != quiz.password) {
-            console.log("rekt");
-            // send message to client -> fuck off
-          } else {
-            if (quiz.status === "Open") {
-              // send message to quizmaster -> new team
-              // send message back to client -> wait
-            } else {
-              // check whether team is in quiz
-              teams.getTeamByName(data.name, team => {
-                console.log(data.name)
-                if (quiz.teams.indexOf(team.id) > -1) {
-                  console.log("this team is in the quiz!");
-                  client.emit('join', {
-                    currentQuestion: 'test'
-                  })
-                }
-              })
-            }
-          }
-        })
-        client.on("disconnect", () => console.log("a client disconnected"));
-      });
-    })
-
-  })
-} catch (err) {
-  console.log("Can't get websocket endpoints" + err.message);
-}
-
 
 // start server(s) and listen
 Server.listen(8080, function () {

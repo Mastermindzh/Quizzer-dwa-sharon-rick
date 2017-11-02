@@ -5,6 +5,7 @@ import SubmitButton from './shared/SubmitButton'
 import DropZoneComponent from './DropZoneComponent'
 import axios from "axios"
 import { Redirect } from 'react-router'
+import config from '../config.js'
 
 class RegisterComponent extends Component {
 
@@ -14,7 +15,6 @@ class RegisterComponent extends Component {
       imageFile: '',
       name: '',
       password: '',
-      backendUrl: 'http://localhost:8001',
       fireRedirect: false
     }
     this.handler = this.handler.bind(this)
@@ -34,12 +34,12 @@ class RegisterComponent extends Component {
 
     var formData = new FormData();
     formData.append("teamImage", this.state.imageFile);
-    axios.post(this.state.backendUrl + '/image', formData, {
+    axios.post(config.backend + '/image', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      axios.post(this.state.backendUrl + '/teams', {
+      axios.post(config.backend  + '/teams', {
         name: this.state.name,
         password: this.state.password,
         picture: response.data
