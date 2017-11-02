@@ -77,13 +77,13 @@ class ScoreboardComponent extends Component {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
 
-    this.socket.on("new-question", data => {
-      if (data.quizId === this.state.quizId) {
-        axios.get(config.backend + '/categories/' + data.question.category).then(response => {
-          store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: data.question, category: response.data } })
-        })
-      }
-    });
+    // this.socket.on("new-question", data => {
+    //   if (data.quizId === this.state.quizId) {
+    //     axios.get(config.backend + '/categories/' + data.question.category).then(response => {
+    //       store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: data.question, category: response.data } })
+    //     })
+    //   }
+    // });
 
     /**
      * on new quiz (or question in this case...)
