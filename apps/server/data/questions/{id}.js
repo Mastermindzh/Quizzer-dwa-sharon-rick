@@ -16,6 +16,7 @@ module.exports = {
   get: {
     200: function (req, res, callback) {
       questions.getQuestion(req.params.id).then(data => {
+        console.log(data);
         res.send(data);
       }).catch(err => {
         res.status(404).send("no such question");
