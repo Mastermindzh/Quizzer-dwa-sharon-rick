@@ -72,7 +72,7 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
 
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
-    io.emit('new-question', questions[Math.floor(Math.random() * questions.length)])
+    io.emit('new-question', { question: questions[Math.floor(Math.random() * questions.length)], quizId: '59f9928e0287d21fc55e0668'})
     res.send('websocket message fired!')
   }).catch(err => {
     res.send(err);
@@ -120,6 +120,20 @@ App.post('/login', (req, res) => {
           res.status(401).send("not authorized");
         })
       }
+    }
+  }).catch(err => {
+    res.status(401).send("not authorized");
+  })
+})
+
+App.post('/login/scoreboard', (req, res) => {
+  quizzes.getQuiz(req.body.quizId).then(quiz => {
+    console.log(quiz.password)
+    console.log(req.body.pubPass)
+    if ((quiz.password != req.body.pubPass)) {
+      res.status(401).send("not authorized");
+    } else {
+      res.send('granted');
     }
   }).catch(err => {
     res.status(401).send("not authorized");

@@ -20,7 +20,6 @@ class PlayComponent extends Component {
 
     store.subscribe(() => {
       this.updateState(store.getState());
-      console.log(JSON.stringify(store.getState()))
     })
     this.updateState = this.updateState.bind(this);
   }
@@ -29,14 +28,18 @@ class PlayComponent extends Component {
    * update local state with global state
    * @param {*} state store state
    */
-  updateState(state){
-    this.setState({question: store.getState().currentQuestion, quizId: store.getState().quizId })
+  updateState(state) {
+    this.setState({ question: store.getState().currentQuestion, quizId: store.getState().quizId })
   }
 
   componentDidMount() {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
-    this.socket.on("new-question", data => store.dispatch({type: actions.CHANGE_CURRENT_QUESTION, payload: data}));
+    this.socket.on("new-question", data => {
+      if (data.quizId == this.state.quizId) {
+        store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: data.question })
+      }
+    });
   }
 
   render() {
