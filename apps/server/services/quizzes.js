@@ -13,7 +13,17 @@ exports.getAllQuizzes = function(){
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
  */
-exports.getQuiz = function(code){
+exports.getQuiz = function(id){
+  return mongoose.Quiz.findOne({
+    _id: id
+  }).exec();
+};
+
+/**
+ * Get a specific quiz from the database
+ * @param req, request object that contains the id of the requested quiz
+ */
+exports.getQuizByCode = function(code){
   return mongoose.Quiz.findOne({
     code: code
   }).exec();

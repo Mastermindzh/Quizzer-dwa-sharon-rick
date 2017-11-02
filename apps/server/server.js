@@ -83,7 +83,7 @@ App.get('/newQuestionTest', (req, res) => {
  * Login to the current quiz (will give you the answer back)
  */
 App.post('/login', (req, res) => {
-  quizzes.getQuiz(req.body.code).then(quiz => {
+  quizzes.getQuizByCode(req.body.code).then(quiz => {
     if (
       (quiz.code != req.body.code) ||
       (quiz.status == "Closed")

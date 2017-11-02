@@ -15,7 +15,7 @@ module.exports = {
    */
   get: {
     200: function (req, res, callback) {
-      quizzes.getQuiz(req.params.code).then(data => {
+      quizzes.getQuiz(req.params.id).then(data => {
         res.send(data);
       }).catch(err => {
         res.status(404).send("no such quizz");
