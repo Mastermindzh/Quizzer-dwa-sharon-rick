@@ -34,6 +34,8 @@ tags:
     description: Everything about the questions
   - name: Quizzes
     description: Everything about the quizzes
+  - name: Answers
+    description: Answers given to a question
 paths:
   /categories/:
     get:
@@ -199,6 +201,69 @@ paths:
           description: quiz fetched
           schema:
             $ref: '#/definitions/Quiz'
+  '/quizzes/{id}/{questionId}/answers':
+    get:
+      tags:
+        - Answers
+      summary: Get all answers in the current quiz for the current quiz
+      description: Get all answers in the current quiz for the current quiz
+      operationId: getAnswerInQuizByQuestionId
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - name: questionId
+          in: path
+          description: id of the question
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Answers fetched
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+  '/quizzes/{id}/{questionId}/{teamName}/answers':
+    put:
+      tags:
+        - Answers
+      summary: Add / update an answer
+      description: Update or add a new answer
+      operationId: addAnswer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - name: questionId
+          in: path
+          description: id of the question
+          required: true
+          type: string
+        - name: teamName
+          in: path
+          description: teamname submitting the answer
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/GivenAnswer'
+      responses:
+        '200':
+          description: answer submitted
 definitions:
   Category:
     type: object
@@ -263,11 +328,24 @@ definitions:
     type: object
     properties:
       teamId:
-        $ref: '#/definitions/Team'
+        type: string
       answer:
         type: string
       approved:
         type: boolean
+      _id:
+        type: string
+  Answers:
+    description: Answers given to a question
+    type: array
+    items:
+      $ref: '#/definitions/Answer'
+  GivenAnswer:
+    description: Answers given
+    type: object
+    properties:
+      answer:
+        type: string
   RoundQuestion:
     description: A question as it appears in the quiz object
     type: object
