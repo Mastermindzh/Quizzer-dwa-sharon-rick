@@ -4020,7 +4020,6 @@ module.exports = data = {
   ],
   quizzes: [{
     name: "AvengersQuizz",
-    password: "verysecure",
     code: "1a2b3c",
     status: "Playing", //
     teams: [], //just add 3 random teams for testing purposes
