@@ -54,10 +54,9 @@ class LoginComponent extends Component {
     event.preventDefault();
 
     axios.post(config.backend + '/login/scoreboard', {
-      quizId: this.state.quizId,
-      pubPass: this.state.pubPassword
+      code: this.state.pubPassword
     }).then(response => {
-      store.dispatch({ type: actions.LOGIN, payload: this.state.quizId })
+      store.dispatch({ type: actions.LOGIN, payload: response.data })
     }).catch(error => {
       alert("no dice");
     })
@@ -76,17 +75,13 @@ class LoginComponent extends Component {
           <BoxComponent size="6">
             <h2 className="header-distance">Log in</h2>
             <p>Please enter the login code for your scoreboard</p>
-            59f9928e0287d21fc55e0668
             <div className="col-lg-12">
               <form onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <input type="text" name="quizId" className="form-control" id="quizId" placeholder="quizId" onChange={this.handleChange.bind(this, "quizId")} />
-                </div>
                 <div className="form-group">
                   <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="pub password" onChange={this.handleChange.bind(this, "pubPassword")} />
                 </div>
                 <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-                  <SubmitButton text="Log in!" enabled={quizId.length > 0 && pubPassword.length > 0} />
+                  <SubmitButton text="Log in!" enabled={pubPassword.length > 0} />
                 </div>
               </form>
             </div>

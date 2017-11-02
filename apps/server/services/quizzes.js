@@ -9,17 +9,27 @@ exports.getAllQuizzes = function () {
   return mongoose.Quiz.find({}).exec();
 };
 
-/**
- * Get a specific quiz from the database
- * @param req, request object that contains the id of the requested quiz
- */
 
-function getQuiz(id) {
+function getQuiz(id){
   return mongoose.Quiz.findOne({
     _id: id
   }).exec();
 }
-exports.getQuiz = getQuiz
+/**
+ * Get a specific quiz from the database
+ * @param req, request object that contains the id of the requested quiz
+ */
+exports.getQuiz = getQuiz;
+
+/**
+ * Get a specific quiz from the database
+ * @param req, request object that contains the id of the requested quiz
+ */
+exports.getQuizByCode = function(code){
+  return mongoose.Quiz.findOne({
+    code: code
+  }).exec();
+}
 
 /**
  * Update the quiz according to the id and data provided.

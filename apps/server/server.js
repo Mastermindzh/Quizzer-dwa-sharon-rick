@@ -74,7 +74,7 @@ App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
       question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: '59f9928e0287d21fc55e0668'
+      quizId: '59fb8e0fa242b34d22a4112b'
     })
     res.send('websocket message fired!')
   }).catch(err => {
@@ -86,7 +86,7 @@ App.get('/newQuestionTest', (req, res) => {
  * Login to the current quiz (will give you the answer back)
  */
 App.post('/login', (req, res) => {
-  quizzes.getQuiz(req.body.code).then(quiz => {
+  quizzes.getQuizByCode(req.body.code).then(quiz => {
     if (
       (quiz.code != req.body.code) ||
       (quiz.status == "Closed")
@@ -134,14 +134,9 @@ App.post('/login', (req, res) => {
 })
 
 App.post('/login/scoreboard', (req, res) => {
-  quizzes.getQuiz(req.body.quizId).then(quiz => {
-    console.log(quiz.password)
-    console.log(req.body.pubPass)
-    if ((quiz.password != req.body.pubPass)) {
-      res.status(401).send("not authorized");
-    } else {
-      res.send('granted');
-    }
+  console.log(`code: ${req.body.code}`)
+  quizzes.getQuizByCode(req.body.code).then(quiz => {
+    res.send(quiz._id);
   }).catch(err => {
     res.status(401).send("not authorized");
   })
