@@ -4,9 +4,10 @@ var quizSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: {
+  code: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   status: {
     type: String,

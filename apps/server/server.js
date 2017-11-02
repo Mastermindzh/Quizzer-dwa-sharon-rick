@@ -85,7 +85,7 @@ App.get('/newQuestionTest', (req, res) => {
 App.post('/login', (req, res) => {
   quizzes.getQuiz(req.body.quizId).then(quiz => {
     if (
-      (quiz.password != req.body.pubPass) ||
+      (quiz.code != req.body.code) ||
       (quiz.status == "Closed")
     ) {
       return Promise.reject();

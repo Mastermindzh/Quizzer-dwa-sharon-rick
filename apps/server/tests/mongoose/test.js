@@ -129,10 +129,10 @@ describe('quiz', function () {
     })
   })
 
-  it('should be invalid when password is empty', function(done){
+  it('should be invalid when code is empty', function(done){
     var quiz = new Quiz();
     quiz.validate(function(err){
-      expect(err.errors.password).to.exist;
+      expect(err.errors.code).to.exist;
       done();
     })
   })

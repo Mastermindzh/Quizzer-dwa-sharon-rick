@@ -16,8 +16,7 @@ class LoginComponent extends Component {
     this.state = {
       name: '',
       password: '',
-      quizId: '',
-      pubPassword: '',
+      code: '',
       fireRedirect: false,
       state: "login"
     }
@@ -43,8 +42,7 @@ class LoginComponent extends Component {
     axios.post(config.backend + '/login', {
       name: this.state.name,
       password: this.state.password,
-      quizId: this.state.quizId,
-      pubPass: this.state.pubPassword
+      code: this.state.code
     }).then(response => {
       store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: response.data.question });
       store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
@@ -55,7 +53,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { name, password, pubPassword, quizId } = this.state;
+    const { name, password, code} = this.state;
     return (
       <div className="container">
 
@@ -73,8 +71,6 @@ class LoginComponent extends Component {
             {this.state.state === "login" ? (
               <div>
                 <p>Please enter your team info below
-                  <br />
-                  59f9928e0287d21fc55e0668
                 </p>
                 <div className="col-lg-12">
                   <form onSubmit={this.handleSubmit}>
@@ -85,13 +81,10 @@ class LoginComponent extends Component {
                       <input type="password" name="password" className="form-control" id="password" placeholder="password" onChange={this.handleChange.bind(this, "password")} />
                     </div>
                     <div className="form-group">
-                      <input type="text" name="quizId" className="form-control" id="quizId" placeholder="quizId" onChange={this.handleChange.bind(this, "quizId")} />
-                    </div>
-                    <div className="form-group">
-                      <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="pub password" onChange={this.handleChange.bind(this, "pubPassword")} />
+                      <input type="text" name="quizId" className="form-control" id="code" placeholder="Quiz Code" onChange={this.handleChange.bind(this, "code")} />
                     </div>
                     <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-                      <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && quizId.length > 0 && pubPassword.length > 0} />
+                      <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && code.length > 0} />
                     </div>
                   </form>
                 </div>
