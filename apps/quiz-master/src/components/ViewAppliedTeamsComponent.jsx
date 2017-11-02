@@ -3,7 +3,6 @@ import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import TeamComponent from './TeamComponent.jsx';
 import ButtonComponent from './shared/ButtonComponent'
-import RowComponent from "./shared/RowComponent.jsx";
 
 class ViewAppliedTeamsComponent extends Component {
 

@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
-import ButtonComponent from './shared/ButtonComponent'
 import RowComponent from "./shared/RowComponent.jsx";
 import createQuizz from "../icons/create_quizz.png";
 import appliedTeams from "../icons/applied_teams.png";
