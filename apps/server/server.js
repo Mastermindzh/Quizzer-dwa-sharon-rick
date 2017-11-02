@@ -86,11 +86,12 @@ App.get('/newQuestionTest', (req, res) => {
  * Login to the current quiz (will give you the answer back)
  */
 App.post('/login', (req, res) => {
-  quizzes.getQuiz(req.body.quizId).then(quiz => {
+  quizzes.getQuiz(req.body.code).then(quiz => {
     if (
-      (quiz.password != req.body.pubPass) ||
+      (quiz.code != req.body.code) ||
       (quiz.status == "Closed")
     ) {
+      console.log("something went wrong")
       return Promise.reject();
     } else {
       if (quiz.status.toLowerCase() === "open") {
@@ -114,17 +115,20 @@ App.post('/login', (req, res) => {
                 question: question
               });
             }).catch(err => {
+              console.log(err)
               res.status(401).send("not authorized")
             })
           } else {
             return Promise.reject();
           }
         }).catch(err => {
+          console.log(err)
           res.status(401).send("not authorized");
         })
       }
     }
   }).catch(err => {
+    console.log(err)
     res.status(401).send("not authorized");
   })
 })
