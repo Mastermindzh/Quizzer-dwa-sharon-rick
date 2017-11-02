@@ -8,8 +8,8 @@ class QuestionListComponent extends Component {
     return (
 
       <div>
-        {this.props.questions.map(function(value) {
-          return <BoxComponent><p>{value}</p></BoxComponent>;
+        {this.props.questions.map(function(value, i) {
+          return <BoxComponent key={i}><p key={i}>{value}</p></BoxComponent>;
         })
         }
       </div>

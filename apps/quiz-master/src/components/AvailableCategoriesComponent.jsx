@@ -9,8 +9,8 @@ class AvailableCategoriesComponent extends Component {
 
       <div>
         <h3>Available Categories</h3>
-      {this.props.list.map(function(value) {
-          return <BoxComponent size={"1"}><p>{value}</p></BoxComponent>;
+      {this.props.list.map(function(value, i) {
+          return <BoxComponent key={i} size={"1"}><p key={i}>{value}</p></BoxComponent>;
         })
       }
       </div>
