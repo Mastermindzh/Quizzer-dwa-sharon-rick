@@ -31,58 +31,23 @@ exports.getAnswerInQuizByQuestionId = function (quizId, questionId) {
 exports.addAnswer = (id, questionId, teamName, body) => {
 
   return new Promise(function (fulfill, reject) {
-
-    console.log(`id: ${id}`)
-    console.log(`questionId: ${questionId}`)
-    console.log(`teamName: ${teamName}`)
-    console.log(`body: ${body}`)
-
+    //todo, get teamId from the database.
+    //todo put that in the answer object below, instead of hardcoded teamId
+    //todo round id(2) is now static, determine what round it should be and replace static with dynamic value
+    //todo same for questionId, replace that with dynamic value
+    //todo win:)
+    var answer = {answer: body.answer, teamId: "59fb8f021640e25320b1afc2"}
     quizzes.getQuiz(id).then(quiz => {
-
-//       User.update({username: oldUsername}, {
-//     username: newUser.username,
-//     password: newUser.password,
-//     rights: newUser.rights
-// }, function(err, numberAffected, rawResponse) {
-//    //handle it
-// })
-
-      // console.log('quiz update thing')
-      // console.log(quiz.markModified)
-      // let question = {}
-      // quiz.rounds.some(round => {
-      //   let answer = round.questions.filter(question => (question.id === questionId))
-      //   if (answer.length !== 0) { // if answer isn't empty
-      //     question = answer[0]; // return element
-      //     return true; // some will exit if we return true :)
-      //   } else {
-      //     return false;
-      //   }
-      // });
-
-      // question.answers.push(
-      //   {
-      //     answer: "inserted using code",
-      //     approved: "false",
-      //     teamId: "id"
-      //   }
-      // )
-
-      // console.log(question.answers)
-
-      // quiz.rounds[0].questions[0] = question;
-      // console.log(quiz.rounds[0].questions[0]);
-
-      // quiz.markModified('rounds')
-
-      // quiz.save().then((a,b,c) =>{
-      //   console.log(`a: ${a}`)
-      //   console.log(`b: ${b}`)
-      //   console.log(`c: ${c}`)
-      // });
+      quiz.rounds.id(2).questions.id("59fb8f061640e25320b1b2f6").answers.push(answer)
+      console.log(JSON.stringify(quiz));
+      quiz.save(function(err, result){
+        if(err) console.log(err)
+        console.log(result);
+      })
 
       console.log('supposedly I saved');
     }).catch(err => {
+      console.log(err);
       console.log('no quiz')
       reject("can't find quiz")
     })

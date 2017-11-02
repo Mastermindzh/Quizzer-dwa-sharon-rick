@@ -20,6 +20,7 @@ module.exports = {
           res.send(answers)
         }
       ).catch(err => {
+        console.log(err);
         res.status(401).send("object not updated");
       });
     }
