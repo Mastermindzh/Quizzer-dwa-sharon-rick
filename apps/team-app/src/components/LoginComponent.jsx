@@ -48,6 +48,7 @@ class LoginComponent extends Component {
       store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
       this.setState({ fireRedirect: true })
     }).catch(error => {
+      console.log("error: "+error);
       alert("no dice");
     })
   }
