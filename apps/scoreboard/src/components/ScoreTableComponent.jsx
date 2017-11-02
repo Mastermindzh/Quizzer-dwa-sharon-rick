@@ -69,7 +69,6 @@ class ScoreTableComponent extends Component {
   render() {
 
     var htmlElements = [];
-
     this.state.teams.forEach((team, i) => {
       if (this.state.scores[team] !== undefined) {
         htmlElements.push(<tr key={i}><td>{this.state.scores[team].teamId}</td>
@@ -79,7 +78,6 @@ class ScoreTableComponent extends Component {
           )}</tr>)
       }
     })
-
     return (
       <table className="scores">
         <thead>

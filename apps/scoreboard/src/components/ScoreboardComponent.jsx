@@ -18,47 +18,14 @@ class ScoreboardComponent extends Component {
   constructor() {
     super();
 
-    this.teams = [
-      {
-        "_id": "59f8752e3c77d92d2a98ac2f",
-        "name": "Team1",
-        "password": "1234",
-        "picture": "https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235",
-        "__v": 0
-      },
-      {
-        "_id": "59f8752e3c77d92d2a98ac31",
-        "name": "Team3",
-        "password": "abcd",
-        "picture": "https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235",
-        "__v": 0
-      },
-      {
-        "_id": "59f8752e3c77d92d2a98ac30",
-        "name": "Team2",
-        "password": "1a2b",
-        "picture": "https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235",
-        "__v": 0
-      },
-      {
-        "_id": "59f8752e3c77d92d2a98ac30",
-        "name": "Team4",
-        "password": "1a2b",
-        "picture": "https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235",
-        "__v": 0
-      },
-      {
-        "_id": "59f8752e3c77d92d2a98ac30",
-        "name": "Team5",
-        "password": "1a2b",
-        "picture": "/uploads/805c40fe96cca78618e38246c4e3ec661509530914684.jpeg",
-        "__v": 0
-      }
-    ]
-
     this.state = {
       quizId: '',
+      teams: [],
     };
+
+    store.subscribe(() => {
+      this.updateState(store.getState());
+    })
 
     this.socket = '';
     this.updateState = this.updateState.bind(this);
@@ -70,7 +37,7 @@ class ScoreboardComponent extends Component {
  * @param {*} state store state
  */
   updateState(state) {
-    this.setState({ quizId: state.quizId })
+    this.setState({ quizId: state.quizId, teams: state.teams })
   }
 
   componentDidMount() {
@@ -93,15 +60,15 @@ class ScoreboardComponent extends Component {
       this.quizUpdate(data)
     });
 
-    setTimeout(()=>{
-      this.quizUpdate({quizId: store.getState().quizId})
+    setTimeout(() => {
+      this.quizUpdate({ quizId: store.getState().quizId })
     })
   }
 
   quizUpdate(data) {
     if (data.quizId === this.state.quizId) {
       axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
-        store.dispatch({ type: actions.UPDATE_TABLE, payload: {rounds: response.data.rounds, teams: response.data.teams} })
+        store.dispatch({ type: actions.UPDATE_TABLE, payload: { rounds: response.data.rounds, teams: response.data.teams } })
       })
 
       axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
@@ -147,12 +114,13 @@ class ScoreboardComponent extends Component {
             <QuestionComponent />
           </div>
 
-          <TeamCardComponent teamName="correct" status="correct" answer="answer" teamImage="https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235" />
+          {/* <TeamCardComponent teamName="correct" status="correct" answer="answer" teamImage="https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235" />
           <TeamCardComponent teamName="wrong" status="wrong" answer="answer" teamImage="https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235" />
-          <TeamCardComponent teamName="review" status="review" answer="answer" teamImage="https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235" />
+          <TeamCardComponent teamName="review" status="review" answer="answer" teamImage="https://www.gitbook.com/cover/book/mongkuen/react.jpg?build=1470682429235" /> */}
 
-          {this.teams.map((team, i) => {
-            return <TeamCardComponent teamName={team.name} status="" answer="answer" teamImage={team.picture} key={i} />;
+
+          {this.state.teams.map((team, i) => {
+            return <TeamCardComponent team={team} key={i} />;
           })}
         </div>
       </div>
