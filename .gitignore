@@ -79,4 +79,7 @@ generated
 
 apps/*/src/components/shared
 .node-gyp
-apps/server/images
+
+# ignore everything except the folder itself
+apps/server/images/*
+!apps/server/images/.gitinclude

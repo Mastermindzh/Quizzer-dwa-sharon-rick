@@ -44,3 +44,13 @@ exports.createNewTeam = function (req) {
 
   return team.save();
 };
+
+/**
+ * Simple password verification function
+ * could expand upon this with crypto's and stuff :)
+ * @param realPass password as present in database
+ * @param givenPass password provided by client
+ */
+exports.verifyPassword = (realPass, givenPass) => {
+  return realPass == givenPass;
+}

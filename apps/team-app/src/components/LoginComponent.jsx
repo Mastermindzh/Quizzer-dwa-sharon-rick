@@ -3,9 +3,11 @@ import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import ButtonComponent from './shared/ButtonComponent'
 import SubmitButton from './shared/SubmitButton'
-import socketIOClient from "socket.io-client";
 import { Redirect } from 'react-router'
 import axios from "axios"
+import store from "../store/RootStore"
+import actions from '../reducers/actions.js'
+import config from '../config.js'
 
 class LoginComponent extends Component {
 
@@ -16,7 +18,6 @@ class LoginComponent extends Component {
       password: '',
       quizId: '',
       pubPassword: '',
-      backendUrl: 'http://localhost:8001',
       fireRedirect: false,
       state: "login"
     }
@@ -32,28 +33,6 @@ class LoginComponent extends Component {
     this.setState({ [field]: event.target.value });
   }
 
-  // componentDidMount() {
-  //   const { backendUrl, endpoint } = this.state;
-  //   const socket = socketIOClient(backendUrl + '/' + endpoint);
-
-  //   socket.on("new-question", data => this.setState({question: data}));
-  // }
-  // componentDidMount() {
-  //   const { endpoint } = "http://localhost:8001/my-private-quiz";
-  //   const socket = socketIOClient(endpoint);
-
-  //   socket.on("new-question", data => this.setState({question: data}));
-  // }
-  // componentDidMount(){
-
-  //   const { endpoint } = 'http://localhost:8001/my-private-quiz';
-  //   const socket = socketIOClient(endpoint);
-
-  //   console.log(socket);
-
-
-
-  // }
   /**
    * form submit
    * @param {*} event
@@ -61,40 +40,18 @@ class LoginComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-     axios.post(this.state.backendUrl + '/login', {
-        name: this.state.name,
-        password: this.state.password,
-        quizId: this.state.quizId,
-        pubPass: this.state.pubPassword
-      }).then(response => {
-        this.setState({ fireRedirect: true })
-      }).catch(error => {
-        alert("no dice");
-      })
-    // const { backendUrl, quizId } = this.state;
-
-    // const socket = socketIOClient(backendUrl + '/' + quizId);
-
-    // socket.emit('authenticate', this.state);
-    // console.log("sent authentication:" + JSON.stringify(this.state));
-    // this.setState({ state: 'pending' })
-
-    // socket.on("join", data => {
-    //   // somehow save data into application state
-    //   // after saving -> redirect to /play
-    //   this.setState({fireRedirect: true})
-    // });
-
-    // send websocket join request on submitted pub quiz
-
-    // server -> check whether quizz is running -> reject
-    // server -> check credentials -> wrong -> send reject
-    // server -> broadcast join
-
-    // quiz-master -> accept -> add to quiz
-    // quiz-master -> broadcast accept
-
-    // receive accept -> play
+    axios.post(config.backend + '/login', {
+      name: this.state.name,
+      password: this.state.password,
+      quizId: this.state.quizId,
+      pubPass: this.state.pubPassword
+    }).then(response => {
+      store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: response.data.question });
+      store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
+      this.setState({ fireRedirect: true })
+    }).catch(error => {
+      alert("no dice");
+    })
   }
 
   render() {

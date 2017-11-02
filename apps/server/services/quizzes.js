@@ -34,3 +34,12 @@ exports.updateQuiz = function(req, res, callback){
 exports.createQuiz = function(req, res, callback){
   //use promises please :)
 };
+
+/**
+ * checks wether team is in quiz
+ * @param team
+ * @param quiz
+ */
+exports.teamInQuiz = (team, quiz) =>{
+  return quiz.teams.indexOf(team.id) > -1
+}
