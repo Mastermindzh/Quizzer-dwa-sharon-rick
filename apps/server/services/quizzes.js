@@ -13,9 +13,9 @@ exports.getAllQuizzes = function(){
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
  */
-exports.getQuiz = function(id){
+exports.getQuiz = function(code){
   return mongoose.Quiz.findOne({
-    _id: id
+    code: code
   }).exec();
 };
 
