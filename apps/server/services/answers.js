@@ -36,15 +36,15 @@ exports.addAnswer = (id, questionId, teamName, body) => {
     //todo round id(2) is now static, determine what round it should be and replace static with dynamic value
     //todo same for questionId, replace that with dynamic value
     //todo win:)
-    var answer = {answer: body.answer, teamId: "59fb8f021640e25320b1afc2"}
+    //todo check whether answer already exists, if so update that instead
+    var answer = {answer: body.answer, teamId: "59fb8e0ea242b34d22a40e04"}
     quizzes.getQuiz(id).then(quiz => {
-      quiz.rounds.id(2).questions.id("59fb8f061640e25320b1b2f6").answers.push(answer)
-      console.log(JSON.stringify(quiz));
+      quiz.rounds.id(2).questions.id("59fb8e0fa242b34d22a41136").answers.push(answer)
+      console.log(`quiz: ${JSON.stringify(quiz)}`);
       quiz.save(function(err, result){
         if(err) console.log(err)
         console.log(result);
       })
-
       console.log('supposedly I saved');
     }).catch(err => {
       console.log(err);
