@@ -78,7 +78,7 @@ class LoginComponent extends Component {
             <div className="col-lg-12">
               <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
-                  <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="pub password" onChange={this.handleChange.bind(this, "pubPassword")} />
+                  <input type="text" name="pubpass" className="form-control" id="pubPassword" placeholder="Quiz code" onChange={this.handleChange.bind(this, "pubPassword")} />
                 </div>
                 <div className="col-lg-12" style={{ paddingTop: '40px' }}>
                   <SubmitButton text="Log in!" enabled={pubPassword.length > 0} />
