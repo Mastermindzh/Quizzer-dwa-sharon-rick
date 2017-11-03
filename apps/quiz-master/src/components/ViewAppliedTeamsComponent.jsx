@@ -16,6 +16,7 @@ class ViewAppliedTeamsComponent extends Component {
     this.state = {
       teams: [{name: "Team1", picture:"299b69670003c66511428d4ea2255c4e1509618791370.jpeg"},{name: "Team2", picture:"299b69670003c66511428d4ea2255c4e1509618791370.jpeg"}, {name: "Team3", picture:"299b69670003c66511428d4ea2255c4e1509618791370.jpeg"}],
     };
+    this.socket = '';
     this.updateState = this.updateState.bind(this);
   }
 
@@ -23,7 +24,8 @@ class ViewAppliedTeamsComponent extends Component {
     //this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-team", data => {
-      console.log("websocket message received: "+data)
+      console.log(`websocket message received:`)
+      console.log(data)
       // if(data.quizId == this.state.quizId){
       //   store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: data.question })
       // }
