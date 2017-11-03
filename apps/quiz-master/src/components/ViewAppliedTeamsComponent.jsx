@@ -6,6 +6,15 @@ import ButtonComponent from './shared/ButtonComponent'
 
 class ViewAppliedTeamsComponent extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      teams: [],
+      fireRedirect: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   render() {
 
     return (
@@ -15,8 +24,7 @@ class ViewAppliedTeamsComponent extends Component {
           <BoxComponent>
 
             {/* For each team that applies: */}
-            <TeamComponent image={"Placeholder"} name={"Placeholder"}/>
-            <TeamComponent image={"Placeholder"} name={"Placeholder"}/>
+            <TeamComponent list={this.state.teams}/>
           </BoxComponent>
         <ButtonComponent path={"/"} text={"Back"}/>
         </div>
