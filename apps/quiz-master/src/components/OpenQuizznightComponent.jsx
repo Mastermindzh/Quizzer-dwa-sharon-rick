@@ -28,8 +28,8 @@ class LoginComponent extends Component {
       name: this.state.name,
       code: this.state.code
     }).catch(error => {
-      alert("Team not created");
       console.log(error);
+      alert("Team not created");
     })
 
   }
