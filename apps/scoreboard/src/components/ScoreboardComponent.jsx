@@ -72,10 +72,17 @@ class ScoreboardComponent extends Component {
       })
 
       axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
-        axios.get(config.backend + '/categories/' + response.data.category).then(data => {
-          store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: response.data, category: data.data } })
-        })
+        if (response.data.category !== undefined) {
+          axios.get(config.backend + '/categories/' + response.data.category).then(data => {
+            store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: response.data, category: data.data } })
+          })
+        }
       })
+
+      axios.get(config.backend + '/quizzes/' + data.quizId + "/score").then(response =>{
+        store.dispatch({type: actions.UPDATE_CHART, payload: response.data})
+      })
+
     }
   }
 

@@ -80,7 +80,7 @@ App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
       question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: '59fb8e0fa242b34d22a4112b'
+      quizId: '59fcc21dcdad0e5fc387943e'
     })
     res.send('websocket message fired!')
   }).catch(err => {

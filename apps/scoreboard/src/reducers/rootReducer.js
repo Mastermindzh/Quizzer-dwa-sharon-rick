@@ -7,6 +7,7 @@ var appState = {
   category: '',
   rounds: [],
   teams: [],
+  chartScores: [],
   loggedIn: false,
   question: {
     question: "no question yet"
@@ -30,6 +31,10 @@ export default function rootReducer(state = appState, action) {
       return { ...state,
         rounds: action.payload.rounds,
         teams: action.payload.teams,
+      }
+    case actions.UPDATE_CHART:
+      return {...state,
+        chartScores: action.payload
       }
     default:
       return state;
