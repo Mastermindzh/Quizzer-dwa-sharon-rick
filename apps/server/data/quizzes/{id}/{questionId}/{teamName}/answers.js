@@ -15,7 +15,7 @@ module.exports = {
    */
   put: {
     200: function (req, res, callback) {
-      answers.addAnswer(req.params.id, req.params.questionId, req.params.teamName, req.body).then(
+      answers.addAnswer(req.params.id, req.params.teamName, req.body).then(
         answers => {
           res.send(answers)
         }
