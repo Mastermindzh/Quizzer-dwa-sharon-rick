@@ -1,0 +1,28 @@
+ {
+   "_id": "59f9928e0287d21fc55e0668",
+   "name": "AvengersQuizz",
+   "password": "",
+   "status": "",
+   "__v": 0,
+   "rounds": [{
+     "_id": 1,
+     "questions": [{
+       "status": "Closed",
+       "questionId": "59f9928d0287d21fc55e034b",
+       "_id": "59f9928e0287d21fc55e069a",
+       "answers": [{
+           "answer": "a",
+           "approved": false,
+           "teamId": "59f9928d0287d21fc55e033f",
+           "_id": "59f9928e0287d21fc55e069c"
+         },
+         {
+           "answer": "ab",
+           "approved": true,
+           "teamId": "59f9928d0287d21fc55e0341",
+           "_id": "59f9928e0287d21fc55e069b"
+         }
+       ]
+     }]
+   }]
+ }

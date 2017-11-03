@@ -1,7 +1,6 @@
 'use strict';
 var Mockgen = require('./mockgen.js');
 var teams = require('./../services/teams.js')
-
 /**
  * Operations on /teams/
  */
@@ -35,12 +34,12 @@ module.exports = {
   post: {
     200: function (req, res, callback) {
       teams.createNewTeam(req)
-      .then(team => {
-        res.send(team);
-      })
-      .catch(err => {
-        res.status(500).send("team not created");
-      })
+        .then(team => {
+          res.send(team);
+        })
+        .catch(err => {
+          res.status(500).send("team not created");
+        })
     }
   }
 };
