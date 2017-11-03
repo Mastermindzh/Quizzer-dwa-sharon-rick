@@ -1,6 +1,6 @@
 'use strict';
-var Mockgen = require('../../../../mockgen.js');
-var answers = require('./../../../../../services/answers.js')
+var Mockgen = require('../../../mockgen.js');
+var answers = require('./../../../../services/answers.js')
 /**
  * Operations on /quizzes/{id}/{questionId}/{teamName}/answers
  */
