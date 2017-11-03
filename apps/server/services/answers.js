@@ -31,6 +31,9 @@ exports.getAnswerInQuizByQuestionId = function (quizId, questionId) {
 
 exports.addAnswer = (id, teamName, body) => {
   return new Promise(function (fulfill, reject) {
+    if(!body.answer.trim()){
+      reject('answer is empty')
+    }
     teams.getTeamByName(teamName).then(team => {
       var answer = {
         answer: body.answer,
