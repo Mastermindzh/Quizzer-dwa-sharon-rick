@@ -70,6 +70,11 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
+App.get('/testMyNewThing', (req, res) => {
+  teams.getCurrentAnswer("59fb8e0fa242b34d22a4112b", '59fb8e0ea242b34d22a40e02')
+  res.send('hello');
+});
+
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
