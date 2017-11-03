@@ -228,7 +228,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
-  '/quizzes/{id}/{questionId}/{teamName}/answers':
+  '/quizzes/{id}/{teamName}/answers':
     put:
       tags:
         - Answers
@@ -243,11 +243,6 @@ paths:
         - name: id
           in: path
           description: id of the quiz
-          required: true
-          type: string
-        - name: questionId
-          in: path
-          description: id of the question
           required: true
           type: string
         - name: teamName
