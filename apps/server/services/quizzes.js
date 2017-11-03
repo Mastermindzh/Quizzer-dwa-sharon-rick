@@ -44,7 +44,8 @@ exports.updateQuiz = function(req, res, callback){
 exports.createQuiz = function(req){
   let quiz = new mongoose.Quiz({
     name: req.body.name,
-    code: req.body.code
+    code: req.body.code,
+    status: req.body.status
   });
 
   return quiz.save();
