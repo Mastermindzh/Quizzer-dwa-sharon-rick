@@ -1,9 +1,37 @@
-import { combineReducers } from "redux";
+import actions from './actions.js'
 
-import testReducer from "./testReducer";
+var appState = {
+  backendUrl: 'http://localhost:8001',
+  quizId: '',
+  password: '',
+  category: '',
+  rounds: [],
+  teams: [],
+  loggedIn: false,
+  question: {
+    question: "no question yet"
+  }
+}
 
-const rootReducer = combineReducers({
-    test: testReducer,
-});
+export default function rootReducer(state = appState, action) {
+  switch (action.type) {
+    case actions.LOGIN:
+      return { ...state,
+        quizId: action.payload,
+        loggedIn: true
+      }
 
-export default rootReducer;
+    case actions.CHANGE_CURRENT_QUESTION:
+      return { ...state,
+        question: action.payload.question,
+        category: action.payload.category
+      }
+    case actions.UPDATE_TABLE:
+      return { ...state,
+        rounds: action.payload.rounds,
+        teams: action.payload.teams,
+      }
+    default:
+      return state;
+  }
+}

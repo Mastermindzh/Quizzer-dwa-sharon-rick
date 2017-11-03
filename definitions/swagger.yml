@@ -44,6 +44,27 @@ paths:
             items:
               $ref: "#/definitions/Category"
 
+  /categories/{id}:
+    get:
+      tags:
+      - "Categories"
+      summary: "Get a specific category by id"
+      description: "Get a specific category by id"
+      operationId: "getCategoryById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the category you want'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "category fetched"
+          schema:
+            $ref: "#/definitions/Category"
+
   /questions/:
     get:
       tags:
@@ -198,6 +219,28 @@ paths:
           description: "quiz fetched"
           schema:
             $ref: "#/definitions/Quiz"
+  /quizzes/{id}/currentQuestion:
+    get:
+      tags:
+      - "Questions"
+      summary: "Get current quiz question"
+      description: "Get current quiz question"
+      operationId: "getCurrentQuestionByQuizId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the quiz you want'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "question fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Question"
 
   /quizzes/{id}/{questionId}/answers:
      get:
@@ -219,7 +262,6 @@ paths:
         description: 'id of the question'
         required: true
         type: string
-
       responses:
         200:
           description: "Answers fetched"
@@ -302,9 +344,8 @@ definitions:
         type: "string"
       name:
         type: "string"
-      password:
+      code:
         type: "string"
-        format: "password"
       status:
         type: "string"
         enum: [Open, Closed, Playing]
