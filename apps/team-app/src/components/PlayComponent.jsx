@@ -84,7 +84,7 @@ class PlayComponent extends Component {
           <div className="col-lg-3" />
           <BoxComponent size="6">
             <h2 className="header-distance">Question</h2>
-            <p>{this.state.question.question}</p>
+            <p>{(this.state.question) !== null && this.state.question.question}</p>
             <form onSubmit={this.handleSubmit}>
               <div className="col-lg-12">
                 <div className="form-group">
