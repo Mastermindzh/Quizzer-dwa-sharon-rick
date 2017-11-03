@@ -39,13 +39,13 @@ exports.addAnswer = (id, questionId, teamName, body) => {
 
     quizzes.getQuiz(id).then(quiz => {
 
-//       User.update({username: oldUsername}, {
-//     username: newUser.username,
-//     password: newUser.password,
-//     rights: newUser.rights
-// }, function(err, numberAffected, rawResponse) {
-//    //handle it
-// })
+      //       User.update({username: oldUsername}, {
+      //     username: newUser.username,
+      //     password: newUser.password,
+      //     rights: newUser.rights
+      // }, function(err, numberAffected, rawResponse) {
+      //    //handle it
+      // })
 
       // console.log('quiz update thing')
       // console.log(quiz.markModified)
