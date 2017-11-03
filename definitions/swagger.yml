@@ -241,6 +241,28 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Question"
+  /quizzes/{id}/score:
+    get:
+      tags:
+      - "score"
+      summary: "Get current score"
+      description: "Get current score given a quiz id"
+      operationId: "getCurrentScoreByQuizId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the quiz you want the score of'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "score fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Score"
 
   /quizzes/{id}/{questionId}/answers:
      get:
@@ -412,6 +434,14 @@ definitions:
           type: "array"
           items:
             $ref: "#/definitions/RoundQuestion"
+  Score:
+    description: "Object which holds score"
+    type: "object"
+    properties:
+        teamName:
+          type: "string"
+        score:
+          type: "integer"
 
 externalDocs:
   description: "Find out more about Quizzer"
