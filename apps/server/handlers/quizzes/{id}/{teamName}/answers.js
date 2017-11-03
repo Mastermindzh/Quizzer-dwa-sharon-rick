@@ -1,13 +1,13 @@
 'use strict';
-var dataProvider = require('../../../../../data/quizzes/{id}/{questionId}/{teamName}/answers.js');
+var dataProvider = require('../../../../data/quizzes/{id}/{teamName}/answers.js');
 /**
- * Operations on /quizzes/{id}/{questionId}/{teamName}/answers
+ * Operations on /quizzes/{id}/{teamName}/answers
  */
 module.exports = {
     /**
      * summary: Add / update an answer
      * description: Update or add a new answer
-     * parameters: id, questionId, teamName, body
+     * parameters: id, teamName, body
      * produces: application/json
      * responses: 200
      */

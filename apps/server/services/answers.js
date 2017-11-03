@@ -1,7 +1,8 @@
 'use strict'
 var mongoose = require('./../modules/mongoose.js');
 var quizzes = require('./quizzes.js')
-
+var teams = require('./teams.js')
+var questions = require('./questions.js')
 /**
  * Get all answers in the quiz by question id
  * @param quizId
@@ -28,64 +29,51 @@ exports.getAnswerInQuizByQuestionId = function (quizId, questionId) {
   })
 };
 
-exports.addAnswer = (id, questionId, teamName, body) => {
-
+exports.addAnswer = (id, teamName, body) => {
   return new Promise(function (fulfill, reject) {
+    if(!body.answer.trim()){
+      reject('answer is empty')
+    }
+    teams.getTeamByName(teamName).then(team => {
+      var answer = {
+        answer: body.answer,
+        teamId: team._id
+      }
+      quizzes.getQuiz(id).then(quiz => {
+        let quizRound = quizzes.getCurrentRound(quiz);
+        let currentQuestion = quizzes.getCurrentDbQuestion(quiz)
 
-    console.log(`id: ${id}`)
-    console.log(`questionId: ${questionId}`)
-    console.log(`teamName: ${teamName}`)
-    console.log(`body: ${body}`)
+        Promise.all([quizRound, currentQuestion]).then(response => {
+          let answers = quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers;
 
-    quizzes.getQuiz(id).then(quiz => {
+          questions.getQuestion(response[1].questionId).then(question => {
+            // filter out unique answers not belonging to this team
+            let newAnswers = []
+            answers.forEach((answerItem) => {
+              if (answerItem.teamId != team._id.toString()) {
+                newAnswers.push(answerItem)
+              }
+            })
+            answer.approved = answer.answer === question.answer
+            newAnswers.push(answer)
 
-//       User.update({username: oldUsername}, {
-//     username: newUser.username,
-//     password: newUser.password,
-//     rights: newUser.rights
-// }, function(err, numberAffected, rawResponse) {
-//    //handle it
-// })
+            quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers = newAnswers
 
-      // console.log('quiz update thing')
-      // console.log(quiz.markModified)
-      // let question = {}
-      // quiz.rounds.some(round => {
-      //   let answer = round.questions.filter(question => (question.id === questionId))
-      //   if (answer.length !== 0) { // if answer isn't empty
-      //     question = answer[0]; // return element
-      //     return true; // some will exit if we return true :)
-      //   } else {
-      //     return false;
-      //   }
-      // });
-
-      // question.answers.push(
-      //   {
-      //     answer: "inserted using code",
-      //     approved: "false",
-      //     teamId: "id"
-      //   }
-      // )
-
-      // console.log(question.answers)
-
-      // quiz.rounds[0].questions[0] = question;
-      // console.log(quiz.rounds[0].questions[0]);
-
-      // quiz.markModified('rounds')
-
-      // quiz.save().then((a,b,c) =>{
-      //   console.log(`a: ${a}`)
-      //   console.log(`b: ${b}`)
-      //   console.log(`c: ${c}`)
-      // });
-
-      console.log('supposedly I saved');
+            quiz.save(function (err, result) {
+              if (err) console.log(err)
+              fulfill(answer)
+            })
+          }).catch(err => {
+            reject("no such question")
+          })
+        }).catch(err => {
+          reject("round or question missing")
+        })
+      }).catch(err => {
+        reject("can't find quiz")
+      })
     }).catch(err => {
-      console.log('no quiz')
-      reject("can't find quiz")
+      reject("no such team")
     })
   });
-
 }

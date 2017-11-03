@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
-import ButtonComponent from './shared/ButtonComponent'
+import SubmitButton from './shared/SubmitButton'
 import socketIOClient from "socket.io-client";
 import store from "../store/RootStore"
+import axios from "axios"
 import config from '../config.js'
 import actions from '../reducers/actions.js'
 
@@ -13,7 +14,10 @@ class PlayComponent extends Component {
     super();
     this.state = {
       question: 'No question yet',
-      quizId: ''
+      quizId: '',
+      teamName: '',
+      answer: '',
+      showSucces: false
     };
 
     this.socket = '';
@@ -22,6 +26,16 @@ class PlayComponent extends Component {
       this.updateState(store.getState());
     })
     this.updateState = this.updateState.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  /**
+ * change state on keypress
+ * @param {input} field name of the state key to change
+ * @param {*} event
+ */
+  handleChange(field, event) {
+    this.setState({ [field]: event.target.value });
   }
 
   /**
@@ -29,7 +43,7 @@ class PlayComponent extends Component {
    * @param {*} state store state
    */
   updateState(state) {
-    this.setState({ question: store.getState().currentQuestion, quizId: store.getState().quizId })
+    this.setState({ question: state.currentQuestion, quizId: state.quizId, teamName: state.teamName })
   }
 
   componentDidMount() {
@@ -42,8 +56,26 @@ class PlayComponent extends Component {
     });
   }
 
+  /**
+ * form submit
+ * @param {*} event
+ */
+  handleSubmit(event) {
+    event.preventDefault();
+
+    let url = config.backend + '/quizzes/' + this.state.quizId + "/" + this.state.teamName + "/answers";
+    axios.put(url, { answer: this.state.answer }).then(response => {
+      this.setState({ answer: '', showSucces: true })
+      this.answerInput.value = ""
+    }).catch(err => {
+      this.setState({ showSucces: false })
+      alert('something went wrong')
+    })
+  }
+
   render() {
 
+    const { answer } = this.state
     return (
       <div className="container">
         <TitleComponent title="Quizzer - Team app" />
@@ -53,16 +85,22 @@ class PlayComponent extends Component {
           <BoxComponent size="6">
             <h2 className="header-distance">Question</h2>
             <p>{this.state.question.question}</p>
-
-            <div className="col-lg-12">
-              <div className="form-group">
-                <input type="text" name="answer" className="form-control" id="answer" placeholder="Enter your answer" />
+            <form onSubmit={this.handleSubmit}>
+              <div className="col-lg-12">
+                <div className="form-group">
+                  <input type="text" name="answer" className="form-control" id="answer" placeholder="Enter your answer" onChange={this.handleChange.bind(this, "answer")} ref={el => this.answerInput = el} />
+                </div>
               </div>
+              <div className="col-lg-12" style={{ paddingTop: '40px' }}>
+                <SubmitButton text="Submit answer!" enabled={answer.length > 0} />
+              </div>
+            </form>
+            {this.state.showSucces && (
+              <div className="alert alert-success" style={{ marginTop: '20px' }}>
+                <strong>Success!</strong> Your answer has been submitted for review
+            </div>
+            )}
 
-            </div>
-            <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-              <ButtonComponent path="/play" text="Submit answer" />
-            </div>
           </BoxComponent>
         </div>
       </div>

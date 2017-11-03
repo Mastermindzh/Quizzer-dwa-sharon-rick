@@ -262,7 +262,6 @@ paths:
         description: 'id of the question'
         required: true
         type: string
-
       responses:
         200:
           description: "Answers fetched"
@@ -271,7 +270,7 @@ paths:
             items:
               $ref: "#/definitions/Answer"
 
-  /quizzes/{id}/{questionId}/{teamName}/answers:
+  /quizzes/{id}/{teamName}/answers:
      put:
       tags:
       - "Answers"
@@ -286,11 +285,6 @@ paths:
       - name: id
         in: path
         description: 'id of the quiz'
-        required: true
-        type: string
-      - name: questionId
-        in: path
-        description: 'id of the question'
         required: true
         type: string
       - name: teamName
@@ -350,9 +344,8 @@ definitions:
         type: "string"
       name:
         type: "string"
-      password:
+      code:
         type: "string"
-        format: "password"
       status:
         type: "string"
         enum: [Open, Closed, Playing]
