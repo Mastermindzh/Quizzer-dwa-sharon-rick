@@ -1,6 +1,6 @@
 'use strict';
-
 var mongoose = require('mongoose');
+var config = require('./../config.js')
 
 require('../mongoose/category.js');
 require('../mongoose/quiz.js');
@@ -12,9 +12,7 @@ var Team = mongoose.model('Team');
 var Question = mongoose.model('Question');
 var Quiz = mongoose.model('Quiz');
 
-var dbName = 'Quizzer';
-
-mongoose.connect('mongodb://mongo/' + dbName);
+mongoose.connect(config.dbhost + config.db);
 
 exports.mongoose = mongoose;
 exports.Category = Category;
