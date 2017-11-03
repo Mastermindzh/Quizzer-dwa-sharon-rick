@@ -12,7 +12,7 @@ class TeamComponent extends Component {
             <RowComponent>
               <BoxComponent key={team.name}>
                 <div className="col-md-2">
-                  <img src={team.picture} alt="Team"/>
+                  <img src={""+team.picture} alt="Team"/>
                 </div>
                 <div key={team.name} className="col-md-6 team-description">
                   <h3 key={team.name}>{team.name}</h3>
