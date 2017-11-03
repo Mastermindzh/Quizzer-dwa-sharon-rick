@@ -46,6 +46,7 @@ class LoginComponent extends Component {
     }).then(response => {
       store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: response.data.question });
       store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
+      store.dispatch({ type: actions.SET_TEAM_NAME, payload: this.state.name })
       this.setState({ fireRedirect: true })
     }).catch(error => {
       console.log("error: "+error);
