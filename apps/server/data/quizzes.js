@@ -33,15 +33,12 @@ module.exports = {
    */
   post: {
     200: function (req, res, callback) {
-      /**
-       * Using mock data generator module.
-       * Replace this by actual data for the api.
-       */
-      Mockgen().responses({
-        path: '/quizzes/',
-        operation: 'post',
-        response: '200'
-      }, callback);
+      quizzes.createQuiz(req).then(quiz => {
+        res.send(quiz);
+      }).catch(err => {
+        console.log(err)
+        res.status(500).send("Quiz couldn't be created.")
+      })
     }
   }
 };
