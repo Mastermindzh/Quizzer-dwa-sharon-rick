@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios"
+import config from '../config.js'
 
 class TeamCardComponent extends Component {
 
@@ -13,8 +15,12 @@ class TeamCardComponent extends Component {
   }
 
   componentDidMount() {
-    alert(this.props.team);
-    // this.updateState(store.getState());
+    // alert(this.props.team);
+    axios.get(config.backend + "/teams/" + this.props.team).then(response =>{
+      this.setState({teamName: response.data.name, teamImage: config.backend + "/" + response.data.picture})
+    }).catch(err => {
+      console.log("team doesn't exist");
+    })
   }
 
   render() {
