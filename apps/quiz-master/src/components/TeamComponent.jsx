@@ -9,7 +9,7 @@ class TeamComponent extends Component {
       <RowComponent>
         <BoxComponent>
           <div className="col-md-2">
-            <img src={this.props.image} alt="Team Image" />
+            <img src={this.props.image} alt="Team" />
           </div>
           <div className="col-md-6 team-description">
             <h3>{this.props.name}</h3>
