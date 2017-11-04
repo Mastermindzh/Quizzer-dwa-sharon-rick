@@ -10,12 +10,14 @@ var appState = {
 
 export default function rootReducer(state = appState, action) {
   switch (action.type) {
-    case actions.CHANGE_CURRENT_QUESTION:
-      var teams2 = appState.teams.push(action.payload)
+    case actions.ADD_TEAM:
       return { ...state,
-        teams: teams2
+        teams: action.payload
       };
-      break;
+    case actions.QUIZID:
+      console.log("actions.QUIZID , NEW ID: "+action.payload)
+      return{...state,
+      quizId: action.payload};
     default:
       return state;
   }

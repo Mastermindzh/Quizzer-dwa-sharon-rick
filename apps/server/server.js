@@ -102,6 +102,15 @@ App.get('/teamApplicantTest', (req, res) => {
 
 })
 
+App.post('/startQuiz', (req, res) => {
+  quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz =>{
+    res.send(quiz._id)
+  }).catch(err => {
+    console.log(err);
+    res.status(401).send("not authorized");
+  })
+
+})
 
 /**
  * Login to the current quiz (will give you the answer back)
