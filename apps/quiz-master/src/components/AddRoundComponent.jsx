@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import ButtonComponent from './shared/ButtonComponent'
 import RowComponent from "./shared/RowComponent";
 import CategoriesComponent from "./CategoriesComponent";
 import AvailableCategoriesComponent from "./AvailableCategoriesComponent";
+import {Redirect} from 'react-router'
 
 import store from "../store/RootStore";
 import axios from "axios"
@@ -20,8 +21,9 @@ class AddRoundComponent extends Component {
     this.state = {
       quizId: '',
       selectedCategories: '',
-      playedCategories:'',
-      fireRedirect: false
+      playedCategories: '',
+      fireRedirect: false,
+      redirectBack: false
     };
     this.socket = '';
     store.subscribe(() => {
@@ -45,8 +47,8 @@ class AddRoundComponent extends Component {
   componentDidMount() {
     //todo: make sure you get the quiz is
     this.updateState(store.getState());
-    console.log("root state: "+JSON.stringify(store.getState()))
-    console.log("state: "+JSON.stringify(this.state))
+    console.log("root state: " + JSON.stringify(store.getState()))
+    console.log("state: " + JSON.stringify(this.state))
     var playedCategories = []
     //todo make quizid dynamic here, so put it in local/root state.
     axios.get(config.backend + "/previouslyPlayedCategories/59fb8f061640e25320b1b2eb").then(response => {
@@ -72,8 +74,6 @@ class AddRoundComponent extends Component {
   }
 
 
-
-
   /**
    * update local state with global state
    * @param {*} state store state
@@ -83,12 +83,21 @@ class AddRoundComponent extends Component {
   }
 
 
+  redirectBack(event) {
+    event.preventDefault()
+    this.setState({redirectBack: true});
+  }
+
+
   render() {
 
     return (
 
       <div className="container">
-        <TitleComponent title="Quizzer - Add Round" />
+        {this.state.redirectBack && (
+          <Redirect to={'/'}/>
+        )}
+        <TitleComponent title="Quizzer - Add Round"/>
         <RowComponent>
           <div className="col-md-4">
             <BoxComponent>
@@ -101,11 +110,11 @@ class AddRoundComponent extends Component {
             </BoxComponent>
           </div>
         </RowComponent>
-        <ButtonComponent path={"/"} text={"Back"}/>
+        <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
         <div className="text-center">
 
-        <ButtonComponent path={"/"} text={"Add New Round"}/>
-      </div>
+          <ButtonComponent path={"/"} text={"Add New Round"}/>
+        </div>
       </div>
 
     );

@@ -2,6 +2,7 @@
 var mongoose = require('./../modules/mongoose.js');
 var questions = require('./questions.js')
 var teamService = require('./teams.js')
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * Get all Quizzes from the database
@@ -36,9 +37,14 @@ exports.getQuizByCode = function (code) {
  * Update the quiz according to the id and data provided.
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
-exports.updateQuiz = function (req, res, callback) {
-  //use promises please :)
+exports.updateQuizStatus = function (quizId, teams, status) {
+  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+    quiz.status = status;
+    quiz.teams = teams;
+    quiz.save();
+  }).exec();
 };
+
 
 /**
  * Create a new quiz with the data provided in req param.

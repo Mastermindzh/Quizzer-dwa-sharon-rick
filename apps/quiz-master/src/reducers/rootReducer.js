@@ -5,7 +5,7 @@ var appState = {
   currentQuestion: {},
   quizId: '',
   teamName: '',
-  teams:[]
+  teams: []
 }
 
 export default function rootReducer(state = appState, action) {
@@ -13,7 +13,7 @@ export default function rootReducer(state = appState, action) {
     case actions.ADD_TEAM:
       return {
         ...state,
-        teams: action.payload
+        teams: state.teams.concat(action.payload)
       };
     case actions.QUIZID:
       console.log("actions.QUIZID , NEW ID: " + action.payload)
