@@ -16,6 +16,7 @@ var Server = Http.Server(App);
 var teams = require('./services/teams.js')
 var quizzes = require('./services/quizzes.js')
 var questions = require('./services/questions.js')
+var categories = require('./services/categories.js');
 
 /**Multer setup */
 const uploadPath = './images';
@@ -82,6 +83,17 @@ App.get('/newQuestionTest', (req, res) => {
     res.send(err);
   })
 });
+
+
+App.get('/previouslyPlayedCategories', (req, res) => {
+  categories.getPreviouslyPlayedCategories(req.body.quizId).then(categories =>{
+    res.send(categories);
+  }).catch(err => {
+    res.send(err);
+  })
+})
+
+
 
 /**
  * Login to the current quiz (will give you the answer back)

@@ -7,3 +7,7 @@ var mongoose = require('./../modules/mongoose.js');
 exports.getAllCategories = function (req, res, callback) {
   return mongoose.Category.find({}).exec();
 };
+
+exports.getPreviouslyPlayedCategories = function(quizId) {
+
+}
