@@ -7,7 +7,9 @@ let config = require('../../config.js')
 let mongoose = require('../../modules/mongoose.js');
 let server = require('../../server.js')
 let should = chai.should();
-let {shouldHaveAndEqual} = require('../helpers.js')
+let {
+  shouldHaveAndEqual
+} = require('../helpers.js')
 
 chai.use(chaiHttp)
 
@@ -62,10 +64,46 @@ describe('Teams', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          shouldHaveAndEqual(res,'name',firstTestObject.name);
-          shouldHaveAndEqual(res,'password',firstTestObject.password);
-          shouldHaveAndEqual(res,'picture',firstTestObject.picture);
-          shouldHaveAndEqual(res,'_id',firstTestObject._id);
+          shouldHaveAndEqual(res, 'name', firstTestObject.name);
+          shouldHaveAndEqual(res, 'password', firstTestObject.password);
+          shouldHaveAndEqual(res, 'picture', firstTestObject.picture);
+          shouldHaveAndEqual(res, '_id', firstTestObject._id);
+          done();
+        });
+    });
+  });
+
+  describe('/POST team', () => {
+    it('it should not POST a team without the name field', (done) => {
+      let team = Object.assign({}, firstTestObject)
+      delete team.name
+      delete team.__v
+      delete team._id
+      chai.request(server)
+        .post('/teams/')
+        .send(team)
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.be.a('object');
+          done();
+        });
+    });
+    it('it should POST a team ', (done) => {
+      let team = {
+        "name": "test",
+        "password": "bla",
+        "picture": "bla"
+
+      }
+      chai.request(server)
+        .post('/teams/')
+        .send(team)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          shouldHaveAndEqual(res, 'name', team.name)
+          shouldHaveAndEqual(res, 'password', team.password)
+          shouldHaveAndEqual(res, 'picture', team.picture)
           done();
         });
     });

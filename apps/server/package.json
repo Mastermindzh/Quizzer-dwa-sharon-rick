@@ -39,7 +39,7 @@
     },
     "scripts": {
         "start": "nodemon server.js",
-        "test": "tape 'tests/**/*.js'",
+        "test": "mocha tests/express",
         "cover": "istanbul cover tape -- 'tests/**/*.js'",
         "lint": "eslint .",
         "regenerate": "yo swaggerize:test --framework express --apiPath './config/swagger.yml'",
