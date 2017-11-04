@@ -2,13 +2,11 @@ import React, {Component} from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import TeamComponent from './TeamComponent.jsx';
-import ButtonComponent from './shared/ButtonComponent'
-import socketIOClient from "socket.io-client";
 import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
 import { Redirect } from 'react-router'
-import actions from '../reducers/actions.js'
+
 
 class ViewAppliedTeamsComponent extends Component {
 
@@ -18,7 +16,8 @@ class ViewAppliedTeamsComponent extends Component {
       quizId: '',
       teams: [],
       approvedTeams:[],
-      fireRedirect: false
+      fireRedirect: false,
+      redirectBack: false
     };
     this.socket = '';
     store.subscribe(() => {
@@ -32,13 +31,7 @@ class ViewAppliedTeamsComponent extends Component {
 
   componentDidMount() {
     this.updateState(store.getState());
-    this.socket = socketIOClient(config.backend);
-    this.socket.on("new-team", data => {
-      console.log(`websocket message received:`)
-      console.log(data)
-      store.dispatch({type: actions.ADD_TEAM, payload: this.state.teams.concat(data.teamId)})
-
-    });
+    console.log("root state: "+JSON.stringify(store.getState()))
   }
 
   /**
@@ -70,6 +63,10 @@ class ViewAppliedTeamsComponent extends Component {
     this.setState({approvedTeams: this.state.approvedTeams.concat(teams)})
   }
 
+  redirectBack(event) {
+    event.preventDefault()
+    this.setState({redirectBack: true});
+  }
 
   render() {
     console.log(this.state.approvedTeams)
@@ -83,14 +80,16 @@ class ViewAppliedTeamsComponent extends Component {
         {/*check for redirect  */}
         {this.state.fireRedirect && (
           <Redirect to={'/addRound'} />
-        )}
+        )}{this.state.redirectBack && (
+        <Redirect to={'/'} />
+      )}
         <TitleComponent title="Quizzer - Team Applications"/>
         <BoxComponent>
-          {this.state.teams.map((team, i) => {
+          {this.state.teams.length > 0 && this.state.teams.map((team, i) => {
             return <TeamComponent team={team} key={i} approvedTeamHandler={this.approvedTeamHandler}/>;
           })}
         </BoxComponent>
-        <ButtonComponent path={"/"} text={"Back"}/>
+        <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
         <div className="text-center">
           <button onClick={this.startQuiz.bind(this)}>Start Quizz!</button>
         </div>

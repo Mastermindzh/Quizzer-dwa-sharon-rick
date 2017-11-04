@@ -12,7 +12,7 @@ export default function rootReducer(state = appState, action) {
   switch (action.type) {
     case actions.ADD_TEAM:
       return { ...state,
-        teams: action.payload
+        teams: state.teams.concat(action.payload)
       };
     case actions.QUIZID:
       console.log("actions.QUIZID , NEW ID: "+action.payload)
