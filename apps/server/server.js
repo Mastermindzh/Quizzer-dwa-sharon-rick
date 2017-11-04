@@ -88,6 +88,30 @@ App.get('/newQuestionTest', (req, res) => {
   })
 });
 
+App.get('/teamApplicantTest', (req, res) => {
+  teams.getAllTeams().then(teams => {
+    io.emit('new-team', {
+      teamId: teams[Math.floor(Math.random() * teams.length)]._id,
+      quizId: "59fc4c927f7a22003d9708b3"
+    })
+    console.log("teamapplicanttest ws message fired")
+    res.send('websocket message fired!')
+  }).catch(err => {
+    res.send(err);
+  })
+
+})
+
+App.post('/startQuiz', (req, res) => {
+  quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz =>{
+    res.send(quiz._id)
+  }).catch(err => {
+    console.log(err);
+    res.status(401).send("not authorized");
+  })
+
+})
+
 /**
  * Login to the current quiz (will give you the answer back)
  */
