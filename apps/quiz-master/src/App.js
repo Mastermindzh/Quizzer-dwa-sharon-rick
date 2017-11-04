@@ -6,8 +6,24 @@ import ViewAppliedTeams from "./components/ViewAppliedTeamsComponent";
 import CurrentQuestionComponent from "./components/CurrentQuestionComponent";
 import AddRoundComponent from "./components/AddRoundComponent";
 import EditRoundsComponent from "./components/EditRoundsComponent";
+import socketIOClient from "socket.io-client";
+import config from './config.js'
+import actions from './reducers/actions.js'
+import store from "./store/RootStore"
+
 
 class App extends Component {
+
+  componentDidMount(){
+    this.socket = socketIOClient(config.backend);
+    this.socket.on("new-team", data => {
+      console.log(`websocket message received:`)
+      console.log(data);
+      store.dispatch({type: actions.ADD_TEAM, payload: data.teamId})
+    })
+  }
+
+
   render() {
     return (
       <Switch>

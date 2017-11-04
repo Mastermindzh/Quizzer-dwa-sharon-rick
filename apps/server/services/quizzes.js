@@ -2,6 +2,7 @@
 var mongoose = require('./../modules/mongoose.js');
 var questions = require('./questions.js')
 var teamService = require('./teams.js')
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * Get all Quizzes from the database
@@ -17,6 +18,7 @@ function getQuiz(id) {
     _id: id
   }).exec();
 }
+
 /**
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
@@ -42,9 +44,14 @@ exports.getQuizByCode = function (code) {
  * Update the quiz according to the id and data provided.
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
-exports.updateQuiz = function (req, res, callback) {
-  //use promises please :)
+exports.updateQuizStatus = function (quizId, teams, status) {
+  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+    quiz.status = status;
+    quiz.teams = teams;
+    quiz.save();
+  }).exec();
 };
+
 
 /**
  * Create a new quiz with the data provided in req param.
@@ -81,8 +88,8 @@ exports.getCurrentQuestion = function (id) {
           .then(question => {
             fullfill(question);
           }).catch(err => {
-            reject("no current question")
-          })
+          reject("no current question")
+        })
       })
     }).catch(err => {
       reject("no current question")
@@ -127,6 +134,7 @@ function getCurrentRound(quiz) {
 
   return currentRound
 }
+
 exports.getCurrentRound = getCurrentRound
 
 
