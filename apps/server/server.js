@@ -71,11 +71,16 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
+App.get('/testMyNewThing', (req, res) => {
+  teams.getCurrentAnswer("59fb8e0fa242b34d22a4112b", '59fb8e0ea242b34d22a40e02')
+  res.send('hello');
+});
+
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
       question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: '59fb8e0fa242b34d22a4112b'
+      quizId: '59fcc21dcdad0e5fc387943e'
     })
     res.send('websocket message fired!')
   }).catch(err => {
@@ -145,6 +150,15 @@ App.post('/login', (req, res) => {
     }
   }).catch(err => {
     console.log(err)
+    res.status(401).send("not authorized");
+  })
+})
+
+App.post('/login/scoreboard', (req, res) => {
+  console.log(`code: ${req.body.code}`)
+  quizzes.getQuizByCode(req.body.code).then(quiz => {
+    res.send(quiz._id);
+  }).catch(err => {
     res.status(401).send("not authorized");
   })
 })

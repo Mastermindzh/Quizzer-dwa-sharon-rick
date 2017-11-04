@@ -17,6 +17,7 @@ module.exports = {
     200: function (req, res, callback) {
       answers.getAnswerInQuizByQuestionId(req.params.id, req.params.questionId).then(
         answers => {
+          console.log(answers)
           res.send(answers)
         }
       ).catch(err => {

@@ -5,8 +5,7 @@ import {BrowserRouter} from 'react-router-dom'
 
 import './css/main.css';
 
-import configureStore from "./store/configureStore";
-const store = configureStore();
+import store from "./store/RootStore.js";
 
 // Save a reference to the root element for reuse
 const rootEl = document.getElementById("root");

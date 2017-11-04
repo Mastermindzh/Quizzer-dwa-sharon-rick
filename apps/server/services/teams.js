@@ -1,5 +1,6 @@
 'use strict'
 var mongoose = require('./../modules/mongoose.js');
+var quizzes = require('./quizzes.js')
 
 /**
  * Get all Teams from the database
@@ -53,4 +54,14 @@ exports.createNewTeam = function (req) {
  */
 exports.verifyPassword = (realPass, givenPass) => {
   return realPass == givenPass;
+}
+
+exports.getCurrentAnswer = (quizId, teamId) =>{
+  quizzes.getCurrentQuestion(quizId).then(response =>{
+    console.log(response)
+  }).catch(err => {
+
+  })
+  console.log('getting current answer');
+
 }
