@@ -28,8 +28,6 @@ class ScoreTableComponent extends Component {
     let rounds = state.rounds;
     let stateTeams = state.teams;
 
-    this.setState({teams: store.getState().teams})
-
     if (stateTeams !== []) {
       var teams = [];
 
@@ -57,7 +55,9 @@ class ScoreTableComponent extends Component {
         response.forEach(team => {
           teams[team.data._id].teamId = team.data.name;
         })
-        this.setState({ scores: teams })
+        this.setState({ scores: teams, teams: store.getState().teams })
+      }).catch(err => {
+        this.setState({teams: store.getState().teams})
       })
     }
   }

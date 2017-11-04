@@ -88,6 +88,15 @@ App.get('/newQuestionTest', (req, res) => {
   })
 });
 
+App.get('/endQuiz', (req, res) => {
+
+  io.emit('quiz-end', {
+    quizId: '59fcc21dcdad0e5fc387943e'
+  })
+  res.send('end-quiz websocket message fired!')
+
+});
+
 /**
  * Login to the current quiz (will give you the answer back)
  */
