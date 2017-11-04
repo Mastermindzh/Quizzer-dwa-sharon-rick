@@ -7,8 +7,8 @@ import CategoriesComponent from "./CategoriesComponent";
 import AvailableCategoriesComponent from "./AvailableCategoriesComponent";
 
 import store from "../store/RootStore";
-// import axios from "axios"
-// import config from '../config.js'
+import axios from "axios"
+import config from '../config.js'
 // import { Redirect } from 'react-router'
 // import actions from '../reducers/actions.js'
 
@@ -32,22 +32,54 @@ class AddRoundComponent extends Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  componentDidMount() {
-    this.updateState(store.getState());
+  categoryCall(category) {
+    return new Promise((fullfill, reject) => {
+      axios.get(config.backend + "/categories/" + category).then(category => {
+        fullfill(category.data.name)
+      }).catch(err => {
+        reject()
+      })
+    });
   }
+
+  componentDidMount() {
+    //todo: make sure you get the quiz is
+    this.updateState(store.getState());
+    console.log("root state: "+JSON.stringify(store.getState()))
+    console.log("state: "+JSON.stringify(this.state))
+    var playedCategories = []
+    //todo make quizid dynamic here, so put it in local/root state.
+    axios.get(config.backend + "/previouslyPlayedCategories/59fb8f061640e25320b1b2eb").then(response => {
+      console.log("response: " + JSON.stringify(response))
+      var playedCategories = response.data.map(category => {
+        return this.categoryCall(category)
+      })
+
+      Promise.all(playedCategories)
+        .then(results => {
+          this.setState({
+            playedCategories: results
+          })
+        })
+        .catch(e => {
+          console.error(e);
+        })
+
+    }).catch(err => {
+      console.log("team doesn't exist");
+      console.log(err);
+    })
+  }
+
+
+
 
   /**
    * update local state with global state
    * @param {*} state store state
    */
   updateState(state) {
-    this.setState({quizId: state.quizId, teams: state.teams})
-  }
-
-  previouslyPlayed(){
-    console.log("in previouslyplayed")
-
-    this.setState({playedCategories: categories})
+    this.setState({quizId: state.quizId})
   }
 
 

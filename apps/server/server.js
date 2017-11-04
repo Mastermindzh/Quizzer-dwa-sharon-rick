@@ -90,9 +90,20 @@ App.get('/newQuestionTest', (req, res) => {
 });
 
 
-App.get('/previouslyPlayedCategories', (req, res) => {
-  categories.getPreviouslyPlayedCategories(req.body.quizId).then(categories =>{
-    res.send(categories);
+App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
+  quizzes.getQuiz(req.params.quizId).then(quiz =>{
+    categories = quiz.rounds.map(round =>{
+      return round.categories;
+    })
+    var playedCategories = [];
+    quiz.rounds.forEach(round =>{
+      round.categories.forEach(category =>{
+        playedCategories.push(category)
+      })
+    })
+
+
+    res.send(playedCategories);
   }).catch(err => {
     res.send(err);
   })

@@ -8,7 +8,8 @@ class CategoriesComponent extends Component {
       <div>
       <h3>Previous played categories</h3>
       <ul>
-        {this.props.list.map(function(value, i){
+        {this.props.list.length > 0 &&
+        this.props.list.map(function(value, i){
           return <li key={i}>{value}</li>;
         })}
       </ul>

@@ -11,12 +11,6 @@ exports.getAllQuizzes = function () {
   return mongoose.Quiz.find({}).exec();
 };
 
-
-function getQuiz(id) {
-  return mongoose.Quiz.findOne({
-    _id: id
-  }).exec();
-}
 /**
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
@@ -81,8 +75,8 @@ exports.getCurrentQuestion = function (id) {
           .then(question => {
             fullfill(question);
           }).catch(err => {
-            reject("no current question")
-          })
+          reject("no current question")
+        })
       })
     }).catch(err => {
       reject("no current question")
@@ -127,6 +121,7 @@ function getCurrentRound(quiz) {
 
   return currentRound
 }
+
 exports.getCurrentRound = getCurrentRound
 
 
@@ -258,3 +253,12 @@ function getEmptyScoreArray(inputTeams) {
 
   return teams
 }
+
+
+
+
+
+
+
+
+
