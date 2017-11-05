@@ -186,3 +186,5 @@ Server.listen(8080, function () {
   console.log('App running on %s:%d', this.address().address, this.address().port);
 });
 io.listen(Server);
+
+module.exports = App; // for testing
