@@ -323,6 +323,62 @@ paths:
       responses:
         '200':
           description: answer submitted
+  '/quizzes/{id}/startQuiz':
+    post:
+      tags:
+        - Quizzes
+      summary: Starts the quiz
+      description: Starts the quiz with approved teams
+      operationId: startQuiz
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: quizId and teams object for starting the quiz
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: quiz started
+  '/quizzes/{id}/newRound':
+    post:
+      tags:
+        - Quizzes
+      summary: Starts a new round
+      description: Starts a new round with selected categories
+      operationId: startRound
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: teams object for starting the quiz
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: round started
 definitions:
   Category:
     type: object

@@ -280,7 +280,3 @@ function getEmptyScoreArray(inputTeams) {
 
 
 
-
-
-
-

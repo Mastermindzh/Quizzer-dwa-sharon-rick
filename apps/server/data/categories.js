@@ -19,8 +19,8 @@ module.exports = {
         .then(categories => {
           res.send(categories);
         }).catch(err => {
-          res.status(404).send("no categories found");
-        })
+        res.status(404).send("no categories found");
+      })
     }
   }
 };

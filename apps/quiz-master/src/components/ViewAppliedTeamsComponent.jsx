@@ -5,7 +5,7 @@ import TeamComponent from './TeamComponent.jsx';
 import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
-import { Redirect } from 'react-router'
+import {Redirect} from 'react-router'
 
 
 class ViewAppliedTeamsComponent extends Component {
@@ -15,7 +15,7 @@ class ViewAppliedTeamsComponent extends Component {
     this.state = {
       quizId: '',
       teams: [],
-      approvedTeams:[],
+      approvedTeams: [],
       fireRedirect: false,
       redirectBack: false
     };
@@ -31,7 +31,7 @@ class ViewAppliedTeamsComponent extends Component {
 
   componentDidMount() {
     this.updateState(store.getState());
-    console.log("root state: "+JSON.stringify(store.getState()))
+    console.log("root state: " + JSON.stringify(store.getState()))
   }
 
   /**
@@ -44,20 +44,20 @@ class ViewAppliedTeamsComponent extends Component {
 
   startQuiz(event) {
     event.preventDefault()
-    console.log("=====should be starting quizz now with id:"+this.state.quizId)
-    axios.post(config.backend + '/startQuiz', {
-      quizId: this.state.quizId,
-      teams: this.state.approvedTeams
+    console.log("=====should be starting quizz now with id:" + this.state.quizId + " and teams: " + JSON.stringify(this.state.approvedTeams))
+    axios.post(config.backend + '/quizzes/' + this.state.quizId + '/startQuiz', {
+      body: this.state.approvedTeams
+
     }).then(response => {
-      this.setState({ fireRedirect: true })
+      this.setState({fireRedirect: true})
     }).catch(error => {
-      console.log("error: "+error);
+      console.log("error: " + error);
       alert("something went wrong");
     })
 
   }
 
-  approvedTeamHandler(event, teams){
+  approvedTeamHandler(event, teams) {
     event.preventDefault()
     console.log("in approved team handler")
     this.setState({approvedTeams: this.state.approvedTeams.concat(teams)})
@@ -79,9 +79,9 @@ class ViewAppliedTeamsComponent extends Component {
 
         {/*check for redirect  */}
         {this.state.fireRedirect && (
-          <Redirect to={'/addRound'} />
+          <Redirect to={'/addRound'}/>
         )}{this.state.redirectBack && (
-        <Redirect to={'/'} />
+        <Redirect to={'/'}/>
       )}
         <TitleComponent title="Quizzer - Team Applications"/>
         <BoxComponent>

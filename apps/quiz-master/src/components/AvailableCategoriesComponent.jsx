@@ -34,9 +34,12 @@ class AvailableCategoriesComponent extends Component {
 
   selectCategory(event) {
     event.preventDefault()
-    this.setState({bgColor: "#5eff6e"})
+
     if(!this.state.selectedCategories.includes(this.state._id) && this.state.selectedCategories.length < 3){
+      this.setState({bgColor: "#5eff6e"})
       store.dispatch({type: actions.ADD_CATEGORY, payload: this.state._id})
+    } else{
+      alert("You can only select 3 categories")
     }
 
   }
@@ -47,7 +50,7 @@ class AvailableCategoriesComponent extends Component {
 
       <div>
         <div className="row">
-          <BoxComponent key={this.state._id} size={"1"} bgColour={this.state.bgColor}>
+          <BoxComponent key={this.state._id} size={"12"} bgColour={this.state.bgColor}>
             <div className="col-md-8">
               <p>{this.state.name}</p>
             </div>

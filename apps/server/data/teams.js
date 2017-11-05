@@ -19,8 +19,8 @@ module.exports = {
         .then(teams => {
           res.send(teams);
         }).catch(err => {
-          res.status(404).send("no teams found");
-        })
+        res.status(404).send("no teams found");
+      })
     }
   },
   /**
