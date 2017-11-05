@@ -46,7 +46,7 @@ class QuizInfoComponent extends Component {
   render() {
     return (
       <p className="smallText bold">
-        Rounds played: {this.state.roundsPlayed - 1} <br /><br /> Current Question: {this.state.currentQuestion}
+        Rounds played: {this.state.roundsPlayed - 1} <br /><br /> Current Question: {this.state.currentQuestion + 1}
       </p>
     );
   }

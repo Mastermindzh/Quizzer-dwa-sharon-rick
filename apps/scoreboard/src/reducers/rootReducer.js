@@ -8,10 +8,13 @@ var appState = {
   rounds: [],
   teams: [],
   chartScores: [],
+  firstLogin: false,
   loggedIn: false,
+  redirectWinner: false,
   question: {
     question: "no question yet"
-  }
+  },
+  answers: {}
 }
 
 export default function rootReducer(state = appState, action) {
@@ -19,7 +22,8 @@ export default function rootReducer(state = appState, action) {
     case actions.LOGIN:
       return { ...state,
         quizId: action.payload,
-        loggedIn: true
+        loggedIn: true,
+        firstLogin: true
       }
 
     case actions.CHANGE_CURRENT_QUESTION:
@@ -33,8 +37,23 @@ export default function rootReducer(state = appState, action) {
         teams: action.payload.teams,
       }
     case actions.UPDATE_CHART:
-      return {...state,
+      return { ...state,
         chartScores: action.payload
+      }
+    case actions.FIRE_FIRST_LOGIN:
+      return { ...state,
+        firstLogin: false
+      }
+    case actions.FIRE_WINNER:
+      return { ...state,
+        redirectWinner: true
+      }
+   case actions.NEW_ANSWER:
+      let localAnswers = Object.assign({}, state.localAnswers);
+
+      localAnswers[action.payload.team] = action.payload.answer
+      return { ...state,
+        answers: localAnswers
       }
     default:
       return state;

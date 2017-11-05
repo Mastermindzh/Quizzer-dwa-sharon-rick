@@ -68,20 +68,39 @@ io.on('connection', function (client) {
 });
 
 // Custom endpoints
+
+const QUIZIDFORTESTMESSAGES = "59fef91fe44d0a36bc000cc9"
+
 App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
-App.get('/testMyNewThing', (req, res) => {
-  teams.getCurrentAnswer("59fb8e0fa242b34d22a4112b", '59fb8e0ea242b34d22a40e02')
-  res.send('hello');
+App.get('/newAnswer', (req, res) => {
+  io.emit('new-answer', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new testanswer fired')
+});
+
+App.get('/questionEnd', (req, res) => {
+  io.emit('question-end', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new question-end fired')
+});
+
+App.get('/questionStart', (req, res) => {
+  io.emit('question-start', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new questionStart fired')
 });
 
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
       question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: '59fcc21dcdad0e5fc387943e'
+      quizId: QUIZIDFORTESTMESSAGES
     })
     res.send('websocket message fired!')
   }).catch(err => {
@@ -108,11 +127,19 @@ App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
   })
 })
 
+App.get('/endQuiz', (req, res) => {
+
+  io.emit('quiz-end', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('end-quiz websocket message fired!')
+
+});
 App.get('/teamApplicantTest', (req, res) => {
   teams.getAllTeams().then(teams => {
     io.emit('new-team', {
       teamId: teams[Math.floor(Math.random() * teams.length)]._id,
-      quizId: "59fc4c927f7a22003d9708b3"
+      quizId: QUIZIDFORTESTMESSAGES
     })
     console.log("teamapplicanttest ws message fired")
     res.send('websocket message fired!')
@@ -208,3 +235,5 @@ Server.listen(8080, function () {
   console.log('App running on %s:%d', this.address().address, this.address().port);
 });
 io.listen(Server);
+
+module.exports = App; // for testing
