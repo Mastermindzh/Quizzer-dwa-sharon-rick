@@ -19,8 +19,8 @@ module.exports = {
         .then(quizzes => {
           res.send(quizzes);
         }).catch(err => {
-          res.status(404).send("no quizzes found");
-        })
+        res.status(404).send("no quizzes found");
+      })
     }
   },
   /**
