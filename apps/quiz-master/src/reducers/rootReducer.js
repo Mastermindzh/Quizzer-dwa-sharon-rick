@@ -32,6 +32,11 @@ export default function rootReducer(state = appState, action) {
         ...state,
         selectedCategories: state.selectedCategories.concat(action.payload)
       };
+    case actions.CLEAR_CATEGORIES:
+      return {
+        ...state,
+        selectedCategories: []
+      };
     default:
       return state;
   }

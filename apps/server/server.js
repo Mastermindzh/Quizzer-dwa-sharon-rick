@@ -170,12 +170,31 @@ App.post('/startQuiz', (req, res) => {
 })
 
 
+App.post('/quizzes/:id/:round/addQuestion', (req, res)=>{
+
+  quizzes.addQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+    res.send(200, result)
+  }).catch(err=>{
+    res.send(400, err)
+  })
+})
+
+App.post('/quizzes/:id/:round/updateQuestion', (req, res)=>{
+  quizzes.updateQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+    res.send(200, result)
+  }).catch(err=>{
+    res.send(400, err)
+  })
+})
+
+
 /** example websocket message on team approval */
 App.get('/approve/:quizId', (req,res) => {
   io.emit('quiz-start', {
     quizId: req.param.quizId
   })
 })
+
 
 /**
  * Login to the current quiz (will give you the answer back)
