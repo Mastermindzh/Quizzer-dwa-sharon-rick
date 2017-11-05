@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import TitleComponent from './shared/TitleComponent'
 import ButtonComponent from './shared/ButtonComponent'
 import QuestionListComponent from './QuestionListComponent'
 import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
-import { Redirect } from 'react-router'
+import {Redirect} from 'react-router'
+import AvailableQuestionsComponent from "./AvailableQuestionsComponent";
 
 
 class EditRoundsComponent extends Component {
@@ -14,7 +15,9 @@ class EditRoundsComponent extends Component {
     super(props);
     this.state = {
       quizId: '',
-      currentRound: '',
+      roundNumber: '',
+      currentQuestions: '',
+      availableQuestions:'',
       fireRedirect: false,
       redirectBack: false
     };
@@ -27,43 +30,50 @@ class EditRoundsComponent extends Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  componentWillMount(){
-    this.updateState(store.getState());
-    //get this quiz data
-    axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
-      console.log(data);
-      var currentRound = data.data.rounds.length -1;
-      this.setState({currentRound: data.data.rounds[currentRound]})
-    }).catch(error => {
-      console.log("error: "+error);
-
-    })
+  componentWillMount() {
+    this.updateState(store.getState())
 
   }
+
+
+
   componentDidMount() {
-    console.log("state: "+JSON.stringify(this.state))
+    //get current round questions
+    axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
+      var currentRound = data.data.rounds.length;
+      var questions = data.data.rounds[currentRound-1].questions.map(question => {
+        return question;
+      });
+      this.setState({roundNumber: currentRound, currentQuestions: questions})
+    }).catch(error => {
+      console.log("error: " + error);
+
+    });
+    //get available questions
+    axios.get(config.backend + '/questions').then(data => {
+      var questions = data.data;
+      this.setState({availableQuestions: questions})
+    }).catch(error => {
+      console.log("error: " + error);
+    })
 
 
 
-    //todo get round number
-    //todo for current questions, display what questions are done, and what question can be started.
-    //todo for that round get questions that are in the round
     //display categories of this round
     //todo get all available questions
     //todo click on questions -> add to list
     //list.length == 12 -> full!
 
 
-
-
   }
 
-  /**
-   * update local state with global state
-   * @param {*} state store state
-   */
   updateState(state) {
-    this.setState({quizId: state.quizId, teams: state.teams})
+    new Promise((fullfill, reject) => {
+      this.setState({quizId: state.quizId}, function () {
+        fullfill();
+      })
+    })
+
   }
 
 
@@ -79,16 +89,24 @@ class EditRoundsComponent extends Component {
 
       <div className="container-full">
         {this.state.redirectBack && (
-          <Redirect to={'/'} />
+          <Redirect to={'/'}/>
         )}
-        <TitleComponent title="Quizzer - Edit Rounds" />
-        <h2 className="text-center">Round {this.state.currentRound._id}</h2>
+        <TitleComponent title="Quizzer - Edit Rounds"/>
+        <h2 className="text-center">Round {this.state.roundNumber}</h2>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
-          {/*<QuestionListComponent questions={this.state.currentRound.questions}/>*/}
+          {this.state.currentQuestions && this.state.currentQuestions.map((question, i)=>{
+            return <QuestionListComponent key={i} id={question.questionId} status={question.status}/>
+          })}
+
         </div>
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
+
+          {this.state.availableQuestions && this.state.availableQuestions.map((question, i)=>{
+            return <AvailableQuestionsComponent key={i} id={question.questionId} question={question.question}/>
+          })}
+
           {/*<QuestionListComponent questions={["abc", "def"]}/>*/}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>

@@ -1,50 +1,52 @@
 import React, {Component} from "react";
 import BoxComponent from './shared/BoxComponent'
-import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
 
 class QuestionListComponent extends Component {
 
 
-
   constructor(props) {
     super(props);
     this.state = {
-      questions:''
+      question: '',
+      id: '',
+      closed: false,
+      playing: false
     };
   }
 
 
-  componentWillMount(){
-    console.log(this.props)
-    this.setState({questions: this.props.questions})
-    var currentQuestions = this.props.questions.map(question => {
-      axios.get(config.backend + '/questions/'+question.questionId).then(data => {
-        console.log("data: "+data)
+  componentWillMount() {
+    if (this.props.status === 'Closed') this.setState({closed: true});
+    if (this.props.status === 'Open') this.setState({playing: true});
+    this.setState({id: this.props.id, question: this.props.question});
 
-      }).catch(error => {
-        console.log("error: "+error);
-
-      })
+    axios.get(config.backend + '/questions/' + this.props.id).then(data => {
+      this.setState({question: data.data.question})
+    }).catch(error => {
+      console.log("error: " + error);
     })
 
-    console.log("current questions: "+currentQuestions)
-    return currentQuestions
   }
 
+  componentDidMount(){
+
+  }
   render() {
 
     return (
 
       <div>
-        {this.props.questions.length > 0 && this.props.questions.map(function(value, i) {
-          return <BoxComponent key={i}><p key={i}>{value}</p></BoxComponent>;
-        })
-        }
+        <BoxComponent>
+          <p>{this.state.question}</p>
+          {!this.state.closed && !this.state.playing && <button className='btn btn-large wobbly-border dashed thin' >
+            Start
+          </button>}
+        </BoxComponent>
       </div>
-    );
+  );
   }
-}
+  }
 
-export default QuestionListComponent;
+  export default QuestionListComponent;
