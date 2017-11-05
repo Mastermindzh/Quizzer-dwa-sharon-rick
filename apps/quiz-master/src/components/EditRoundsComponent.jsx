@@ -37,7 +37,6 @@ class EditRoundsComponent extends Component {
 
   }
 
-
   loadAvailableQuestions() {
     if (this.state.roundNumber !== '') {
       //get available questions
@@ -118,13 +117,14 @@ class EditRoundsComponent extends Component {
           });
 
 
+
           this.setState({currentQuestions: questions})
+          this.loadAvailableQuestions()
           console.log(JSON.stringify(this.state.currentQuestions))
         })
 
 
         //todo rerender available stuff
-        //todo why has it decided to add other questions than I selected
 
 
       }).catch(error => {
@@ -138,11 +138,14 @@ class EditRoundsComponent extends Component {
 
   handleStartQuestion(questionId) {
     var myPromise = new Promise((resolve, reject) => {
+      console.log("==> currentqs: "+JSON.stringify(this.state.currentQuestion))
       this.state.currentQuestions.forEach(question => {
         if (question.status.toLowerCase() === 'open') {
+          console.log("====found one====")
           resolve(true);
         }
       });
+      console.log("something went wrong here...")
       reject(false)
     });
 
