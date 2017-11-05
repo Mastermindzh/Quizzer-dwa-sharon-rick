@@ -88,6 +88,14 @@ App.get('/newQuestionTest', (req, res) => {
   })
 });
 
+App.get('/endQuiz', (req, res) => {
+
+  io.emit('quiz-end', {
+    quizId: '59fed07a3ec4d34f186c4233'
+  })
+  res.send('end-quiz websocket message fired!')
+
+});
 App.get('/teamApplicantTest', (req, res) => {
   teams.getAllTeams().then(teams => {
     io.emit('new-team', {

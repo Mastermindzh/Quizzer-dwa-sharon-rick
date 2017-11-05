@@ -1,25 +1,43 @@
 import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
+import store from "../store/RootStore"
+import axios from "axios"
+import config from '../config.js'
 
 class WinnerComponent extends Component {
 
-  componentDidMount() {
+  constructor() {
+    super();
 
-    // we need a timeout because this method is executed BEFORE a render :O
-    setTimeout(function() { this.setState({
-      bronze: '420px',
-      silver: '565px',
-      gold: '730px'
-    })}.bind(this));
-  }
-
-  constructor(props) {
-    super(props)
     this.state = {
+      winners: [],
       bronze: '0px',
       silver: '0px',
       gold: '0px'
-    }
+    };
+  }
+
+  componentDidMount() {
+
+    axios.get(config.backend + '/quizzes/' + store.getState().quizId + "/score").then(response => {
+
+      let result = response.data;
+
+      result.sort(function compare(a, b) {
+        if (a.score < b.score)
+          return 1;
+        if (a.score > b.score)
+          return -1;
+        return 0;
+      })
+      result.length = 3;
+      this.setState({
+        winners: result,
+        bronze: '420px',
+        silver: '565px',
+        gold: '730px'
+      })
+    })
   }
 
   render() {
@@ -32,16 +50,46 @@ class WinnerComponent extends Component {
           <div className="competition-podium well">
 
             <div className="podium-block bronze">
-              <div className="name">Player 1</div>
-              <div className="podium" style={{ height: this.state.bronze }}><span>500</span></div>
+              <div className="name">
+                {this.state.winners.length > 2 && (
+                  this.state.winners[2].team
+                )}
+              </div>
+              <div className="podium" style={{ height: this.state.bronze }}>
+                <span>
+                  {this.state.winners.length > 2 && (
+                    this.state.winners[2].score
+                  )}
+                </span>
+              </div>
             </div>
             <div className="podium-block gold">
-              <div className="name">Player 3</div>
-              <div className="podium" style={{ height: this.state.gold }}><span>1500</span></div>
+              <div className="name">
+                {this.state.winners.length > 0 && (
+                  this.state.winners[0].team
+                )}
+              </div>
+              <div className="podium" style={{ height: this.state.gold }}>
+                <span>
+                  {this.state.winners.length > 0 && (
+                    this.state.winners[0].score
+                  )}
+                </span>
+              </div>
             </div>
             <div className="podium-block silver">
-              <div className="name">Player 2</div>
-              <div className="podium" style={{ height: this.state.silver }}><span>750</span></div>
+              <div className="name">
+                {this.state.winners.length > 1 && (
+                  this.state.winners[1].team
+                )}
+              </div>
+              <div className="podium" style={{ height: this.state.silver }}>
+                <span>
+                  {this.state.winners.length > 1 && (
+                    this.state.winners[1].score
+                  )}
+                </span>
+              </div>
             </div>
 
           </div>

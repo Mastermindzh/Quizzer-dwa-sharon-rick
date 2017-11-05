@@ -5,11 +5,8 @@ import TeamCardComponent from './TeamCardCompoment'
 import ScoreTableComponent from './ScoreTableComponent'
 import ChartComponent from './ChartComponent'
 import QuestionComponent from './QuestionComponent'
+import { Redirect } from 'react-router'
 import store from "../store/RootStore"
-import config from '../config.js'
-import actions from '../reducers/actions.js'
-import axios from "axios"
-import socketIOClient from "socket.io-client";
 import QuizInfoComponent from './QuizInfoComponent'
 
 class ScoreboardComponent extends Component {
@@ -21,15 +18,15 @@ class ScoreboardComponent extends Component {
     this.state = {
       quizId: '',
       teams: [],
+      redirectWinner: false
     };
 
     store.subscribe(() => {
       this.updateState(store.getState());
     })
 
-    this.socket = '';
     this.updateState = this.updateState.bind(this);
-    this.quizUpdate = this.quizUpdate.bind(this);
+
   }
 
   /**
@@ -37,58 +34,19 @@ class ScoreboardComponent extends Component {
  * @param {*} state store state
  */
   updateState(state) {
-    this.setState({ quizId: state.quizId, teams: state.teams })
+    this.setState({ quizId: state.quizId, teams: state.teams, redirectWinner: state.redirectWinner })
   }
 
   componentDidMount() {
     this.updateState(store.getState());
-    this.socket = socketIOClient(config.backend);
-
-    // this.socket.on("new-question", data => {
-    //   if (data.quizId === this.state.quizId) {
-    //     axios.get(config.backend + '/categories/' + data.question.category).then(response => {
-    //       store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: data.question, category: response.data } })
-    //     })
-    //   }
-    // });
-
-    /**
-     * on new quiz (or question in this case...)
-     * update score table
-     */
-    this.socket.on("new-question", data => {
-      this.quizUpdate(data)
-    });
-
-    setTimeout(() => {
-      this.quizUpdate({ quizId: store.getState().quizId })
-    })
-  }
-
-  quizUpdate(data) {
-    if (data.quizId === this.state.quizId) {
-      axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
-        store.dispatch({ type: actions.UPDATE_TABLE, payload: { rounds: response.data.rounds, teams: response.data.teams } })
-      })
-
-      axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
-        if (response.data.category !== undefined) {
-          axios.get(config.backend + '/categories/' + response.data.category).then(data => {
-            store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: { question: response.data, category: data.data } })
-          })
-        }
-      })
-
-      axios.get(config.backend + '/quizzes/' + data.quizId + "/score").then(response =>{
-        store.dispatch({type: actions.UPDATE_CHART, payload: response.data})
-      })
-
-    }
   }
 
   render() {
     return (
       <div className="container-full">
+        {this.state.redirectWinner && (
+          <Redirect to={'/winner'} />
+        )}
         <TitleComponent title="Quizzer - Scoreboard" />
         <div className="row">
           <div className="col-lg-6">
