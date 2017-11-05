@@ -73,6 +73,14 @@ class CurrentQuestionComponent extends Component {
     })
   }
 
+  closeQuestion(event){
+    event.preventDefault()
+    axios.get(config.backend + "/quizzes/" + this.state.quizId + "/closeCurrentQuestion").then(response =>{
+      axios.get(config.backend + "/closeQuestion/" + this.state.quizId).then(response =>{
+        this.setState({ redirectBack: true });
+      })
+    })
+  }
 
   redirectBack(event) {
     event.preventDefault()
@@ -98,6 +106,7 @@ class CurrentQuestionComponent extends Component {
         })}
 
         <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
+        <button className='btn btn-large wobbly-border dashed thin' onClick={this.closeQuestion.bind(this)}>end question</button>
       </div>
 
     );

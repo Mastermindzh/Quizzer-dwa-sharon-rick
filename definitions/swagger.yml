@@ -374,6 +374,40 @@ paths:
         '200':
           description: answer submitted
 
+  '/quizzes/{id}/close':
+    get:
+      summary: close quiz
+      description: close quiz
+      operationId: closeQuiz
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: quiz closed
+
+  '/quizzes/{id}/closeCurrentQuestion':
+    get:
+      summary: close the current question
+      description: close the current question
+      operationId: closeCurrentQuiz
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: quiz closed
+
   '/quizzes/{id}/judge/':
     put:
       summary: judge the current question

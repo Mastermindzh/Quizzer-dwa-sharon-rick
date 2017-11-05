@@ -9,6 +9,9 @@ import currentQuestion from "../icons/current_question.png";
 import addRound from "../icons/add_quiz.png";
 import editRound from "../icons/edit_quiz.png";
 import { Redirect } from 'react-router'
+import store from "../store/RootStore";
+import axios from "axios"
+import config from '../config.js'
 
 class DashboardComponent extends Component {
   constructor(props) {
@@ -20,9 +23,28 @@ class DashboardComponent extends Component {
       currentQuestion: false,
       addRound: false,
       editRound: false,
-      login: false
+      login: false,
+      quizId: ''
     }
+
+    this.socket = '';
+    store.subscribe(() => {
+      this.updateState(store.getState());
+    })
+    this.updateState = this.updateState.bind(this);
   };
+
+  componentDidMount() {
+    this.updateState(store.getState());
+  }
+
+  /**
+   * update local state with global state
+   * @param {*} state store state
+   */
+  updateState(state) {
+    this.setState({ quizId: state.quizId, teams: state.teams })
+  }
 
   handleCreateQuiz(event) {
     event.preventDefault();
@@ -35,6 +57,10 @@ class DashboardComponent extends Component {
   }
   handleEndQuiz(event) {
     event.preventDefault();
+    axios.get(config.backend + "/quizzes/" + this.state.quizId + "/close").then(response =>{
+      axios.get(config.backend + "/close/" + this.state.quizId)
+    })
+
     this.setState({ endQuiz: true })
   }
   handlecurrentQuestion(event) {
