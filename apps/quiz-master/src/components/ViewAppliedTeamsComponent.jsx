@@ -45,10 +45,10 @@ class ViewAppliedTeamsComponent extends Component {
   startQuiz(event) {
     event.preventDefault()
     console.log("=====should be starting quizz now with id:" + this.state.quizId + " and teams: " + JSON.stringify(this.state.approvedTeams))
-    axios.post(config.backend + '/quizzes/' + this.state.quizId + '/startQuiz', {
-      body: this.state.approvedTeams
+    axios.post(config.backend + '/quizzes/' + this.state.quizId + '/startQuiz',
+      this.state.approvedTeams
 
-    }).then(response => {
+    ).then(response => {
       this.setState({fireRedirect: true})
     }).catch(error => {
       console.log("error: " + error);
@@ -56,7 +56,6 @@ class ViewAppliedTeamsComponent extends Component {
     })
 
   }
-
   approvedTeamHandler(event, teams) {
     event.preventDefault()
     console.log("in approved team handler")
