@@ -105,34 +105,6 @@ App.get('/quizzes/:quizId/:teamName/apply', (req, res) => {
   })
 })
 
-// TEST ENDPOINTS (endpoints above are good!)
-
-App.get('/questionEnd', (req, res) => {
-  io.emit('question-end', {
-    quizId: QUIZIDFORTESTMESSAGES
-  })
-  res.send('new question-end fired')
-});
-
-App.get('/questionStart', (req, res) => {
-  io.emit('question-start', {
-    quizId: QUIZIDFORTESTMESSAGES
-  })
-  res.send('new questionStart fired')
-});
-
-App.get('/newQuestionTest', (req, res) => {
-  questions.getAllQuestions().then(questions => {
-    io.emit('new-question', {
-      question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: QUIZIDFORTESTMESSAGES
-    })
-    res.send('websocket message fired!')
-  }).catch(err => {
-    res.send(err);
-  })
-});
-
 App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
   quizzes.getQuiz(req.params.quizId).then(quiz => {
     categories = quiz.rounds.map(round => {
@@ -150,15 +122,6 @@ App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
   })
 })
 
-App.get('/endQuiz', (req, res) => {
-
-  io.emit('quiz-end', {
-    quizId: QUIZIDFORTESTMESSAGES
-  })
-  res.send('end-quiz websocket message fired!')
-
-});
-
 App.post('/startQuiz', (req, res) => {
   quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
     res.send(quiz._id)
@@ -166,30 +129,27 @@ App.post('/startQuiz', (req, res) => {
     console.log(err);
     res.status(401).send("not authorized");
   })
-
 })
 
+App.post('/quizzes/:id/:round/addQuestion', (req, res) => {
 
-App.post('/quizzes/:id/:round/addQuestion', (req, res)=>{
-
-  quizzes.addQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+  quizzes.addQuestion(req.params.id, req.params.round, req.body.question).then(result => {
     res.send(200, result)
-  }).catch(err=>{
+  }).catch(err => {
     res.send(400, err)
   })
 })
 
-App.post('/quizzes/:id/:round/updateQuestion', (req, res)=>{
-  quizzes.updateQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+App.post('/quizzes/:id/:round/updateQuestion', (req, res) => {
+  quizzes.updateQuestion(req.params.id, req.params.round, req.body.question).then(result => {
     res.send(200, result)
-  }).catch(err=>{
+  }).catch(err => {
     res.send(400, err)
   })
 })
 
 
-/** example websocket message on team approval */
-App.get('/approve/:quizId', (req,res) => {
+App.get('/approve/:quizId', (req, res) => {
   io.emit('quiz-start', {
     quizId: req.param.quizId
   })

@@ -64,19 +64,21 @@ Use the following credentials:
 ### 2. Create a quiz with code - quizzer
 ### 3. Apply both teams for the quiz
 ### 4. Accept both teams for the quiz
-### 5. Show that both team apps have started -> NO! websocket message is not send, send it from quizmaster ViewAppliedTeamsComponent.
-### 6. Start the quizz
+### 5. Start the quizz
+### 6. Show that both team apps have started -> NO! websocket message is not send, send it from quizmaster ViewAppliedTeamsComponent.
 ### 7. Select 3 categories
 ### 8. Start round
 ### 9. Add a question to the round
-### 10. Run the ` node fillDatabase.js` command
-### 11. Start a question
-### 12. Go to the tab with the `sharon` team and enter a **wrong** answer
-### 13. Go to the tab with the `Rick` and enter the correct answer
-### 14. Show that the scoreboard updated (yellow boxes)
-### 15. Close Question
-### 16. Approve the wrong answer team `sharon` gave.
-### 17. Start the new question and show that everything updated
+### 10. Start a question
+### 11. Go to the tab with the `sharon` team and enter a **wrong** answer
+### 12. Go to the tab with the `Rick` and enter the correct answer
+### 13. Show that the scoreboard updated (yellow boxes)
+### 14. Close Question
+### 15. Approve the wrong answer team `sharon` gave.
+### 16. Start the new question and show that everything updated
+
+====
+
 ### 18. Explain that we have a sample dataset which shows that we can resume a quiz + show that we can win a quiz.
 ### 19. Run the ` npm run seed ` command in the root directory
 ### 20. Log the scoreboard in to the avengers quiz (code: 1a2b3c)

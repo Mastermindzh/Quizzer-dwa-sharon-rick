@@ -18,8 +18,6 @@ class App extends Component {
   componentDidMount(){
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-team", data => {
-      console.log(`websocket message received:`)
-      console.log(data);
       store.dispatch({type: actions.ADD_TEAM, payload: data.teamId})
     })
   }

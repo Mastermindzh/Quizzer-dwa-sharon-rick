@@ -18,6 +18,7 @@ export default function rootReducer(state = appState, action) {
         loggedIn: true,
       }
     case actions.ADD_TEAM:
+
       return {
         ...state,
         teams: state.teams.concat(action.payload)
