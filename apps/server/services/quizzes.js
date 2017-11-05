@@ -38,6 +38,7 @@ exports.getQuizByCode = function (code) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.updateQuizStatus = function (quizId, teams, status) {
+  console.log("teams for db function: "+teams)
   return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
     quiz.status = status;
     quiz.teams = teams;
@@ -50,11 +51,12 @@ exports.updateQuizStatus = function (quizId, teams, status) {
  */
 exports.newRound = function (quizId, categories) {
   return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+    console.log("Quiz found: "+JSON.stringify(quiz))
     var id = quiz.rounds.length+1
     var newround = quiz.rounds.create({_id: id, categories: categories})
     quiz.rounds.push(newround);
     quiz.markModified('rounds')
-    console.log(JSON.stringify(quiz))
+    console.log("new quiz: "+JSON.stringify(quiz))
     quiz.save(err => {
       console.log(err);
     });

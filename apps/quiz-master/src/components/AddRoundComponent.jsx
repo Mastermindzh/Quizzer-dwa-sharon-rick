@@ -108,7 +108,7 @@ class AddRoundComponent extends Component {
     event.preventDefault();
     console.log("=====should be starting new round now")
     console.log(this.state.selectedCategories)
-    axios.post(config.backend + '/quizzes/'+ this.state.quizId +'/newRound', 
+    axios.post(config.backend + '/quizzes/'+ this.state.quizId +'/newRound',
       this.state.selectedCategories
     ).then(response => {
       console.log(response);

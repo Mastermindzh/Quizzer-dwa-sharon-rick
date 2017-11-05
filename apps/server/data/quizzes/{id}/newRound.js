@@ -15,7 +15,7 @@ module.exports = {
    */
   post: {
     200: function (req, res, callback) {
-      quizzes.newRound(req.params.id, req.body.categories).then(quiz => {
+      quizzes.newRound(req.params.id, req.body).then(quiz => {
         console.log("quiz with new round: "+JSON.stringify(quiz))
         res.send(quiz._id)
       }).catch(err => {
