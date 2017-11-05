@@ -21,7 +21,7 @@ info:
   license:
     name: MIT
     url: 'https://choosealicense.com/licenses/mit/'
-host: localhost
+host: localhost:8001
 basePath: /
 schemes:
   - http

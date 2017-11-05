@@ -82,6 +82,14 @@ App.get('/newAnswer/:quizId', (req, res) => {
   res.send('new testanswer fired')
 });
 
+/**
+ * Route to apply for a quiz
+ */
+App.get('/quizzes/:quizId/:teamName/apply', (req, res) => {
+  teams.apply(req.params.teamName, req.params.quizId, io).then(response => {
+    res.send('team application sent')
+  })
+})
 
 // TEST ENDPOINTS (endpoints above are good!)
 
@@ -136,20 +144,16 @@ App.get('/endQuiz', (req, res) => {
   res.send('end-quiz websocket message fired!')
 
 });
-App.get('/teamApplicantTest', (req, res) => {
-  teams.getAllTeams().then(teams => {
-    io.emit('new-team', {
-      teamId: teams[Math.floor(Math.random() * teams.length)]._id,
-      quizId: QUIZIDFORTESTMESSAGES
-    })
-    console.log("teamapplicanttest ws message fired")
-    res.send('websocket message fired!')
+
+App.post('/startQuiz', (req, res) => {
+  quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
+    res.send(quiz._id)
   }).catch(err => {
-    res.send(err);
+    console.log(err);
+    res.status(401).send("not authorized");
   })
 
 })
-
 // App.post('/startQuiz', (req, res) => {
 //   quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
 //     res.send(quiz._id)
@@ -170,6 +174,13 @@ App.get('/teamApplicantTest', (req, res) => {
 //   })
 // })
 
+/** example websocket message on team approval */
+App.get('/approve/:quizId', (req,res) => {
+  io.emit('quiz-start', {
+    quizId: req.param.quizId
+  })
+})
+
 /**
  * Login to the current quiz (will give you the answer back)
  */
@@ -183,7 +194,9 @@ App.post('/login', (req, res) => {
       return Promise.reject();
     } else {
       if (quiz.status.toLowerCase() === "open") {
-        res.send("please call the quiz master");
+        teams.apply(req.body.name, quiz._id, io).then(response => {
+          res.send('team application sent')
+        })
       } else {
         teams.getTeamByName(req.body.name).then(team => {
           if (quizzes.teamInQuiz(team, quiz) && teams.verifyPassword(team.password, req.body.password)) {

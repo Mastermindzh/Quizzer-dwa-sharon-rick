@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import BoxComponent from './shared/BoxComponent'
 import RowComponent from "./shared/RowComponent.jsx";
@@ -19,34 +19,39 @@ class DashboardComponent extends Component {
       endQuiz: false,
       currentQuestion: false,
       addRound: false,
-      editRound: false
+      editRound: false,
+      login: false
     }
   };
 
-  handleCreateQuiz(event){
+  handleCreateQuiz(event) {
     event.preventDefault();
-    this.setState({createQuiz: true})
+    this.setState({ createQuiz: true })
   }
 
-  handleViewTeams(event){
+  handleViewTeams(event) {
     event.preventDefault();
-    this.setState({viewTeams: true})
+    this.setState({ viewTeams: true })
   }
-  handleEndQuiz(event){
+  handleEndQuiz(event) {
     event.preventDefault();
-    this.setState({endQuiz: true})
+    this.setState({ endQuiz: true })
   }
-  handlecurrentQuestion(event){
+  handlecurrentQuestion(event) {
     event.preventDefault();
-    this.setState({currentQuestion: true})
+    this.setState({ currentQuestion: true })
   }
-  handleAddRound(event){
+  handleAddRound(event) {
     event.preventDefault();
-    this.setState({addRound: true})
+    this.setState({ addRound: true })
   }
-  handleEditRound(event){
+  handleEditRound(event) {
     event.preventDefault();
-    this.setState({editRound: true})
+    this.setState({ editRound: true })
+  }
+  handleLogin(event) {
+    event.preventDefault();
+    this.setState({ login: true })
   }
 
   render() {
@@ -74,7 +79,10 @@ class DashboardComponent extends Component {
         {this.state.editRound && (
           <Redirect to={'/editQuizz'} />
         )}
-        <TitleComponent title="Quizzer - Dashboard"/>
+        {this.state.login && (
+          <Redirect to={'/login'} />
+        )}
+        <TitleComponent title="Quizzer - Dashboard" />
         <RowComponent>
           <BoxComponent>
             <RowComponent>
@@ -82,7 +90,7 @@ class DashboardComponent extends Component {
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handleCreateQuiz.bind(this)}>
-                      <img src={createQuizz} className="button-image" alt="Create Quizz"/>
+                      <img src={createQuizz} className="button-image" alt="Create Quizz" />
                       <h2>Create Quizz Night</h2>
                     </a>
                   </div>
@@ -92,7 +100,7 @@ class DashboardComponent extends Component {
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handleViewTeams.bind(this)}>
-                      <img src={appliedTeams} className="button-image" alt="Applied Teams"/>
+                      <img src={appliedTeams} className="button-image" alt="Applied Teams" />
                       <h2>View Applied Teams</h2>
                     </a>
                   </div>
@@ -102,21 +110,21 @@ class DashboardComponent extends Component {
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handleEndQuiz.bind(this)}>
-                    <img src={endQuiz} className="button-image" alt="End Quizz"/>
-                    <h2>End Quizz Night</h2>
+                      <img src={endQuiz} className="button-image" alt="End Quizz" />
+                      <h2>End Quizz Night</h2>
                     </a>
                   </div>
                 </BoxComponent>
               </div>
 
 
-              <hr className="drawnLine"/>
+              <hr className="drawnLine" />
 
               <div className="col-lg-4">
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handlecurrentQuestion.bind(this)}>
-                      <img src={currentQuestion} className="button-image" alt="Current Question"/>
+                      <img src={currentQuestion} className="button-image" alt="Current Question" />
                       <h2>Current Question</h2>
                     </a>
                   </div>
@@ -126,7 +134,7 @@ class DashboardComponent extends Component {
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handleAddRound.bind(this)}>
-                      <img src={addRound} className="button-image" alt="Add Round"/>
+                      <img src={addRound} className="button-image" alt="Add Round" />
                       <h2>Add Quizz Round</h2>
                     </a>
                   </div>
@@ -136,8 +144,18 @@ class DashboardComponent extends Component {
                 <BoxComponent size="10">
                   <div className="center-content">
                     <a onClick={this.handleEditRound.bind(this)}>
-                      <img src={editRound} className="button-image" alt="Edit Quizz Rounds"/>
+                      <img src={editRound} className="button-image" alt="Edit Quizz Rounds" />
                       <h2>Edit Quizz Rounds</h2>
+                    </a>
+                  </div>
+                </BoxComponent>
+              </div>
+              <div className="col-lg-4">
+                <BoxComponent size="10">
+                  <div className="center-content">
+                    <a onClick={this.handleLogin.bind(this)}>
+                      <img src={editRound} className="button-image" alt="Log in" />
+                      <h2>Change current quiz</h2>
                     </a>
                   </div>
                 </BoxComponent>
