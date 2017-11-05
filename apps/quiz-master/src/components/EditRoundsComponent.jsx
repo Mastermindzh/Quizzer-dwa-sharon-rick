@@ -39,7 +39,8 @@ class EditRoundsComponent extends Component {
 
 
   componentDidMount() {
-    axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
+    console.log("quizid: "+this.state.quizId)
+    axios.get(config.backend + '/quizzes/'+this.state.quizId).then(data => {
       var currentRound = data.data.rounds.length;
       //get current round questions
       var questions = data.data.rounds[currentRound - 1].questions.map(question => {
@@ -74,10 +75,6 @@ class EditRoundsComponent extends Component {
       console.log("error: " + error);
     })
 
-
-    //todo click on questions -> add to list
-
-
   }
 
   updateState(state) {
@@ -94,13 +91,11 @@ class EditRoundsComponent extends Component {
     if (this.state.currentQuestions.length === 12) {
       alert("You can only have 12 questions in a round");
     } else {
-//todo also fix quizId here.
-      axios.post(config.backend + '/quizzes/59fef6ea016a434986710f9c/'+this.state.roundNumber+'/addQuestion',
+      axios.post(config.backend + '/quizzes/'+this.state.quizId+'/'+this.state.roundNumber+'/addQuestion',
         {question: question}
       ).then(response => {
         console.log("in add question response")
-        //this.setState({fireRedirect: true})
-        //todo somehow reload page, redirect to itself?
+        this.setState({fireRedirect: true})
       }).catch(error => {
         console.log("error: " + error);
         alert("something went wrong");
@@ -123,7 +118,7 @@ class EditRoundsComponent extends Component {
     return (
       <div className="container-full">
         {this.state.redirectBack && (
-          <Redirect to={'/'}/>
+          <Redirect to={'/editQuizz'}/>
         )}
         <TitleComponent title="Quizzer - Edit Rounds"/>
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
