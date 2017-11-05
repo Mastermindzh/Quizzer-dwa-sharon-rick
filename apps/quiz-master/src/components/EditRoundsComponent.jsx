@@ -29,20 +29,21 @@ class EditRoundsComponent extends Component {
 
   componentWillMount(){
     this.updateState(store.getState());
-    console.log("root state: "+JSON.stringify(store.getState()))
-  }
-  componentDidMount() {
-
+    //get this quiz data
     axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
+      console.log(data);
       var currentRound = data.data.rounds.length -1;
       this.setState({currentRound: data.data.rounds[currentRound]})
-      console.log(data.data.rounds.length)
-      console.log("current round: "+JSON.stringify(data.data.rounds[currentRound]))
-
     }).catch(error => {
       console.log("error: "+error);
 
     })
+
+  }
+  componentDidMount() {
+    console.log("state: "+JSON.stringify(this.state))
+
+
 
     //todo get round number
     //todo for current questions, display what questions are done, and what question can be started.
@@ -81,14 +82,14 @@ class EditRoundsComponent extends Component {
           <Redirect to={'/'} />
         )}
         <TitleComponent title="Quizzer - Edit Rounds" />
-        <h2 className="text-center">Round 1</h2>
+        <h2 className="text-center">Round {this.state.currentRound._id}</h2>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
-          <QuestionListComponent questions={["1", "2"]}/>
+          {/*<QuestionListComponent questions={this.state.currentRound.questions}/>*/}
         </div>
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
-          <QuestionListComponent questions={["abc", "def"]}/>
+          {/*<QuestionListComponent questions={["abc", "def"]}/>*/}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>
         <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
