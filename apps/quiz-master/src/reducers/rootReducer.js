@@ -6,11 +6,17 @@ var appState = {
   quizId: '',
   teamName: '',
   teams: [],
+  loggedIn: false,
   selectedCategories: []
 }
 
 export default function rootReducer(state = appState, action) {
   switch (action.type) {
+    case actions.LOGIN:
+      return { ...state,
+        quizId: action.payload,
+        loggedIn: true,
+      }
     case actions.ADD_TEAM:
       return {
         ...state,
