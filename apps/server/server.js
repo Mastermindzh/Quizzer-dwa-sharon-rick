@@ -16,6 +16,7 @@ var Server = Http.Server(App);
 var teams = require('./services/teams.js')
 var quizzes = require('./services/quizzes.js')
 var questions = require('./services/questions.js')
+var categories = require('./services/categories.js');
 
 /**Multer setup */
 const uploadPath = './images';
@@ -117,6 +118,25 @@ App.get('/newQuestionTest', (req, res) => {
   })
 });
 
+App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
+  quizzes.getQuiz(req.params.quizId).then(quiz => {
+    categories = quiz.rounds.map(round => {
+      return round.categories;
+    })
+    var playedCategories = [];
+    quiz.rounds.forEach(round => {
+      round.categories.forEach(category => {
+        playedCategories.push(category)
+      })
+    })
+
+
+    res.send(playedCategories);
+  }).catch(err => {
+    res.send(err);
+  })
+})
+
 App.get('/endQuiz', (req, res) => {
 
   io.emit('quiz-end', {
@@ -135,6 +155,25 @@ App.post('/startQuiz', (req, res) => {
   })
 
 })
+// App.post('/startQuiz', (req, res) => {
+//   quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
+//     res.send(quiz._id)
+//   }).catch(err => {
+//     console.log(err);
+//     res.status(401).send("not authorized");
+//   })
+//
+// })
+//
+// App.post('/newRound', (req, res) => {
+//   quizzes.newRound(req.body.quizId, req.body.categories).then(quiz => {
+//     console.log("quiz with new round: "+JSON.stringify(quiz))
+//     res.send(quiz._id)
+//   }).catch(err => {
+//     console.log(err);
+//     res.status(401).send("not authorized.")
+//   })
+// })
 
 /** example websocket message on team approval */
 App.get('/approve/:quizId', (req,res) => {

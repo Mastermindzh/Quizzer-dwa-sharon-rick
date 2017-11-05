@@ -5,9 +5,9 @@ var apiPath = Path.resolve(__dirname, '../config/swagger.yml');
 var mockgen;
 
 module.exports = function () {
-  /**
-   * Cached mock generator
-   */
-  mockgen = mockgen || Swagmock(apiPath);
-  return mockgen;
+    /**
+     * Cached mock generator
+     */
+    mockgen = mockgen || Swagmock(apiPath);
+    return mockgen;
 };
