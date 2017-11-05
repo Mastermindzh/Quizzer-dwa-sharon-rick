@@ -71,9 +71,25 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
-App.get('/testMyNewThing', (req, res) => {
-  teams.getCurrentAnswer("59fb8e0fa242b34d22a4112b", '59fb8e0ea242b34d22a40e02')
-  res.send('hello');
+App.get('/newAnswer', (req, res) => {
+  io.emit('new-answer', {
+    quizId: '59fed07a3ec4d34f186c4233'
+  })
+  res.send('new testanswer fired')
+});
+
+App.get('/questionEnd', (req, res) => {
+  io.emit('question-end', {
+    quizId: '59fed07a3ec4d34f186c4233'
+  })
+  res.send('new question-end fired')
+});
+
+App.get('/questionStart', (req, res) => {
+  io.emit('question-start', {
+    quizId: '59fed07a3ec4d34f186c4233'
+  })
+  res.send('new questionStart fired')
 });
 
 App.get('/newQuestionTest', (req, res) => {

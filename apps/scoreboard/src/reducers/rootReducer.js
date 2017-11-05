@@ -13,7 +13,8 @@ var appState = {
   redirectWinner: false,
   question: {
     question: "no question yet"
-  }
+  },
+  answers: {}
 }
 
 export default function rootReducer(state = appState, action) {
@@ -46,6 +47,13 @@ export default function rootReducer(state = appState, action) {
     case actions.FIRE_WINNER:
       return { ...state,
         redirectWinner: true
+      }
+   case actions.NEW_ANSWER:
+      let localAnswers = Object.assign({}, state.localAnswers);
+
+      localAnswers[action.payload.team] = action.payload.answer
+      return { ...state,
+        answers: localAnswers
       }
     default:
       return state;

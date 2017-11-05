@@ -292,6 +292,34 @@ paths:
             items:
               $ref: "#/definitions/Answer"
 
+  /quizzes/{id}/{teamId}/currentAnswer:
+     get:
+      tags:
+      - "Answers"
+      summary: "Get the current answer in a quiz for a team"
+      description: "Get the current answer in a quiz for a team"
+      operationId: "getCurrentAnswerByTeamId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: id
+        in: path
+        description: 'id of the quiz'
+        required: true
+        type: string
+      - name: teamId
+        in: path
+        description: 'id of the team'
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Answers fetched"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Answer"
+
   /quizzes/{id}/{teamName}/answers:
      put:
       tags:

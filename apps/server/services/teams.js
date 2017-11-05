@@ -56,12 +56,21 @@ exports.verifyPassword = (realPass, givenPass) => {
   return realPass == givenPass;
 }
 
-exports.getCurrentAnswer = (quizId, teamId) =>{
-  quizzes.getCurrentQuestion(quizId).then(response =>{
-    console.log(response)
-  }).catch(err => {
-
+exports.getCurrentAnswer = (quizId, teamId) => {
+  return new Promise((fullfill, reject) => {
+    quizzes.getQuiz(quizId).then(quiz => {
+      quizzes.getCurrentDbQuestion(quiz).then(response => {
+        response.answers.forEach(answer => {
+          if(answer.teamId.toString() === teamId){
+            fullfill(answer)
+          }
+        })
+        fullfill({})
+      }).catch(err => {
+        reject('no current question')
+      })
+    }).catch(err => {
+      reject('no current quiz')
+    })
   })
-  console.log('getting current answer');
-
 }
