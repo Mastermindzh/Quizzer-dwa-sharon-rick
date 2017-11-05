@@ -41,7 +41,9 @@ class CurrentQuestionComponent extends Component {
 
     this.socket.on("new-answer", data => {
       if (data.quizId === this.state.quizId) {
-        this.fetchAnswers(this.state.quizId)
+        this.setState({answers: []}, ()=>{
+          this.fetchAnswers(this.state.quizId)
+        })
       }
     });
 
@@ -49,7 +51,6 @@ class CurrentQuestionComponent extends Component {
   }
 
   fetchAnswers(quizId) {
-    console.log('we got here' + quizId)
     axios.get(config.backend + "/quizzes/" + quizId + '/answers').then(response => {
       this.setState({ answers: response.data })
     }).catch(err => {
