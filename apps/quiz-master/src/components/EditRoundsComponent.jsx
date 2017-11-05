@@ -15,9 +15,11 @@ class EditRoundsComponent extends Component {
     super(props);
     this.state = {
       quizId: '',
+      categories: '',
+      quizQuestions: '',
       roundNumber: '',
       currentQuestions: '',
-      availableQuestions:'',
+      availableQuestions: '',
       fireRedirect: false,
       redirectBack: false
     };
@@ -36,33 +38,44 @@ class EditRoundsComponent extends Component {
   }
 
 
-
   componentDidMount() {
-    //get current round questions
     axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
       var currentRound = data.data.rounds.length;
-      var questions = data.data.rounds[currentRound-1].questions.map(question => {
+      //get current round questions
+      var questions = data.data.rounds[currentRound - 1].questions.map(question => {
         return question;
       });
-      this.setState({roundNumber: currentRound, currentQuestions: questions})
+      //get all questions in rounds
+      var quizQuestions = data.data.rounds.map(round => {
+        round.questions.map(question => {
+          return question.questionId
+        })
+      })
+
+      this.setState({
+        roundNumber: currentRound,
+        currentQuestions: questions,
+        categories: data.data.rounds[currentRound - 1].categories,
+        quizQuestions: quizQuestions
+      })
+      console.log(this.state.categories)
     }).catch(error => {
       console.log("error: " + error);
 
     });
     //get available questions
     axios.get(config.backend + '/questions').then(data => {
-      var questions = data.data;
+      let questions = data.data.filter(question => {
+        return !(this.state.categories.includes(question.category) || this.state.quizQuestions.includes(question.category))
+      })
+
       this.setState({availableQuestions: questions})
     }).catch(error => {
       console.log("error: " + error);
     })
 
 
-
-    //display categories of this round
-    //todo get all available questions
     //todo click on questions -> add to list
-    //list.length == 12 -> full!
 
 
   }
@@ -76,6 +89,16 @@ class EditRoundsComponent extends Component {
 
   }
 
+  handleAddQuestion(event, question) {
+    event.preventDefault()
+    console.log("question: "+question)
+    if (this.state.currentQuestions.length === 12) {
+      alert("You can only have 12 questions in a round");
+    } else {
+      //todo add question to round
+    }
+  }
+
 
   redirectBack(event) {
     event.preventDefault()
@@ -86,7 +109,6 @@ class EditRoundsComponent extends Component {
   render() {
 
     return (
-
       <div className="container-full">
         {this.state.redirectBack && (
           <Redirect to={'/'}/>
@@ -95,19 +117,15 @@ class EditRoundsComponent extends Component {
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
-          {this.state.currentQuestions && this.state.currentQuestions.map((question, i)=>{
+          {this.state.currentQuestions && this.state.currentQuestions.map((question, i) => {
             return <QuestionListComponent key={i} id={question.questionId} status={question.status}/>
           })}
-
         </div>
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
-
-          {this.state.availableQuestions && this.state.availableQuestions.map((question, i)=>{
-            return <AvailableQuestionsComponent key={i} id={question.questionId} question={question.question}/>
+          {this.state.availableQuestions && this.state.availableQuestions.map((question, i) => {
+            return <AvailableQuestionsComponent key={i} id={question.id} question={question.question} handleAddQuestion={this.handleAddQuestion.bind(this)}/>
           })}
-
-          {/*<QuestionListComponent questions={["abc", "def"]}/>*/}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>
         <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>

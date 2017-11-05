@@ -8,9 +8,7 @@ class AvailableQuestionsComponent extends Component {
     super(props);
     this.state = {
       question: '',
-      id: '',
-      closed: false,
-      playing: false
+      id: ''
     };
   }
 
@@ -20,7 +18,7 @@ class AvailableQuestionsComponent extends Component {
   }
 
   componentDidMount(){
-    console.log("state2: "+JSON.stringify(this.state))
+
   }
   render() {
 
@@ -29,7 +27,7 @@ class AvailableQuestionsComponent extends Component {
       <div>
         <BoxComponent>
           <p>{this.state.question}</p>
-          <button className='btn btn-large wobbly-border dashed thin' >
+          <button className='btn btn-large wobbly-border dashed thin' onClick={this.props.handleAddQuestion(this.state.id)}>
             Add
           </button>
         </BoxComponent>
