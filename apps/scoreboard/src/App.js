@@ -1,5 +1,10 @@
-import React, { Component } from 'react';
-import { Switch,Route } from 'react-router-dom'
+import React, {
+  Component
+} from 'react';
+import {
+  Switch,
+  Route
+} from 'react-router-dom'
 import LoginComponent from './components/LoginComponent.jsx'
 import ScoreboardComponent from './components/ScoreboardComponent.jsx'
 import WinnerComponent from './components/WinnerComponent.jsx'
@@ -27,6 +32,9 @@ class App extends Component {
     this.socket = '';
     this.updateState = this.updateState.bind(this);
     this.quizUpdate = this.quizUpdate.bind(this);
+    this.updateChart = this.updateChart.bind(this);
+    this.updateTable = this.updateTable.bind(this);
+    this.updateCurrentQuestion = this.updateCurrentQuestion.bind(this);
   }
   /**
    * update local state with global state
@@ -40,10 +48,10 @@ class App extends Component {
     })
 
     if (this.state.firstLogin) {
-        store.dispatch({
-          type: actions.FIRE_FIRST_LOGIN,
-          payload: {}
-        })
+      store.dispatch({
+        type: actions.FIRE_FIRST_LOGIN,
+        payload: {}
+      })
       this.quizUpdate({
         quizId: store.getState().quizId
       })
@@ -54,25 +62,40 @@ class App extends Component {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
 
-    /**
-     * on new quiz (or question in this case...)
-     * update score table
-     */
     this.socket.on("new-question", data => {
-      console.log('hello from app.js')
-      console.log(this.state.quizId)
       this.quizUpdate(data)
     });
 
+    this.socket.on("update-table", data => {
+      this.updateTable(data);
+    })
+
+    // this.socket.on("new-question", data => {
+    //   this.updateCurrentQuestion(data)
+    // })
+
+    this.socket.on("round-end", data => {
+      this.updateChart(data)
+    })
+
     this.socket.on("quiz-end", data => {
-      if(data.quizId === this.state.quizId){
-        store.dispatch({type: actions.FIRE_WINNER, payload: {}})
+      if (data.quizId === this.state.quizId) {
+        store.dispatch({
+          type: actions.FIRE_WINNER,
+          payload: {}
+        })
       }
     })
   }
 
   quizUpdate(data) {
-    if (data.quizId === this.state.quizId) {
+    this.updateTable(data);
+    this.updateCurrentQuestion(data);
+    this.updateChart(data);
+  }
+
+  updateTable(data) {
+    if (this.isOurQuiz(data, this.state.quizId)) {
       axios.get(config.backend + '/quizzes/' + data.quizId).then(response => {
         store.dispatch({
           type: actions.UPDATE_TABLE,
@@ -82,7 +105,11 @@ class App extends Component {
           }
         })
       })
+    }
+  }
 
+  updateCurrentQuestion(data) {
+    if (this.isOurQuiz(data, this.state.quizId)) {
       axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
         if (response.data.category !== undefined) {
           axios.get(config.backend + '/categories/' + response.data.category).then(data => {
@@ -96,25 +123,52 @@ class App extends Component {
           })
         }
       })
+    }
+  }
 
+  updateChart(data) {
+    if (this.isOurQuiz(data, this.state.quizId)) {
       axios.get(config.backend + '/quizzes/' + data.quizId + "/score").then(response => {
         store.dispatch({
           type: actions.UPDATE_CHART,
           payload: response.data
         })
       })
-
     }
+  }
+
+
+  /**
+   * checks whether quiz is ours
+   * @param {*} data
+   * @param {*} validator
+   */
+  isOurQuiz(data, validator) {
+    return data.quizId === validator
   }
 
   render() {
     return (
 
-      <Switch>
-        <Route exact path='/' component={LoginComponent}/>
-        <Route path='/scores' component={ScoreboardComponent}/>
-        <Route path='/winner' component={WinnerComponent}/>
-      </Switch>
+      <
+      Switch >
+      <
+      Route exact path = '/'
+      component = {
+        LoginComponent
+      }
+      /> <
+      Route path = '/scores'
+      component = {
+        ScoreboardComponent
+      }
+      /> <
+      Route path = '/winner'
+      component = {
+        WinnerComponent
+      }
+      /> <
+      /Switch>
     )
   }
 }

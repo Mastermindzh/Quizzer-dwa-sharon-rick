@@ -91,7 +91,7 @@ App.get('/newQuestionTest', (req, res) => {
 App.get('/endQuiz', (req, res) => {
 
   io.emit('quiz-end', {
-    quizId: '59fcc21dcdad0e5fc387943e'
+    quizId: '59fed07a3ec4d34f186c4233'
   })
   res.send('end-quiz websocket message fired!')
 

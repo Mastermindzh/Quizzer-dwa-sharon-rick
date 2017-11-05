@@ -63,7 +63,7 @@ class LoginComponent extends Component {
   }
 
   render() {
-    const { pubPassword, quizId } = this.state;
+    const { pubPassword } = this.state;
     return (
       <div className="container">
         {this.state.fireRedirect && (

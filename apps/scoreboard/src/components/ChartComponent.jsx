@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Chart } from 'react-google-charts';
 import store from "../store/RootStore"
-import axios from "axios"
-import config from '../config.js'
 
 class ChartComponent extends Component {
   constructor(props) {
@@ -40,7 +38,7 @@ class ChartComponent extends Component {
     let chartScores = state.chartScores;
     this.setState({chartScores: state.chartScores})
 
-    if(chartScores !== [] && chartScores !== undefined && chartScores.length != 0){
+    if(chartScores !== [] && chartScores !== undefined && chartScores.length !== 0){
       console.log('we got score info!')
       console.log(chartScores)
 

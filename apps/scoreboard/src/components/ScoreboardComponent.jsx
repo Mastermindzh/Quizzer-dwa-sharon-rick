@@ -7,10 +7,6 @@ import ChartComponent from './ChartComponent'
 import QuestionComponent from './QuestionComponent'
 import { Redirect } from 'react-router'
 import store from "../store/RootStore"
-import config from '../config.js'
-import actions from '../reducers/actions.js'
-import axios from "axios"
-import socketIOClient from "socket.io-client";
 import QuizInfoComponent from './QuizInfoComponent'
 
 class ScoreboardComponent extends Component {
