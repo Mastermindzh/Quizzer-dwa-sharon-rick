@@ -39,8 +39,8 @@ class EditRoundsComponent extends Component {
 
 
   componentDidMount() {
-    console.log("quizid: "+this.state.quizId)
-    axios.get(config.backend + '/quizzes/'+this.state.quizId).then(data => {
+    console.log("quizid: " + this.state.quizId)
+    axios.get(config.backend + '/quizzes/' + this.state.quizId).then(data => {
       var currentRound = data.data.rounds.length;
       //get current round questions
       var questions = data.data.rounds[currentRound - 1].questions.map(question => {
@@ -65,7 +65,7 @@ class EditRoundsComponent extends Component {
     });
 
 
-    if(this.state.roundNumber !==''){
+    if (this.state.roundNumber !== '') {
       //get available questions
       axios.get(config.backend + '/questions').then(data => {
         let questions = data.data.filter(question => {
@@ -78,10 +78,9 @@ class EditRoundsComponent extends Component {
       })
 
 
-    } else{
+    } else {
       alert("This quiz has no rounds yet, go create one!")
     }
-
 
 
   }
@@ -96,11 +95,11 @@ class EditRoundsComponent extends Component {
   }
 
   handleAddQuestion(question) {
-    console.log("question: "+question)
+    console.log("question: " + question)
     if (this.state.currentQuestions.length === 12) {
       alert("You can only have 12 questions in a round");
     } else {
-      axios.post(config.backend + '/quizzes/'+this.state.quizId+'/'+this.state.roundNumber+'/addQuestion',
+      axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/addQuestion',
         {question: question}
       ).then(response => {
         console.log("in add question response")
@@ -111,12 +110,18 @@ class EditRoundsComponent extends Component {
       })
 
 
-
     }
   }
 
-  handleStartQuestion(questionId){
-    var otherQIsPlaying = this.state.currentQuestions.
+  handleStartQuestion(questionId) {
+    var otherQIsPlaying = this.state.currentQuestions.forEach(question => {
+      if (question.status === 'Open') {
+        console.log("other q is playing, so this is not allowed.")
+        return true;
+      }
+    })
+
+    console.log(otherQIsPlaying)
     //todo check if there is no other playing question
     //todo set it in the database
     //todo websocket message fired
@@ -136,19 +141,21 @@ class EditRoundsComponent extends Component {
       <div className="container-full">
         {this.state.redirectBack && (
           <Redirect to={'/'}/>
-        )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'} />)}
+        )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'}/>)}
         <TitleComponent title="Quizzer - Edit Rounds"/>
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
           {this.state.currentQuestions && this.state.currentQuestions.map((question, i) => {
-            return <QuestionListComponent key={i} id={question.questionId} status={question.status} handleStartQuestion={this.handleStartQuestion.bind(this)}/>
+            return <QuestionListComponent key={i} id={question.questionId} status={question.status}
+                                          handleStartQuestion={this.handleStartQuestion.bind(this)}/>
           })}
         </div>
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
           {this.state.availableQuestions && this.state.availableQuestions.map((question, i) => {
-            return <AvailableQuestionsComponent key={i} id={question._id} question={question.question} handleAddQuestion={this.handleAddQuestion.bind(this)}/>
+            return <AvailableQuestionsComponent key={i} id={question._id} question={question.question}
+                                                handleAddQuestion={this.handleAddQuestion.bind(this)}/>
           })}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>
