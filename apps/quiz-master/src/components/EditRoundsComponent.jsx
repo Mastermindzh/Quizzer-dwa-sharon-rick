@@ -14,6 +14,7 @@ class EditRoundsComponent extends Component {
     super(props);
     this.state = {
       quizId: '',
+      currentRound: '',
       fireRedirect: false,
       redirectBack: false
     };
@@ -32,7 +33,19 @@ class EditRoundsComponent extends Component {
   }
   componentDidMount() {
 
+    axios.get(config.backend + '/quizzes/59fef6ea016a434986710f9c').then(data => {
+      var currentRound = data.data.rounds.length -1;
+      this.setState({currentRound: data.data.rounds[currentRound]})
+      console.log(data.data.rounds.length)
+      console.log("current round: "+JSON.stringify(data.data.rounds[currentRound]))
+
+    }).catch(error => {
+      console.log("error: "+error);
+
+    })
+
     //todo get round number
+    //todo for current questions, display what questions are done, and what question can be started.
     //todo for that round get questions that are in the round
     //display categories of this round
     //todo get all available questions
