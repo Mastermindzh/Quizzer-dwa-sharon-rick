@@ -82,6 +82,20 @@ App.get('/newAnswer/:quizId', (req, res) => {
   res.send('new testanswer fired')
 });
 
+App.get('/close/:quizId', (req, res) => {
+  io.emit('quiz-end', {
+    quizId: req.params.quizId
+  })
+  res.send('quiz close fired')
+});
+
+App.get('/closeQuestion/:quizId', (req, res) => {
+  io.emit('update-table', {
+    quizId: req.params.quizId
+  })
+  res.send('question closed fired')
+});
+
 /**
  * Route to apply for a quiz
  */
