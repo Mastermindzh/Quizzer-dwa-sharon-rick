@@ -2,15 +2,71 @@ import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import ButtonComponent from './shared/ButtonComponent'
 import QuestionListComponent from './QuestionListComponent'
+import store from "../store/RootStore";
+import axios from "axios"
+import config from '../config.js'
+import { Redirect } from 'react-router'
 
 
 class EditRoundsComponent extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      quizId: '',
+      fireRedirect: false,
+      redirectBack: false
+    };
+    this.socket = '';
+    store.subscribe(() => {
+      console.log("root state updated, update local accordingly   ")
+      console.log(store.getState())
+      this.updateState(store.getState());
+    })
+    this.updateState = this.updateState.bind(this);
+  }
+
+  componentWillMount(){
+    this.updateState(store.getState());
+    console.log("root state: "+JSON.stringify(store.getState()))
+  }
+  componentDidMount() {
+
+    //todo get round number
+    //todo for that round get questions that are in the round
+    //display categories of this round
+    //todo get all available questions
+    //todo click on questions -> add to list
+    //list.length == 12 -> full!
+
+
+
+
+  }
+
+  /**
+   * update local state with global state
+   * @param {*} state store state
+   */
+  updateState(state) {
+    this.setState({quizId: state.quizId, teams: state.teams})
+  }
+
+
+  redirectBack(event) {
+    event.preventDefault()
+    this.setState({redirectBack: true});
+  }
+
 
   render() {
 
     return (
 
       <div className="container-full">
+        {this.state.redirectBack && (
+          <Redirect to={'/'} />
+        )}
         <TitleComponent title="Quizzer - Edit Rounds" />
         <h2 className="text-center">Round 1</h2>
         <div className="col-md-4 wobbly-border">
@@ -22,7 +78,7 @@ class EditRoundsComponent extends Component {
           <QuestionListComponent questions={["abc", "def"]}/>
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>
-        <ButtonComponent path={"/"} text={"Back"}/>
+        <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
       </div>
 
     );
