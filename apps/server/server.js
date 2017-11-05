@@ -75,12 +75,15 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
-App.get('/newAnswer', (req, res) => {
+App.get('/newAnswer/:quizId', (req, res) => {
   io.emit('new-answer', {
-    quizId: QUIZIDFORTESTMESSAGES
+    quizId: req.params.quizId
   })
   res.send('new testanswer fired')
 });
+
+
+// TEST ENDPOINTS (endpoints above are good!)
 
 App.get('/questionEnd', (req, res) => {
   io.emit('question-end', {
@@ -119,8 +122,6 @@ App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
         playedCategories.push(category)
       })
     })
-
-
     res.send(playedCategories);
   }).catch(err => {
     res.send(err);
