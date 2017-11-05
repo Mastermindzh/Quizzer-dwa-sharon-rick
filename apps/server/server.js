@@ -16,6 +16,7 @@ var Server = Http.Server(App);
 var teams = require('./services/teams.js')
 var quizzes = require('./services/quizzes.js')
 var questions = require('./services/questions.js')
+var categories = require('./services/categories.js');
 
 /**Multer setup */
 const uploadPath = './images';
@@ -67,20 +68,39 @@ io.on('connection', function (client) {
 });
 
 // Custom endpoints
+
+const QUIZIDFORTESTMESSAGES = "59fef91fe44d0a36bc000cc9"
+
 App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
-App.get('/testMyNewThing', (req, res) => {
-  teams.getCurrentAnswer("59fb8e0fa242b34d22a4112b", '59fb8e0ea242b34d22a40e02')
-  res.send('hello');
+App.get('/newAnswer', (req, res) => {
+  io.emit('new-answer', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new testanswer fired')
+});
+
+App.get('/questionEnd', (req, res) => {
+  io.emit('question-end', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new question-end fired')
+});
+
+App.get('/questionStart', (req, res) => {
+  io.emit('question-start', {
+    quizId: QUIZIDFORTESTMESSAGES
+  })
+  res.send('new questionStart fired')
 });
 
 App.get('/newQuestionTest', (req, res) => {
   questions.getAllQuestions().then(questions => {
     io.emit('new-question', {
       question: questions[Math.floor(Math.random() * questions.length)],
-      quizId: '59fcc21dcdad0e5fc387943e'
+      quizId: QUIZIDFORTESTMESSAGES
     })
     res.send('websocket message fired!')
   }).catch(err => {
@@ -88,10 +108,29 @@ App.get('/newQuestionTest', (req, res) => {
   })
 });
 
+App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
+  quizzes.getQuiz(req.params.quizId).then(quiz => {
+    categories = quiz.rounds.map(round => {
+      return round.categories;
+    })
+    var playedCategories = [];
+    quiz.rounds.forEach(round => {
+      round.categories.forEach(category => {
+        playedCategories.push(category)
+      })
+    })
+
+
+    res.send(playedCategories);
+  }).catch(err => {
+    res.send(err);
+  })
+})
+
 App.get('/endQuiz', (req, res) => {
 
   io.emit('quiz-end', {
-    quizId: '59fed07a3ec4d34f186c4233'
+    quizId: QUIZIDFORTESTMESSAGES
   })
   res.send('end-quiz websocket message fired!')
 
@@ -100,7 +139,7 @@ App.get('/teamApplicantTest', (req, res) => {
   teams.getAllTeams().then(teams => {
     io.emit('new-team', {
       teamId: teams[Math.floor(Math.random() * teams.length)]._id,
-      quizId: "59fc4c927f7a22003d9708b3"
+      quizId: QUIZIDFORTESTMESSAGES
     })
     console.log("teamapplicanttest ws message fired")
     res.send('websocket message fired!')
@@ -110,15 +149,25 @@ App.get('/teamApplicantTest', (req, res) => {
 
 })
 
-App.post('/startQuiz', (req, res) => {
-  quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz =>{
-    res.send(quiz._id)
-  }).catch(err => {
-    console.log(err);
-    res.status(401).send("not authorized");
-  })
-
-})
+// App.post('/startQuiz', (req, res) => {
+//   quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
+//     res.send(quiz._id)
+//   }).catch(err => {
+//     console.log(err);
+//     res.status(401).send("not authorized");
+//   })
+//
+// })
+//
+// App.post('/newRound', (req, res) => {
+//   quizzes.newRound(req.body.quizId, req.body.categories).then(quiz => {
+//     console.log("quiz with new round: "+JSON.stringify(quiz))
+//     res.send(quiz._id)
+//   }).catch(err => {
+//     console.log(err);
+//     res.status(401).send("not authorized.")
+//   })
+// })
 
 
 

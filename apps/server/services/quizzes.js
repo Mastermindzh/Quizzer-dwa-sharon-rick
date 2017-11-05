@@ -12,13 +12,6 @@ exports.getAllQuizzes = function () {
   return mongoose.Quiz.find({}).exec();
 };
 
-
-function getQuiz(id) {
-  return mongoose.Quiz.findOne({
-    _id: id
-  }).exec();
-}
-
 /**
  * Get a specific quiz from the database
  * @param req, request object that contains the id of the requested quiz
@@ -45,10 +38,28 @@ exports.getQuizByCode = function (code) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.updateQuizStatus = function (quizId, teams, status) {
+  console.log("teams for db function: "+teams)
   return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
     quiz.status = status;
     quiz.teams = teams;
     quiz.save();
+  }).exec();
+};
+
+/**
+ * Updates the quiz with a new round + categories beloning to that round.
+ */
+exports.newRound = function (quizId, categories) {
+  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+    console.log("Quiz found: "+JSON.stringify(quiz))
+    var id = quiz.rounds.length+1
+    var newround = quiz.rounds.create({_id: id, categories: categories})
+    quiz.rounds.push(newround);
+    quiz.markModified('rounds')
+    console.log("new quiz: "+JSON.stringify(quiz))
+    quiz.save(err => {
+      console.log(err);
+    });
   }).exec();
 };
 
@@ -266,3 +277,8 @@ function getEmptyScoreArray(inputTeams) {
 
   return teams
 }
+
+
+
+
+

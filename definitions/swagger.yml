@@ -1,448 +1,532 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: "Quizzer is a web application that can be used for Quiz nights with your friends, colleagues or even strangers. A Quizz night consits of two parties: a Quizz master and the teams that want to compete. The Quizz master is the all-powerfull leader of the Quizz night. He uses a tablet determine what categories will be played, what questions will be answered, how many rounds will be played and even score the answers. Teams can choose their own name and must work together to achieve victory. A team plays together on one SmartPhone. Together they submit their answer to the current question of the round. After each round points are awarded to top three teams who have the most correct answers in the round. Scores are displayed real time on a big screen. There teams can see the current score, number of correct answers and the ranking of each team."
-  version: "0.0.1"
-  title: "Quizzer"
-  termsOfService: "https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick"
+  description: >-
+    Quizzer is a web application that can be used for Quiz nights with your
+    friends, colleagues or even strangers. A Quizz night consits of two parties:
+    a Quizz master and the teams that want to compete. The Quizz master is the
+    all-powerfull leader of the Quizz night. He uses a tablet determine what
+    categories will be played, what questions will be answered, how many rounds
+    will be played and even score the answers. Teams can choose their own name
+    and must work together to achieve victory. A team plays together on one
+    SmartPhone. Together they submit their answer to the current question of the
+    round. After each round points are awarded to top three teams who have the
+    most correct answers in the round. Scores are displayed real time on a big
+    screen. There teams can see the current score, number of correct answers and
+    the ranking of each team.
+  version: 0.0.1
+  title: Quizzer
+  termsOfService: 'https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick'
   contact:
-    email: "rick_en_sharon_quizzer@rickvanlieshout.com"
+    email: rick_en_sharon_quizzer@rickvanlieshout.com
   license:
-    name: "MIT"
-    url: "https://choosealicense.com/licenses/mit/"
-host: "localhost"
-basePath: "/"
+    name: MIT
+    url: 'https://choosealicense.com/licenses/mit/'
+host: localhost
+basePath: /
 schemes:
-- "http"
-
+  - http
 tags:
-- name: "Categories"
-  description: "Everything about the categories"
-- name: "Teams"
-  description: "Everything about the teams"
-- name: "Questions"
-  description: "Everything about the questions"
-- name: "Quizzes"
-  description: "Everything about the quizzes"
-- name: "Answers"
-  description: "Answers given to a question"
-
+  - name: Categories
+    description: Everything about the categories
+  - name: Teams
+    description: Everything about the teams
+  - name: Questions
+    description: Everything about the questions
+  - name: Quizzes
+    description: Everything about the quizzes
+  - name: Answers
+    description: Answers given to a question
 paths:
   /categories/:
     get:
       tags:
-      - "Categories"
-      summary: "Get all categories"
-      description: "Get all categories"
-      operationId: "getCategories"
+        - Categories
+      summary: Get all categories
+      description: Get all categories
+      operationId: getCategories
       produces:
-      - "application/json"
+        - application/json
       responses:
-        200:
-          description: "categories fetched"
+        '200':
+          description: categories fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Category"
-
-  /categories/{id}:
+              $ref: '#/definitions/Category'
+  '/categories/{id}':
     get:
       tags:
-      - "Categories"
-      summary: "Get a specific category by id"
-      description: "Get a specific category by id"
-      operationId: "getCategoryById"
+        - Categories
+      summary: Get a specific category by id
+      description: Get a specific category by id
+      operationId: getCategoryById
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the category you want'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the category you want
+          required: true
+          type: string
       responses:
-        200:
-          description: "category fetched"
+        '200':
+          description: category fetched
           schema:
-            $ref: "#/definitions/Category"
-
+            $ref: '#/definitions/Category'
   /questions/:
     get:
       tags:
-      - "Questions"
-      summary: "Get all questions"
-      description: "Get all questions"
-      operationId: "getQuestions"
+        - Questions
+      summary: Get all questions
+      description: Get all questions
+      operationId: getQuestions
       produces:
-      - "application/json"
+        - application/json
       responses:
-        200:
-          description: "questions fetched"
+        '200':
+          description: questions fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Question"
-
-  /questions/{id}:
+              $ref: '#/definitions/Question'
+  '/questions/{id}':
     get:
       tags:
-      - "Questions"
-      summary: "Get a specific question by id"
-      description: "Get a specific question by id"
-      operationId: "getQuestionById"
+        - Questions
+      summary: Get a specific question by id
+      description: Get a specific question by id
+      operationId: getQuestionById
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the question you want'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the question you want
+          required: true
+          type: string
       responses:
-        200:
-          description: "question fetched"
+        '200':
+          description: question fetched
           schema:
-            $ref: "#/definitions/Question"
-
+            $ref: '#/definitions/Question'
   /teams/:
     get:
       tags:
-      - "Teams"
-      summary: "Get all teams"
-      description: "Get all teams"
-      operationId: "getTeams"
+        - Teams
+      summary: Get all teams
+      description: Get all teams
+      operationId: getTeams
       produces:
-      - "application/json"
+        - application/json
       responses:
-        200:
-          description: "teams fetched"
+        '200':
+          description: teams fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Team"
+              $ref: '#/definitions/Team'
     post:
       tags:
-      - "Teams"
-      summary: "Add a new team"
-      description: "Add a new team"
-      operationId: "addTeam"
+        - Teams
+      summary: Add a new team
+      description: Add a new team
+      operationId: addTeam
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Team object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Team"
+        - in: body
+          name: body
+          description: Team object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Team'
       responses:
-        200:
-          description: "team added"
-
-  /teams/{id}:
+        '200':
+          description: team added
+  '/teams/{id}':
     get:
       tags:
-      - "Teams"
-      summary: "Get a specific team by id"
-      description: "Get a specific team by id"
-      operationId: "getTeamById"
+        - Teams
+      summary: Get a specific team by id
+      description: Get a specific team by id
+      operationId: getTeamById
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the team you want'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the team you want
+          required: true
+          type: string
       responses:
-        200:
-          description: "team fetched"
+        '200':
+          description: team fetched
           schema:
-            $ref: "#/definitions/Team"
-
+            $ref: '#/definitions/Team'
   /quizzes/:
     get:
       tags:
-      - "Quizzes"
-      summary: "Get all quizzes"
-      description: "Get all quizzes"
-      operationId: "getQuizzes"
+        - Quizzes
+      summary: Get all quizzes
+      description: Get all quizzes
+      operationId: getQuizzes
       produces:
-      - "application/json"
+        - application/json
       responses:
-        200:
-          description: "quizzes fetched"
+        '200':
+          description: quizzes fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Quiz"
+              $ref: '#/definitions/Quiz'
     post:
       tags:
-      - "Quizzes"
-      summary: "Update or add a new quiz"
-      description: "Update or add a new quiz"
-      operationId: "addQuiz"
+        - Quizzes
+      summary: Update or add a new quiz
+      description: Update or add a new quiz
+      operationId: addQuiz
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Quiz object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Quiz"
-      responses:
-        200:
-          description: "quiz added"
-
-
-  /quizzes/{id}:
-    get:
-      tags:
-      - "Quizzes"
-      summary: "Get a specific quiz by id"
-      description: "Get a specific quiz by id"
-      operationId: "getQuizById"
-      produces:
-      - "application/json"
-      parameters:
-      - name: id
-        in: path
-        description: 'id of the quiz you want'
-        required: true
-        type: string
-      responses:
-        200:
-          description: "quiz fetched"
+        - in: body
+          name: body
+          description: Quiz object that needs to be added to the store
+          required: true
           schema:
-            $ref: "#/definitions/Quiz"
-  /quizzes/{id}/currentQuestion:
+            $ref: '#/definitions/Quiz'
+      responses:
+        '200':
+          description: quiz added
+  '/quizzes/{id}':
     get:
       tags:
-      - "Questions"
-      summary: "Get current quiz question"
-      description: "Get current quiz question"
-      operationId: "getCurrentQuestionByQuizId"
+        - Quizzes
+      summary: Get a specific quiz by id
+      description: Get a specific quiz by id
+      operationId: getQuizById
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the quiz you want'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the quiz you want
+          required: true
+          type: string
       responses:
-        200:
-          description: "question fetched"
+        '200':
+          description: quiz fetched
+          schema:
+            $ref: '#/definitions/Quiz'
+  '/quizzes/{id}/currentQuestion':
+    get:
+      tags:
+        - Questions
+      summary: Get current quiz question
+      description: Get current quiz question
+      operationId: getCurrentQuestionByQuizId
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz you want
+          required: true
+          type: string
+      responses:
+        '200':
+          description: question fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Question"
-  /quizzes/{id}/score:
+              $ref: '#/definitions/Question'
+  '/quizzes/{id}/score':
     get:
       tags:
-      - "score"
-      summary: "Get current score"
-      description: "Get current score given a quiz id"
-      operationId: "getCurrentScoreByQuizId"
+        - score
+      summary: Get current score
+      description: Get current score given a quiz id
+      operationId: getCurrentScoreByQuizId
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the quiz you want the score of'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the quiz you want the score of
+          required: true
+          type: string
       responses:
-        200:
-          description: "score fetched"
+        '200':
+          description: score fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Score"
-
-  /quizzes/{id}/{questionId}/answers:
-     get:
+              $ref: '#/definitions/Score'
+  '/quizzes/{id}/{questionId}/answers':
+    get:
       tags:
-      - "Answers"
-      summary: "Get all answers in the current quiz for the current quiz"
-      description: "Get all answers in the current quiz for the current quiz"
-      operationId: "getAnswerInQuizByQuestionId"
+        - Answers
+      summary: Get all answers in the current quiz for the current quiz
+      description: Get all answers in the current quiz for the current quiz
+      operationId: getAnswerInQuizByQuestionId
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the quiz'
-        required: true
-        type: string
-      - name: questionId
-        in: path
-        description: 'id of the question'
-        required: true
-        type: string
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - name: questionId
+          in: path
+          description: id of the question
+          required: true
+          type: string
       responses:
-        200:
-          description: "Answers fetched"
+        '200':
+          description: Answers fetched
           schema:
             type: array
             items:
-              $ref: "#/definitions/Answer"
-
-  /quizzes/{id}/{teamName}/answers:
-     put:
+              $ref: '#/definitions/Answer'
+  '/quizzes/{id}/{teamId}/currentAnswer':
+    get:
       tags:
-      - "Answers"
-      summary: "Add / update an answer"
-      description: "Update or add a new answer"
-      operationId: "addAnswer"
+        - Answers
+      summary: Get the current answer in a quiz for a team
+      description: Get the current answer in a quiz for a team
+      operationId: getCurrentAnswerByTeamId
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - name: teamId
+          in: path
+          description: id of the team
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Answers fetched
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
+  '/quizzes/{id}/{teamName}/answers':
+    put:
+      tags:
+        - Answers
+      summary: Add / update an answer
+      description: Update or add a new answer
+      operationId: addAnswer
       consumes:
-      - "application/json"
+        - application/json
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: 'id of the quiz'
-        required: true
-        type: string
-      - name: teamName
-        in: path
-        description: 'teamname submitting the answer'
-        required: true
-        type: string
-      - in: "body"
-        name: "body"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/GivenAnswer"
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - name: teamName
+          in: path
+          description: teamname submitting the answer
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/GivenAnswer'
       responses:
-        200:
-          description: "answer submitted"
-
+        '200':
+          description: answer submitted
+  '/quizzes/{id}/startQuiz':
+    post:
+      tags:
+        - Quizzes
+      summary: Starts the quiz
+      description: Starts the quiz with approved teams
+      operationId: startQuiz
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: quizId and teams object for starting the quiz
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: quiz started
+  '/quizzes/{id}/newRound':
+    post:
+      tags:
+        - Quizzes
+      summary: Starts a new round
+      description: Starts a new round with selected categories
+      operationId: startRound
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: teams object for starting the quiz
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: round started
 definitions:
   Category:
-    type: "object"
-    description: "Every question belongs to a category, these are those categories"
+    type: object
+    description: 'Every question belongs to a category, these are those categories'
     properties:
       _id:
-        type: "string"
+        type: string
       name:
-        type: "string"
+        type: string
   Team:
-    type: "object"
-    description: "A quiz is played by multiple teams, this is the team schema."
+    type: object
+    description: 'A quiz is played by multiple teams, this is the team schema.'
     properties:
       _id:
-        type: "string"
+        type: string
       name:
-        type: "string"
+        type: string
       password:
-        type: "string"
-        format: "password"
+        type: string
+        format: password
       picture:
-        type: "string"
+        type: string
   Question:
-    type: "object"
-    description: "The questions in the quiz"
+    type: object
+    description: The questions in the quiz
     properties:
       _id:
-        type: "string"
+        type: string
       question:
-        type: "string"
+        type: string
       answer:
-        type: "string"
+        type: string
       category:
         $ref: '#/definitions/Category'
   Quiz:
-    type: "object"
-    description: "the object housing the entire quiz night"
+    type: object
+    description: the object housing the entire quiz night
     properties:
       _id:
-        type: "string"
+        type: string
       name:
-        type: "string"
+        type: string
       code:
-        type: "string"
+        type: string
       status:
-        type: "string"
-        enum: [Open, Closed, Playing]
+        type: string
+        enum:
+          - Open
+          - Closed
+          - Playing
       teams:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/Team"
+          $ref: '#/definitions/Team'
       rounds:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/Round"
+          $ref: '#/definitions/Round'
   Answer:
-    description: "An answer, given by a team, to a question"
-    type: "object"
+    description: 'An answer, given by a team, to a question'
+    type: object
     properties:
       teamId:
-        type: "string"
+        type: string
       answer:
-        type: "string"
+        type: string
       approved:
-        type: "boolean"
+        type: boolean
       _id:
-        type: "string"
-
+        type: string
   Answers:
-    description: "Answers given to a question"
-    type: "array"
+    description: Answers given to a question
+    type: array
     items:
       $ref: '#/definitions/Answer'
-
   GivenAnswer:
-    description: "Answers given"
-    type: "object"
+    description: Answers given
+    type: object
     properties:
       answer:
         type: string
-
   RoundQuestion:
-    description: "A question as it appears in the quiz object"
-    type: "object"
+    description: A question as it appears in the quiz object
+    type: object
     properties:
       questionId:
-        $ref: "#/definitions/Question"
+        $ref: '#/definitions/Question'
       status:
-        type: "string"
-        enum: [Open, Closed, Queued]
+        type: string
+        enum:
+          - Open
+          - Closed
+          - Queued
       answers:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/Answer"
+          $ref: '#/definitions/Answer'
   Round:
-    description: "Object which holds all the round info in a quiz"
-    type: "object"
+    description: Object which holds all the round info in a quiz
+    type: object
     properties:
-        _id:
-          type: "string"
-        categories:
-          type: "array"
-          items:
-            $ref: "#/definitions/Category"
-          minItems: 0
-          maxItems: 3
-        questions:
-          type: "array"
-          items:
-            $ref: "#/definitions/RoundQuestion"
+      _id:
+        type: string
+      categories:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+        minItems: 0
+        maxItems: 3
+      questions:
+        type: array
+        items:
+          $ref: '#/definitions/RoundQuestion'
   Score:
-    description: "Object which holds score"
-    type: "object"
+    description: Object which holds score
+    type: object
     properties:
-        teamName:
-          type: "string"
-        score:
-          type: "integer"
-
+      teamName:
+        type: string
+      score:
+        type: integer
 externalDocs:
-  description: "Find out more about Quizzer"
-  url: "https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick"
+  description: Find out more about Quizzer
+  url: 'https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick'

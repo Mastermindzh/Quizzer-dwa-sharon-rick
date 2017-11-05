@@ -2,26 +2,26 @@
 var Mockgen = require('../../../mockgen.js');
 var answers = require('./../../../../services/answers.js')
 /**
- * Operations on /quizzes/{id}/{questionId}/{teamName}/answers
+ * Operations on /quizzes/{id}/{questionId}/answers
  */
 module.exports = {
   /**
-   * summary: Add / update an answer
-   * description: Update or add a new answer
-   * parameters: id, questionId, teamName, body
+   * summary: Get all answers in the current quiz for the current quiz
+   * description: Get all answers in the current quiz for the current quiz
+   * parameters: id, questionId
    * produces: application/json
    * responses: 200
-   * operationId: addAnswer
+   * operationId: getAnswerInQuizByQuestionId
    */
-  put: {
+  get: {
     200: function (req, res, callback) {
-      answers.addAnswer(req.params.id, req.params.teamName, req.body).then(
+      answers.getAnswerInQuizByQuestionId(req.params.id, req.params.questionId).then(
         answers => {
+          console.log(answers)
           res.send(answers)
         }
       ).catch(err => {
-        console.log(err);
-        res.status(401).send("object not updated");
+        res.status(404).send("no answers found");
       });
     }
   }
