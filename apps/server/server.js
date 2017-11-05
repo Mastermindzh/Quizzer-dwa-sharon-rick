@@ -174,6 +174,33 @@ App.post('/quizzes/:id/:round/updateQuestion', (req, res)=>{
   })
 })
 
+App.post('/getAvailableQuestions/', (req, res)=>{
+
+  console.log(req.body)
+
+  questions.getAllQuestions().then(questions => {
+
+    questions.forEach(question => {
+      req.body.questions.forEach(myQuestion =>{
+        if(myQuestion == question._id){
+          console.log("matched")
+        }
+      })
+
+      // if(req.body.categories.includes(question.category.toString())){
+
+      // }
+    })
+
+  })
+  // quizzes.updateQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+  //   res.send(200, result)
+  // }).catch(err=>{
+  //   res.send(400, err)
+  // })
+})
+
+
 
 /** example websocket message on team approval */
 App.get('/approve/:quizId', (req,res) => {

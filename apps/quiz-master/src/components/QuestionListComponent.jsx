@@ -32,6 +32,8 @@ class QuestionListComponent extends Component {
 
   handleStartQuestion(event){
     event.preventDefault()
+
+
     this.props.handleStartQuestion(this.state.id);
   }
 

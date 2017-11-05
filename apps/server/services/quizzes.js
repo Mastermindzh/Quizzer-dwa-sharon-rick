@@ -38,8 +38,10 @@ exports.getQuizByCode = function (code) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.updateQuizStatus = function (quizId, teams, status) {
-  console.log("teams for db function: "+teams)
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+  console.log("teams for db function: " + teams)
+  return mongoose.Quiz.findOne({
+    _id: new ObjectId(quizId)
+  }, function (err, quiz) {
     quiz.status = status;
     quiz.teams = teams;
     quiz.save();
@@ -50,13 +52,18 @@ exports.updateQuizStatus = function (quizId, teams, status) {
  * Updates the quiz with a new round + categories beloning to that round.
  */
 exports.newRound = function (quizId, categories) {
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
-    console.log("Quiz found: "+JSON.stringify(quiz))
-    var id = quiz.rounds.length+1
-    var newround = quiz.rounds.create({_id: id, categories: categories})
+  return mongoose.Quiz.findOne({
+    _id: new ObjectId(quizId)
+  }, function (err, quiz) {
+    console.log("Quiz found: " + JSON.stringify(quiz))
+    var id = quiz.rounds.length + 1
+    var newround = quiz.rounds.create({
+      _id: id,
+      categories: categories
+    })
     quiz.rounds.push(newround);
     quiz.markModified('rounds')
-    console.log("new quiz: "+JSON.stringify(quiz))
+    console.log("new quiz: " + JSON.stringify(quiz))
     quiz.save(err => {
       console.log(err);
     });
@@ -99,8 +106,8 @@ exports.getCurrentQuestion = function (id) {
           .then(question => {
             fullfill(question);
           }).catch(err => {
-          reject("no current question")
-        })
+            reject("no current question")
+          })
       })
     }).catch(err => {
       reject("no current question")
@@ -283,12 +290,17 @@ function getEmptyScoreArray(inputTeams) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.addQuestion = function (quizId, roundId, questionId) {
-  console.log("in db function: quiz: "+quizId+" round: "+roundId+" question: "+questionId)
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
-    var question = quiz.rounds[roundId-1].questions.create({questionId: new ObjectId(questionId), status: "Queued"})
-    quiz.rounds[roundId-1].questions.push(question);
-    quiz.markModified(quiz.rounds[roundId-1].questions)
-    quiz.save(err =>{
+  console.log("in db function: quiz: " + quizId + " round: " + roundId + " question: " + questionId)
+  return mongoose.Quiz.findOne({
+    _id: new ObjectId(quizId)
+  }, function (err, quiz) {
+    var question = quiz.rounds[roundId - 1].questions.create({
+      questionId: new ObjectId(questionId),
+      status: "Queued"
+    })
+    quiz.rounds[roundId - 1].questions.push(question);
+    quiz.markModified(quiz.rounds[roundId - 1].questions)
+    quiz.save(err => {
       console.log(err);
     });
   }).exec();
@@ -299,16 +311,31 @@ exports.addQuestion = function (quizId, roundId, questionId) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.updateQuestion = function (quizId, roundId, questionId) {
-  console.log("in db function: quiz: "+quizId+" round: "+roundId+" question: "+questionId)
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
 
-    var question = quiz.rounds[roundId-1].questions.id(questionId)
-    console.log("question I found: "+question)
-    question.status = "Open";
-    //quiz.rounds[roundId-1].questions.push(question);
-    quiz.markModified(quiz.rounds[roundId-1].questions)
-    quiz.save(err =>{
-      console.log(err);
-    });
-  }).exec();
+  return new Promise((resolve, reject) => {
+    getQuiz(quizId).then(quiz => {
+
+      console.log(`roundid: ${roundId}`)
+      var questions = quiz.rounds[roundId - 1].questions
+
+      let currentQuestion = '';
+
+      questions.forEach(question => {
+        if(question.questionId.toString() === questionId){
+          currentQuestion = question;
+        }
+      })
+
+      currentQuestion.status = "Open"
+      quiz.markModified(quiz.rounds[roundId - 1].questions)
+      quiz.save(err => {
+        if(err !== null){
+          reject(err)
+        }else{
+          resolve('yay')
+        }
+      });
+    })
+  })
+
 };

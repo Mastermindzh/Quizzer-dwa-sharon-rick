@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TitleComponent from './shared/TitleComponent'
 import ButtonComponent from './shared/ButtonComponent'
 import QuestionListComponent from './QuestionListComponent'
 import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
-import {Redirect} from 'react-router'
+import { Redirect } from 'react-router'
 import AvailableQuestionsComponent from "./AvailableQuestionsComponent";
 
 
@@ -19,7 +19,7 @@ class EditRoundsComponent extends Component {
       quizQuestions: '',
       roundNumber: '',
       currentQuestions: [],
-      availableQuestions: '',
+      availableQuestions: [],
       fireRedirect: false,
       redirectBack: false
     };
@@ -39,23 +39,23 @@ class EditRoundsComponent extends Component {
 
   loadAvailableQuestions() {
     if (this.state.roundNumber !== '') {
-      //get available questions
-      axios.get(config.backend + '/questions').then(data => {
-        let questions = data.data.filter(question => {
-          return !(this.state.categories.includes(question.category) || this.state.quizQuestions.includes(question.category))
+      this.setState({ availableQuestions: [] }, () => {
+        axios.get(config.backend + '/questions').then(data => {
+          let questions = []
+          data.data.forEach(question => {
+            if (!(this.state.quizQuestions.includes(question._id) || this.state.categories.includes(question.category))) {
+              questions.push(question)
+            }
+          })
+
+          this.setState({ availableQuestions: questions })
+        }).catch(error => {
+          console.log("error: " + error);
         })
-
-        this.setState({availableQuestions: questions})
-      }).catch(error => {
-        console.log("error: " + error);
       })
-
-
     } else {
       alert("This quiz has no rounds yet, go create one!")
     }
-
-
   }
 
   componentDidMount() {
@@ -66,32 +66,28 @@ class EditRoundsComponent extends Component {
       var questions = data.data.rounds[currentRound - 1].questions.map(question => {
         return question;
       });
-      //get all questions in rounds
-      if (data.data.rounds.questions !== []) {
-        var quizQuestions = data.data.rounds.map(round => {
-          round.questions.map(question => {
-            return question.questionId
-          })
+
+      let quizQuestions = [];
+      data.data.rounds.forEach(round => {
+        round.questions.forEach(question => {
+          quizQuestions.push(question.questionId)
         })
-        this.setState({
-          roundNumber: currentRound,
-          currentQuestions: questions,
-          categories: data.data.rounds[currentRound - 1].categories,
-          quizQuestions: quizQuestions
-        }, this.loadAvailableQuestions)
-      } else {
-        this.loadAvailableQuestions();
-      }
+      })
+
+      this.setState({
+        roundNumber: currentRound,
+        currentQuestions: questions,
+        categories: data.data.rounds[currentRound - 1].categories,
+        quizQuestions: quizQuestions
+      }, this.loadAvailableQuestions)
     }).catch(error => {
       console.log("error: " + error);
     });
-
-
   }
 
   updateState(state) {
     new Promise((fullfill, reject) => {
-      this.setState({quizId: state.quizId}, function () {
+      this.setState({ quizId: state.quizId }, function () {
         fullfill();
       })
     })
@@ -99,14 +95,13 @@ class EditRoundsComponent extends Component {
   }
 
   handleAddQuestion(question) {
-    console.log("question: " + question)
     if (this.state.currentQuestions.length === 12) {
       alert("You can only have 12 questions in a round");
     } else {
       axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/addQuestion',
-        {question: question}
+        { question: question }
       ).then(response => {
-        console.log("in add question response: "+JSON.stringify(response.data))
+        console.log("in add question response: " + JSON.stringify(response.data))
 
 
         axios.get(config.backend + '/quizzes/' + this.state.quizId).then(data => {
@@ -116,10 +111,9 @@ class EditRoundsComponent extends Component {
             return question;
           });
 
-
-
-          this.setState({currentQuestions: questions})
-          this.loadAvailableQuestions()
+          this.setState({ currentQuestions: questions, availableQuestions: [] }, () => {
+            this.setState({redirectBack: true})
+          })
           console.log(JSON.stringify(this.state.currentQuestions))
         })
 
@@ -138,15 +132,14 @@ class EditRoundsComponent extends Component {
 
   handleStartQuestion(questionId) {
     var myPromise = new Promise((resolve, reject) => {
-      console.log("==> currentqs: "+JSON.stringify(this.state.currentQuestion))
+      console.log("==> currentqs: " + JSON.stringify(this.state.currentQuestions))
       this.state.currentQuestions.forEach(question => {
         if (question.status.toLowerCase() === 'open') {
           console.log("====found one====")
           resolve(true);
         }
       });
-      console.log("something went wrong here...")
-      reject(false)
+      resolve(false)
     });
 
     myPromise.then(response => {
@@ -155,31 +148,20 @@ class EditRoundsComponent extends Component {
         alert("Another question is being played, you can't start a new one right now.")
       } else {
 
-        //todo set it in the database
-        //todo websocket message fired
-        //todo redirect to current question screen
-
-        axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/addQuestion',
-          {question: questionId}
-        ).then(response => {
-          console.log("in update question response")
-          // this.setState({fireRedirect: true})
-        }).catch(error => {
-          console.log("error: " + error);
-          alert("something went wrong");
-        })
-
-
+        axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/updateQuestion', { question: questionId })
+          .then(response => {
+            this.setState({ redirectBack: true })
+          }).catch(err => {
+            alert(err)
+          })
       }
     })
-
-
   }
 
 
   redirectBack(event) {
     event.preventDefault()
-    this.setState({redirectBack: true});
+    this.setState({ redirectBack: true });
   }
 
 
@@ -188,25 +170,25 @@ class EditRoundsComponent extends Component {
     return (
       <div className="container-full">
         {this.state.redirectBack && (
-          <Redirect to={'/'}/>
-        )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'}/>)}
-        <TitleComponent title="Quizzer - Edit Rounds"/>
+          <Redirect to={'/'} />
+        )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'} />)}
+        <TitleComponent title="Quizzer - Edit Rounds" />
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
         <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
           {this.state.currentQuestions && this.state.currentQuestions.map((question, i) => {
             return <QuestionListComponent key={i} id={question.questionId} status={question.status}
-                                          handleStartQuestion={this.handleStartQuestion.bind(this)}/>
+              handleStartQuestion={this.handleStartQuestion.bind(this)} />
           })}
         </div>
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
           {this.state.availableQuestions && this.state.availableQuestions.map((question, i) => {
             return <AvailableQuestionsComponent key={i} id={question._id} question={question.question}
-                                                handleAddQuestion={this.handleAddQuestion.bind(this)}/>
+              handleAddQuestion={this.handleAddQuestion.bind(this)} />
           })}
-          <ButtonComponent path={"/"} text={"Add Selected Question"}/>
+          <ButtonComponent path={"/"} text={"Add Selected Question"} />
         </div>
       </div>
 
