@@ -292,6 +292,28 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
+  '/quizzes/{id}/answers':
+    get:
+      tags:
+        - Answers
+      summary: Get all answers in the current quiz for the current question
+      description: Get all answers in the current quiz for the current quiz
+      operationId: getCurrentAnswers
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Answers fetched
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
   '/quizzes/{id}/{teamId}/currentAnswer':
     get:
       tags:
@@ -319,7 +341,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
-  '/quizzes/{id}/{teamName}/answers':
+  '/quizzes/{id}/answers/{teamName}/':
     put:
       tags:
         - Answers
