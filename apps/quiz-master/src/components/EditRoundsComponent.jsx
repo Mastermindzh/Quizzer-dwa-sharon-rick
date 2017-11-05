@@ -62,18 +62,27 @@ class EditRoundsComponent extends Component {
       console.log(this.state.categories)
     }).catch(error => {
       console.log("error: " + error);
-
     });
-    //get available questions
-    axios.get(config.backend + '/questions').then(data => {
-      let questions = data.data.filter(question => {
-        return !(this.state.categories.includes(question.category) || this.state.quizQuestions.includes(question.category))
+
+
+    if(this.state.roundNumber !==''){
+      //get available questions
+      axios.get(config.backend + '/questions').then(data => {
+        let questions = data.data.filter(question => {
+          return !(this.state.categories.includes(question.category) || this.state.quizQuestions.includes(question.category))
+        })
+
+        this.setState({availableQuestions: questions})
+      }).catch(error => {
+        console.log("error: " + error);
       })
 
-      this.setState({availableQuestions: questions})
-    }).catch(error => {
-      console.log("error: " + error);
-    })
+
+    } else{
+      alert("This quiz has no rounds yet, go create one!")
+    }
+
+
 
   }
 
@@ -106,6 +115,14 @@ class EditRoundsComponent extends Component {
     }
   }
 
+  handleStartQuestion(questionId){
+    var otherQIsPlaying = this.state.currentQuestions.
+    //todo check if there is no other playing question
+    //todo set it in the database
+    //todo websocket message fired
+    //todo redirect to current question screen
+  }
+
 
   redirectBack(event) {
     event.preventDefault()
@@ -118,14 +135,14 @@ class EditRoundsComponent extends Component {
     return (
       <div className="container-full">
         {this.state.redirectBack && (
-          <Redirect to={'/editQuizz'}/>
-        )}
+          <Redirect to={'/'}/>
+        )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'} />)}
         <TitleComponent title="Quizzer - Edit Rounds"/>
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
           {this.state.currentQuestions && this.state.currentQuestions.map((question, i) => {
-            return <QuestionListComponent key={i} id={question.questionId} status={question.status}/>
+            return <QuestionListComponent key={i} id={question.questionId} status={question.status} handleStartQuestion={this.handleStartQuestion.bind(this)}/>
           })}
         </div>
         <div className="col-md-8 wobbly-border">

@@ -30,6 +30,11 @@ class QuestionListComponent extends Component {
 
   }
 
+  handleStartQuestion(event){
+    event.preventDefault()
+    this.props.handleStartQuestion(this.state.id);
+  }
+
   componentDidMount(){
 
   }
@@ -40,7 +45,7 @@ class QuestionListComponent extends Component {
       <div>
         <BoxComponent>
           <p>{this.state.question}</p>
-          {!this.state.closed && !this.state.playing && <button className='btn btn-large wobbly-border dashed thin' >
+          {!this.state.closed && !this.state.playing && <button className='btn btn-large wobbly-border dashed thin' onClick={this.handleStartQuestion.bind(this)}>
             Start
           </button>}
         </BoxComponent>
