@@ -21,8 +21,6 @@ class ViewAppliedTeamsComponent extends Component {
     };
     this.socket = '';
     store.subscribe(() => {
-      console.log("root state updated, update local accordingly   ")
-      console.log(store.getState())
       this.updateState(store.getState());
     })
     this.updateState = this.updateState.bind(this);
@@ -31,7 +29,6 @@ class ViewAppliedTeamsComponent extends Component {
 
   componentDidMount() {
     this.updateState(store.getState());
-    console.log("root state: " + JSON.stringify(store.getState()))
   }
 
   /**

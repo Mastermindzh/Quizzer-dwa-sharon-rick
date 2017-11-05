@@ -38,8 +38,10 @@ exports.getQuizByCode = function (code) {
  * @param req, request object that contains the id and data of the quiz that has to be updated.
  */
 exports.updateQuizStatus = function (quizId, teams, status) {
-  console.log("teams for db function: "+teams)
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+  console.log("teams for db function: " + teams)
+  return mongoose.Quiz.findOne({
+    _id: new ObjectId(quizId)
+  }, function (err, quiz) {
     quiz.status = status;
     quiz.teams = teams;
     quiz.save();
@@ -50,13 +52,18 @@ exports.updateQuizStatus = function (quizId, teams, status) {
  * Updates the quiz with a new round + categories beloning to that round.
  */
 exports.newRound = function (quizId, categories) {
-  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
-    console.log("Quiz found: "+JSON.stringify(quiz))
-    var id = quiz.rounds.length+1
-    var newround = quiz.rounds.create({_id: id, categories: categories})
+  return mongoose.Quiz.findOne({
+    _id: new ObjectId(quizId)
+  }, function (err, quiz) {
+    console.log("Quiz found: " + JSON.stringify(quiz))
+    var id = quiz.rounds.length + 1
+    var newround = quiz.rounds.create({
+      _id: id,
+      categories: categories
+    })
     quiz.rounds.push(newround);
     quiz.markModified('rounds')
-    console.log("new quiz: "+JSON.stringify(quiz))
+    console.log("new quiz: " + JSON.stringify(quiz))
     quiz.save(err => {
       console.log(err);
     });
@@ -99,8 +106,8 @@ exports.getCurrentQuestion = function (id) {
           .then(question => {
             fullfill(question);
           }).catch(err => {
-          reject("no current question")
-        })
+            reject("no current question")
+          })
       })
     }).catch(err => {
       reject("no current question")
@@ -168,6 +175,7 @@ function getFinishedRounds(quiz) {
 
   return quiz.rounds
 }
+
 
 
 /**
@@ -278,7 +286,39 @@ function getEmptyScoreArray(inputTeams) {
   return teams
 }
 
+/**
+ * judge
+ * @param {*} quizId
+ * @param {*} teamId
+ * @param {*} judgement
+ */
+function judge(quizId, teamId, judgement) {
+  return new Promise((resolve, reject) => {
 
+    getQuiz(quizId).then(quiz => {
+      let quizRound = getCurrentRound(quiz);
+      let currentQuestion = getCurrentDbQuestion(quiz)
 
+      Promise.all([quizRound, currentQuestion]).then(response => {
+        let answers = quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers;
 
+        answers.forEach(answer => {
+          if(answer.teamId.toString() === teamId.toString()){
+            answer.approved = judgement;
+          }
+        })
 
+        quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers = answers
+
+        quiz.save(function (err, result) {
+          if (err) console.log(err)
+          resolve('judged')
+        })
+      }).catch(err => {
+        reject("no such question")
+      })
+    })
+  })
+}
+
+exports.judge = judge

@@ -372,6 +372,30 @@ paths:
       responses:
         '200':
           description: answer submitted
+  '/quizzes/{id}/judge/':
+    put:
+      summary: judge the current question
+      description: judge the current question
+      operationId: judgeQuestion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Judgement'
+      responses:
+        '200':
+          description: answer submitted
   '/quizzes/{id}/startQuiz':
     post:
       tags:
@@ -549,6 +573,14 @@ definitions:
         type: string
       score:
         type: integer
+  Judgement:
+    description: judgement
+    type: object
+    properties:
+      teamId:
+        type: string
+      judgement:
+        type: boolean
 externalDocs:
   description: Find out more about Quizzer
   url: 'https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick'
