@@ -15,7 +15,7 @@ module.exports = {
    */
   post: {
     200: function (req, res, callback) {
-      quizzes.updateQuizStatus(req.params.quizId, req.body.teams, "Playing").then(quiz => {
+      quizzes.updateQuizStatus(req.params.id, req.body.teams, "Playing").then(quiz => {
         res.send(quiz._id)
       }).catch(err => {
         console.log(err);
