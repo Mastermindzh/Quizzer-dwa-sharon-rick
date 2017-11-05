@@ -57,10 +57,14 @@ Use the following credentials:
 - 1234
 - [images/team2.png](images/team2.png)
 
-### 2. Create a quiz
+- sharon
+- 1234
+- [images/team1.png](images/team1.png)
+
+### 2. Create a quiz with code - quizzer
 ### 3. Apply both teams for the quiz
 ### 4. Accept both teams for the quiz
-### 5. Show that both team apps have started
+### 5. Show that both team apps have started -> NO! websocket message is not send, send it from quizmaster ViewAppliedTeamsComponent.
 ### 6. Start the quizz
 ### 7. Select 3 categories
 ### 8. Start round

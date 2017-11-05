@@ -1,18 +1,18 @@
 module.exports = data = {
   teams: [
     {
-      name: 'Team1',
+      name: 'Team Sharon',
       password: '1234',
       picture: 'seeddata.jpeg'
     },
     {
-      name: 'Team2',
-      password: '1a2b',
+      name: 'Team Rick',
+      password: '1234',
       picture: 'seeddata.jpeg'
     },
     {
       name: 'Team3',
-      password: 'abcd',
+      password: '1234',
       picture: 'seeddata.jpeg'
     }
   ],
@@ -4028,40 +4028,40 @@ module.exports = data = {
       categories: [], //just add 3 random categories for testing purposes
       questions: [{
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }, {
         status: "Closed",
-        answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
+        answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
       }]
     }, {
       _id: 2,
@@ -4071,52 +4071,82 @@ module.exports = data = {
         status: "Closed",
         answers: [
           //add team manually
-          {answer: "a", approved:false}, {answer: "ab", approved:true}
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
+        ]
+      }, {
+        //add id manually
+        status: "Closed",
+        answers: [
+          //add team manually
+          {answer: "a", approved: false}, {answer: "ab", approved: true}
         ]
       },
         {
           status: "Open",
-          answers: [{answer: "a", approved:false}, {answer: "ab", approved:true}]
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
-        },
-        {
-          status: "Queued",
-          answers: []
+          answers: [{answer: "a", approved: false}, {answer: "ab", approved: true}]
         }
       ]
     }]
