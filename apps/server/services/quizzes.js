@@ -45,6 +45,18 @@ exports.updateQuizStatus = function (quizId, teams, status) {
   }).exec();
 };
 
+/**
+ * Updates the quiz with a new round + categories beloning to that round.
+ */
+exports.newRound = function (quizId, categories) {
+  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+    var newround = quiz.rounds.create({categories: categories})
+    quiz.rounds.push(newround);
+    console.log(JSON.stringify(quiz))
+    quiz.save();
+  }).exec();
+};
+
 
 /**
  * Create a new quiz with the data provided in req param.

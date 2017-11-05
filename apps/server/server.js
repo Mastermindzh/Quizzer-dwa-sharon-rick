@@ -132,6 +132,16 @@ App.post('/startQuiz', (req, res) => {
 
 })
 
+App.post('/newRound', (req, res) => {
+  quizzes.newRound(req.body.quizId, req.body.categories).then(quiz => {
+    console.log("quiz with new round: "+JSON.stringify(quiz))
+    res.send(quiz._id)
+  }).catch(err => {
+    console.log(err);
+    res.status(401).send("not authorized.")
+  })
+})
+
 /**
  * Login to the current quiz (will give you the answer back)
  */

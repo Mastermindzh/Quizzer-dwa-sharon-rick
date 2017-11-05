@@ -5,7 +5,8 @@ var appState = {
   currentQuestion: {},
   quizId: '',
   teamName: '',
-  teams: []
+  teams: [],
+  selectedCategories: []
 }
 
 export default function rootReducer(state = appState, action) {
@@ -16,10 +17,14 @@ export default function rootReducer(state = appState, action) {
         teams: state.teams.concat(action.payload)
       };
     case actions.QUIZID:
-      console.log("actions.QUIZID , NEW ID: " + action.payload)
       return {
         ...state,
         quizId: action.payload
+      };
+    case actions.ADD_CATEGORY:
+      return {
+        ...state,
+        selectedCategories: state.selectedCategories.concat(action.payload)
       };
     default:
       return state;
