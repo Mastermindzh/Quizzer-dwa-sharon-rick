@@ -6,11 +6,17 @@ var appState = {
   quizId: '',
   teamName: '',
   teams: [],
+  loggedIn: false,
   selectedCategories: []
 }
 
 export default function rootReducer(state = appState, action) {
   switch (action.type) {
+    case actions.LOGIN:
+      return { ...state,
+        quizId: action.payload,
+        loggedIn: true,
+      }
     case actions.ADD_TEAM:
       return {
         ...state,
@@ -25,6 +31,11 @@ export default function rootReducer(state = appState, action) {
       return {
         ...state,
         selectedCategories: state.selectedCategories.concat(action.payload)
+      };
+    case actions.CLEAR_CATEGORIES:
+      return {
+        ...state,
+        selectedCategories: []
       };
     default:
       return state;

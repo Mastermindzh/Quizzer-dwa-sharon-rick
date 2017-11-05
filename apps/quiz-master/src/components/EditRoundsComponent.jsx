@@ -18,7 +18,7 @@ class EditRoundsComponent extends Component {
       categories: '',
       quizQuestions: '',
       roundNumber: '',
-      currentQuestions: '',
+      currentQuestions: [],
       availableQuestions: '',
       fireRedirect: false,
       redirectBack: false
@@ -38,33 +38,7 @@ class EditRoundsComponent extends Component {
   }
 
 
-  componentDidMount() {
-    console.log("quizid: " + this.state.quizId)
-    axios.get(config.backend + '/quizzes/' + this.state.quizId).then(data => {
-      var currentRound = data.data.rounds.length;
-      //get current round questions
-      var questions = data.data.rounds[currentRound - 1].questions.map(question => {
-        return question;
-      });
-      //get all questions in rounds
-      var quizQuestions = data.data.rounds.map(round => {
-        round.questions.map(question => {
-          return question.questionId
-        })
-      })
-
-      this.setState({
-        roundNumber: currentRound,
-        currentQuestions: questions,
-        categories: data.data.rounds[currentRound - 1].categories,
-        quizQuestions: quizQuestions
-      })
-      console.log(this.state.categories)
-    }).catch(error => {
-      console.log("error: " + error);
-    });
-
-
+  loadAvailableQuestions() {
     if (this.state.roundNumber !== '') {
       //get available questions
       axios.get(config.backend + '/questions').then(data => {
@@ -81,6 +55,37 @@ class EditRoundsComponent extends Component {
     } else {
       alert("This quiz has no rounds yet, go create one!")
     }
+
+
+  }
+
+  componentDidMount() {
+    console.log("quizid: " + this.state.quizId)
+    axios.get(config.backend + '/quizzes/' + this.state.quizId).then(data => {
+      var currentRound = data.data.rounds.length;
+      //get current round questions
+      var questions = data.data.rounds[currentRound - 1].questions.map(question => {
+        return question;
+      });
+      //get all questions in rounds
+      if (data.data.rounds.questions !== []) {
+        var quizQuestions = data.data.rounds.map(round => {
+          round.questions.map(question => {
+            return question.questionId
+          })
+        })
+        this.setState({
+          roundNumber: currentRound,
+          currentQuestions: questions,
+          categories: data.data.rounds[currentRound - 1].categories,
+          quizQuestions: quizQuestions
+        }, this.loadAvailableQuestions)
+      } else {
+        this.loadAvailableQuestions();
+      }
+    }).catch(error => {
+      console.log("error: " + error);
+    });
 
 
   }
@@ -102,11 +107,29 @@ class EditRoundsComponent extends Component {
       axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/addQuestion',
         {question: question}
       ).then(response => {
-        console.log("in add question response")
-        this.setState({fireRedirect: true})
+        console.log("in add question response: "+JSON.stringify(response.data))
+
+
+        axios.get(config.backend + '/quizzes/' + this.state.quizId).then(data => {
+          var currentRound = data.data.rounds.length;
+          //get current round questions
+          var questions = data.data.rounds[currentRound - 1].questions.map(question => {
+            return question;
+          });
+
+
+          this.setState({currentQuestions: questions})
+          console.log(JSON.stringify(this.state.currentQuestions))
+        })
+
+
+        //todo rerender available stuff
+        //todo why has it decided to add other questions than I selected
+
+
       }).catch(error => {
         console.log("error: " + error);
-        alert("something went wrong");
+        alert("Something went wrong.");
       })
 
 
@@ -114,18 +137,40 @@ class EditRoundsComponent extends Component {
   }
 
   handleStartQuestion(questionId) {
-    var otherQIsPlaying = this.state.currentQuestions.forEach(question => {
-      if (question.status === 'Open') {
-        console.log("other q is playing, so this is not allowed.")
-        return true;
+    var myPromise = new Promise((resolve, reject) => {
+      this.state.currentQuestions.forEach(question => {
+        if (question.status.toLowerCase() === 'open') {
+          resolve(true);
+        }
+      });
+      reject(false)
+    });
+
+    myPromise.then(response => {
+      if (response[0]) {
+        console.log("other q is playing, so this is not allowed.");
+        alert("Another question is being played, you can't start a new one right now.")
+      } else {
+
+        //todo set it in the database
+        //todo websocket message fired
+        //todo redirect to current question screen
+
+        axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/addQuestion',
+          {question: questionId}
+        ).then(response => {
+          console.log("in update question response")
+          // this.setState({fireRedirect: true})
+        }).catch(error => {
+          console.log("error: " + error);
+          alert("something went wrong");
+        })
+
+
       }
     })
 
-    console.log(otherQIsPlaying)
-    //todo check if there is no other playing question
-    //todo set it in the database
-    //todo websocket message fired
-    //todo redirect to current question screen
+
   }
 
 
@@ -144,6 +189,7 @@ class EditRoundsComponent extends Component {
         )}{this.state.fireRedirect && (<Redirect to={'/editQuizz'}/>)}
         <TitleComponent title="Quizzer - Edit Rounds"/>
         <h2 className="text-center">Round {this.state.roundNumber}</h2>
+        <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
         <div className="col-md-4 wobbly-border">
           <p>Current Questions</p>
           {this.state.currentQuestions && this.state.currentQuestions.map((question, i) => {
@@ -159,7 +205,6 @@ class EditRoundsComponent extends Component {
           })}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>
-        <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
       </div>
 
     );

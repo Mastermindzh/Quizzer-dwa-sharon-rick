@@ -293,3 +293,22 @@ exports.addQuestion = function (quizId, roundId, questionId) {
     });
   }).exec();
 };
+
+/**
+ * Update a question in the round in the quiz provided
+ * @param req, request object that contains the id and data of the quiz that has to be updated.
+ */
+exports.updateQuestion = function (quizId, roundId, questionId) {
+  console.log("in db function: quiz: "+quizId+" round: "+roundId+" question: "+questionId)
+  return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
+
+    var question = quiz.rounds[roundId-1].questions.id(questionId)
+    console.log("question I found: "+question)
+    question.status = "Open";
+    //quiz.rounds[roundId-1].questions.push(question);
+    quiz.markModified(quiz.rounds[roundId-1].questions)
+    quiz.save(err =>{
+      console.log(err);
+    });
+  }).exec();
+};

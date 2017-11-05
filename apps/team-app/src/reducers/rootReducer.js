@@ -2,7 +2,7 @@ import actions from './actions.js'
 
 var appState = {
   backendUrl: 'http://localhost:8001',
-  currentQuestion: {},
+  currentQuestion: 'No question yet',
   quizId: '',
   teamName: ''
 }

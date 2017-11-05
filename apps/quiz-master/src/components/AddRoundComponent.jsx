@@ -5,6 +5,7 @@ import RowComponent from "./shared/RowComponent";
 import CategoriesComponent from "./CategoriesComponent";
 import AvailableCategoriesComponent from "./AvailableCategoriesComponent";
 import {Redirect} from 'react-router'
+import actions from '../reducers/actions.js'
 
 import store from "../store/RootStore";
 import axios from "axios"
@@ -112,6 +113,7 @@ class AddRoundComponent extends Component {
       this.state.selectedCategories
     ).then(response => {
       console.log(response);
+      store.dispatch({type: actions.CLEAR_CATEGORIES, payload: ''})
       this.setState({fireRedirect: true})
     }).catch(error => {
       console.log("error: " + error);
