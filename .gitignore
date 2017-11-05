@@ -82,4 +82,4 @@ apps/*/src/components/shared
 
 # ignore everything except the folder itself
 apps/server/images/*
-!apps/server/images/.gitinclude
+!apps/server/images/seeddata.jpeg
