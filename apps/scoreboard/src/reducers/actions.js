@@ -4,6 +4,7 @@ const UPDATE_TABLE = "update-table"
 const UPDATE_CHART = "update-chart"
 const FIRE_FIRST_LOGIN = "fire-first-login"
 const FIRE_WINNER = "fire-winner"
+const NEW_ANSWER = "new-answer"
 
 module.exports = {
   LOGIN,
@@ -11,5 +12,6 @@ module.exports = {
   UPDATE_TABLE,
   UPDATE_CHART,
   FIRE_FIRST_LOGIN,
-  FIRE_WINNER
+  FIRE_WINNER,
+  NEW_ANSWER
 }
