@@ -177,6 +177,7 @@ function getFinishedRounds(quiz) {
 }
 
 
+
 /**
  * Get current quiz score
  */
@@ -339,3 +340,74 @@ exports.updateQuestion = function (quizId, roundId, questionId) {
   })
 
 };
+
+/*
+ * judge
+ * @param {*} quizId
+ * @param {*} teamId
+ * @param {*} judgement
+ */
+function judge(quizId, teamId, judgement) {
+  return new Promise((resolve, reject) => {
+
+    getQuiz(quizId).then(quiz => {
+      let quizRound = getCurrentRound(quiz);
+      let currentQuestion = getCurrentDbQuestion(quiz)
+
+      Promise.all([quizRound, currentQuestion]).then(response => {
+        let answers = quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers;
+
+        answers.forEach(answer => {
+          if (answer.teamId.toString() === teamId.toString()) {
+            answer.approved = judgement;
+          }
+        })
+
+        quiz.rounds.id(response[0]._id).questions.id(response[1]._id).answers = answers
+
+        quiz.save(function (err, result) {
+          if (err) console.log(err)
+          resolve('judged')
+        })
+      }).catch(err => {
+        reject("no such question")
+      })
+    })
+  })
+}
+
+exports.judge = judge
+
+function closeQuiz(quizId) {
+  return new Promise((resolve, reject) => {
+    getQuiz(quizId).then(quiz => {
+      quiz.status = "Closed"
+      quiz.save(function (err, result) {
+        resolve('closed')
+      })
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+exports.closeQuiz = closeQuiz
+
+function closeCurrentQuestion(quizId) {
+  return new Promise((resolve, reject) => {
+    getQuiz(quizId).then(quiz => {
+      getCurrentDbQuestion(quiz).then(question => {
+        question.status = "Closed";
+        quiz.save(function (err, result) {
+          resolve('closed')
+        })
+      }).catch(err => {
+        reject(err)
+      })
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
+exports.closeCurrentQuestion = closeCurrentQuestion

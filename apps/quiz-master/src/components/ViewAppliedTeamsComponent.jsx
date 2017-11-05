@@ -6,6 +6,7 @@ import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
 import {Redirect} from 'react-router'
+import socketIOClient from "socket.io-client";;
 
 
 class ViewAppliedTeamsComponent extends Component {
@@ -21,8 +22,6 @@ class ViewAppliedTeamsComponent extends Component {
     };
     this.socket = '';
     store.subscribe(() => {
-      console.log("root state updated, update local accordingly   ")
-      console.log(store.getState())
       this.updateState(store.getState());
     })
     this.updateState = this.updateState.bind(this);
@@ -31,7 +30,6 @@ class ViewAppliedTeamsComponent extends Component {
 
   componentDidMount() {
     this.updateState(store.getState());
-    console.log("root state: " + JSON.stringify(store.getState()))
   }
 
   /**
@@ -44,21 +42,19 @@ class ViewAppliedTeamsComponent extends Component {
 
   startQuiz(event) {
     event.preventDefault()
-    console.log("=====should be starting quizz now with id:" + this.state.quizId + " and teams: " + JSON.stringify(this.state.approvedTeams))
     axios.post(config.backend + '/quizzes/' + this.state.quizId + '/startQuiz',
       this.state.approvedTeams
-
     ).then(response => {
+      //todo send websocket message here
+
       this.setState({fireRedirect: true})
     }).catch(error => {
-      console.log("error: " + error);
-      alert("something went wrong");
+      alert("something went wrong: "+error);
     })
 
   }
   approvedTeamHandler(event, teams) {
     event.preventDefault()
-    console.log("in approved team handler")
     this.setState({approvedTeams: this.state.approvedTeams.concat(teams)})
   }
 
@@ -68,8 +64,6 @@ class ViewAppliedTeamsComponent extends Component {
   }
 
   render() {
-    console.log(this.state.approvedTeams)
-
     return (
 
       <div className="container-full">

@@ -63,10 +63,12 @@ class PlayComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    let url = config.backend + '/quizzes/' + this.state.quizId + "/" + this.state.teamName + "/answers";
+    let url = config.backend + '/quizzes/' + this.state.quizId + "/answers" + "/" + this.state.teamName;
     axios.put(url, { answer: this.state.answer }).then(response => {
       this.setState({ answer: '', showSucces: true })
       this.answerInput.value = ""
+      // let server broadcast
+      axios.get(config.backend + '/newAnswer/' + this.state.quizId)
     }).catch(err => {
       this.setState({ showSucces: false })
       alert('something went wrong')

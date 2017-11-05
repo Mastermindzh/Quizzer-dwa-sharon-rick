@@ -75,6 +75,27 @@ App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
 
+App.get('/newAnswer/:quizId', (req, res) => {
+  io.emit('new-answer', {
+    quizId: req.params.quizId
+  })
+  res.send('new testanswer fired')
+});
+
+App.get('/close/:quizId', (req, res) => {
+  io.emit('quiz-end', {
+    quizId: req.params.quizId
+  })
+  res.send('quiz close fired')
+});
+
+App.get('/closeQuestion/:quizId', (req, res) => {
+  io.emit('update-table', {
+    quizId: req.params.quizId
+  })
+  res.send('question closed fired')
+});
+
 /**
  * Route to apply for a quiz
  */
@@ -84,13 +105,7 @@ App.get('/quizzes/:quizId/:teamName/apply', (req, res) => {
   })
 })
 
-
-App.get('/newAnswer', (req, res) => {
-  io.emit('new-answer', {
-    quizId: QUIZIDFORTESTMESSAGES
-  })
-  res.send('new testanswer fired')
-});
+// TEST ENDPOINTS (endpoints above are good!)
 
 App.get('/questionEnd', (req, res) => {
   io.emit('question-end', {
@@ -129,8 +144,6 @@ App.get('/previouslyPlayedCategories/:quizId', (req, res) => {
         playedCategories.push(category)
       })
     })
-
-
     res.send(playedCategories);
   }).catch(err => {
     res.send(err);
@@ -173,33 +186,6 @@ App.post('/quizzes/:id/:round/updateQuestion', (req, res)=>{
     res.send(400, err)
   })
 })
-
-App.post('/getAvailableQuestions/', (req, res)=>{
-
-  console.log(req.body)
-
-  questions.getAllQuestions().then(questions => {
-
-    questions.forEach(question => {
-      req.body.questions.forEach(myQuestion =>{
-        if(myQuestion == question._id){
-          console.log("matched")
-        }
-      })
-
-      // if(req.body.categories.includes(question.category.toString())){
-
-      // }
-    })
-
-  })
-  // quizzes.updateQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
-  //   res.send(200, result)
-  // }).catch(err=>{
-  //   res.send(400, err)
-  // })
-})
-
 
 
 /** example websocket message on team approval */

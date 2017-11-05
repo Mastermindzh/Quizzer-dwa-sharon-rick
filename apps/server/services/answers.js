@@ -29,9 +29,25 @@ exports.getAnswerInQuizByQuestionId = function (quizId, questionId) {
   })
 };
 
+exports.getCurrentAnswers = function (quizId) {
+  return new Promise((fullfill, reject) => {
+    console.log('hellos')
+    quizzes.getQuiz(quizId).then(quiz => {
+      console.log('hellos 2')
+      quizzes.getCurrentDbQuestion(quiz).then(response => {
+        fullfill(response.answers)
+      }).catch(err => {
+        reject("can't find answers")
+      })
+    }).catch(err => {
+      reject('no such quiz')
+    })
+  })
+}
+
 exports.addAnswer = (id, teamName, body) => {
   return new Promise(function (fulfill, reject) {
-    if(!body.answer.trim()){
+    if (!body.answer.trim()) {
       reject('answer is empty')
     }
     teams.getTeamByName(teamName).then(team => {

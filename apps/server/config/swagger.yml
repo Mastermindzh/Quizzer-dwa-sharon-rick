@@ -292,6 +292,28 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
+  '/quizzes/{id}/answers':
+    get:
+      tags:
+        - Answers
+      summary: Get all answers in the current quiz for the current question
+      description: Get all answers in the current quiz for the current quiz
+      operationId: getCurrentAnswers
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Answers fetched
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Answer'
   '/quizzes/{id}/{teamId}/currentAnswer':
     get:
       tags:
@@ -319,7 +341,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Answer'
-  '/quizzes/{id}/{teamName}/answers':
+  '/quizzes/{id}/answers/{teamName}/':
     put:
       tags:
         - Answers
@@ -347,6 +369,62 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/GivenAnswer'
+      responses:
+        '200':
+          description: answer submitted
+  '/quizzes/{id}/close':
+    get:
+      summary: close quiz
+      description: close quiz
+      operationId: closeQuiz
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: quiz closed
+  '/quizzes/{id}/closeCurrentQuestion':
+    get:
+      summary: close the current question
+      description: close the current question
+      operationId: closeCurrentQuiz
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+      responses:
+        '200':
+          description: quiz closed
+  '/quizzes/{id}/judge/':
+    put:
+      summary: judge the current question
+      description: judge the current question
+      operationId: judgeQuestion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id of the quiz
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Judgement'
       responses:
         '200':
           description: answer submitted
@@ -527,6 +605,14 @@ definitions:
         type: string
       score:
         type: integer
+  Judgement:
+    description: judgement
+    type: object
+    properties:
+      teamId:
+        type: string
+      judgement:
+        type: boolean
 externalDocs:
   description: Find out more about Quizzer
   url: 'https://github.com/HANICA-DWA/fall2017-quizz-SharonEnRick'
