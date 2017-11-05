@@ -50,10 +50,14 @@ exports.updateQuizStatus = function (quizId, teams, status) {
  */
 exports.newRound = function (quizId, categories) {
   return mongoose.Quiz.findOne({_id: new ObjectId(quizId)}, function (err, quiz) {
-    var newround = quiz.rounds.create({categories: categories})
+    var id = quiz.rounds.length+1
+    var newround = quiz.rounds.create({_id: id, categories: categories})
     quiz.rounds.push(newround);
+    quiz.markModified('rounds')
     console.log(JSON.stringify(quiz))
-    quiz.save();
+    quiz.save(err => {
+      console.log(err);
+    });
   }).exec();
 };
 

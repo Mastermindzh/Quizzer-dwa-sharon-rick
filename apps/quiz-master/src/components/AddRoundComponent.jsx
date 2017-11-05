@@ -9,6 +9,7 @@ import {Redirect} from 'react-router'
 import store from "../store/RootStore";
 import axios from "axios"
 import config from '../config.js'
+
 // import actions from '../reducers/actions.js'
 
 
@@ -43,26 +44,22 @@ class AddRoundComponent extends Component {
     });
   }
 
+  componentWillMount() {
+    this.updateState(store.getState())
+  }
+
   componentDidMount() {
-    //todo: make sure you get the quiz is
-
-    console.log("root state: " + JSON.stringify(store.getState()))
-    console.log("state: " + JSON.stringify(this.state))
-    this.updateState(store.getState());
-
-    axios.get(config.backend + "/categories").then(categories => {
-      this.setState({availableCategories: categories.data})
-      console.log(JSON.stringify(this.state.availableCategories))
-    }).catch(err => {
-      console.log(err);
-      alert("Couldn't get available categories.")
-    })
-
-
-
 
     if (this.state.quizId !== '') {
-      axios.get(config.backend + "/previouslyPlayedCategories/"+this.state.quizId).then(response => {
+      axios.get(config.backend + "/categories").then(categories => {
+        this.setState({availableCategories: categories.data})
+        console.log(JSON.stringify(this.state.availableCategories))
+      }).catch(err => {
+        console.log(err);
+        alert("Couldn't get available categories.")
+      })
+
+      axios.get(config.backend + "/previouslyPlayedCategories/" + this.state.quizId).then(response => {
         console.log("response: " + JSON.stringify(response))
         var playedCategories = response.data.map(category => {
           return this.categoryCall(category)
@@ -82,7 +79,7 @@ class AddRoundComponent extends Component {
         console.log("team doesn't exist");
         console.log(err);
       })
-    } else{
+    } else {
       alert("Quiz is not available.")
     }
 
@@ -93,9 +90,10 @@ class AddRoundComponent extends Component {
    * @param {*} state store state
    */
   updateState(state) {
-    console.log("in update state: "+JSON.stringify(state))
-    this.setState({quizId: state.quizId, selectedCategories: state.selectedCategories}, function(){
-      console.log("state should be changed now: "+JSON.stringify(this.state))
+    new Promise((fullfill, reject) => {
+      this.setState({quizId: state.quizId, selectedCategories: state.selectedCategories}, function () {
+        fullfill();
+      })
     })
 
   }
@@ -106,7 +104,7 @@ class AddRoundComponent extends Component {
     this.setState({redirectBack: true});
   }
 
-  handleStartRound(event){
+  handleStartRound(event) {
     event.preventDefault();
     //todo post update to quiz with new round + categories
     //determine where to go next
@@ -117,9 +115,9 @@ class AddRoundComponent extends Component {
       categories: this.state.selectedCategories
     }).then(response => {
       console.log(response);
-      this.setState({ fireRedirect: true })
+      this.setState({fireRedirect: true})
     }).catch(error => {
-      console.log("error: "+error);
+      console.log("error: " + error);
       alert("something went wrong");
     })
   }
@@ -154,7 +152,9 @@ class AddRoundComponent extends Component {
         <button className='btn btn-large wobbly-border dashed thin' onClick={this.redirectBack.bind(this)}>back</button>
         <div className="text-center">
 
-          <button className='btn btn-large wobbly-border dashed thin' onClick={this.handleStartRound.bind(this)} disabled={this.state.selectedCategories.length !== 3}>Start Round</button>
+          <button className='btn btn-large wobbly-border dashed thin' onClick={this.handleStartRound.bind(this)}
+                  disabled={this.state.selectedCategories.length !== 3}>Start Round
+          </button>
         </div>
       </div>
 
