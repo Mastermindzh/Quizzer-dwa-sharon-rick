@@ -27,7 +27,7 @@ class CurrentQuestionComponent extends Component {
     this.fetchAnswers = this.fetchAnswers.bind(this);
   }
 
-   /**
+  /**
 * update local state with global state
 * @param {*} state store state
 */
@@ -44,11 +44,14 @@ class CurrentQuestionComponent extends Component {
         this.fetchAnswers(this.state.quizId)
       }
     });
+
+    this.updateState(store.getState())
   }
 
   fetchAnswers(quizId) {
+    console.log('we got here' + quizId)
     axios.get(config.backend + "/quizzes/" + quizId + '/answers').then(response => {
-      this.setState({answers: response.data})
+      this.setState({ answers: response.data })
     }).catch(err => {
       console.log("no questions")
     })
@@ -60,10 +63,16 @@ class CurrentQuestionComponent extends Component {
 
       <div className="container-full">
         <TitleComponent title="Quizzer - Current Question" />
-        <QuestionComponent question={"What is the answer to everything?"} answer={"42"}/>
-        {/* For each team answer: */}
-        <TeamAnswerComponent name={"Team1"} answer={"???"}/>
-        <ButtonComponent path={"/"} text={"Back"}/>
+
+
+        <QuestionComponent question={"What is the answer to everything?"} answer={"42"} />
+
+
+        {this.state.answers.map((team, i) => {
+          return <TeamAnswerComponent team={team.teamId} answer={team.answer} key={i} />;
+        })}
+
+        <ButtonComponent path={"/"} text={"Back"} />
       </div>
 
     );
