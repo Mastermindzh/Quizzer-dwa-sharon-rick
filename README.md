@@ -33,7 +33,6 @@ This repo contains a `package.json` file instead of a Makefile to easily start s
     - [3.5 Api specification](#35-api-specification)
 - [4. Format specification](#4-format-specification)
     - [4.1 Websocket communication](#41-websocket-communication)
-        - [4.1.1 available websocket topics](#411-available-websocket-topics)
     - [4.2 MongoDB](#42-mongodb)
         - [Relationships](#relationships)
     - [4.3 Mongoose Schemas](#43-mongoose-schemas)
@@ -92,8 +91,7 @@ The Presentation-Tier will contain the front-end for the Quiz master app, Team a
 ## 2.4 Publish/Subscriber pattern
 
 The Publish/Subscriber pattern is a messaging pattern in which senders, called publishers send messages without knowing who will receive the messages. Listeners, or Subscribers, express interest in a certain type of content and receive messages about it. \
-The variant that will be used in Quizzer is a topic based Publish/Subscriber pattern. This allows Subscribers to subscribe to a certain or multiple topics and receive messages about them. Messages are filtered through the topics, which means that Subscribers will only receive messages of their interest. They will receive all messages published to those topics. \
-This type of communication will be implemented using WebSockets. See WebSocket sections for more details.
+The variant that will be used in Quizzer is a topic based Publish/Subscriber pattern. This allows Subscribers to subscribe to a certain or multiple topics and receive messages about them. This type of communication will be implemented using WebSockets. See WebSocket sections for more details.
 
 # 3. Design decisions / rationale
 
@@ -118,10 +116,10 @@ Examples of events that carry data:
 
 - Submitting a question (for review by the quiz master)
 - Approving / disapproving a team question (changes scoreboard view)
+- New team submission
 
 Examples of events that do **not** carry data and thus will be fetched from the api (caching, validations, etc):
 
-- New team submission
 - Scoreboard displaying teams
 - Questions / categories for the team master (those he picks from)
 
@@ -130,7 +128,7 @@ More information, and specific details about our usage, can be found in Chapter 
 ## 3.3 Multi Tier
 
 Multi Tiered applications are easy to maintain because of the division of functionality. This makes the code easier to read and debug. Each part of the software has a specific task, and will stick to only that task.
-The separation also makes the application more scalable and easier to deploy. Tiers can easily be expanded upon or moved from server to server. Because of this, development is made easier as well. Collaboration is easier because of
+The separation also makes the application more scalable and easier to deploy. Tiers can easily be expanded upon or moved from server to server. Because of this, development is made easier as well.
 
 ## 3.4 Technologies
 
@@ -138,14 +136,24 @@ The following chapter will list all the technology choices made during this proj
 
 - [Docker](https://www.docker.com/)
 - [Swagger](https://swagger.io)
-- [Redux](http://redux.js.org/)
 - [socket.io](https://socket.io/)
+- [Spectacle](https://github.com/sourcey/spectacle)
+- [Axios](https://github.com/axios/axios)
+- [Google charts](google-charts)
+- [Crypto](https://code.google.com/archive/p/crypto-js/)
+- [mime-types](https://github.com/jshttp/mime-types)
+- [Multer](https://github.com/expressjs/multer)
+- [Less](http://lesscss.org/)
+- [React-dropzone](https://github.com/react-dropzone/react-dropzone)
+- [Bootstrap](http://getbootstrap.com/)
+- [Redux](http://redux.js.org/)
 - [Mocha](https://mochajs.org/)
+- [ChaiHttp](https://github.com/chaijs/chai-http)
 - [Supertest](https://github.com/visionmedia/supertest)
 
 ## 3.5 Api specification
 
-We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. We'll give an overview of the endpoints and why we chose them below. To see the entire specification check out the [swagger file](definitions/swagger.yml) or run the "npm run docs" command.
+We have decided to use the OpenAPI specification a.k.a [Swagger](https://swagger.io/) to define our REST endpoints and models. To see the entire specification check out the [swagger file](definitions/swagger.yml) or run the "npm run docs" command.
 
 # 4. Format specification
 
@@ -154,54 +162,31 @@ In this chapter we'll take a look at the formats the application uses. The main 
 ## 4.1 Websocket communication
 
 According to the [Architecture]('#Architecture') section, WebSockets will be used in a [Publish/Subscribe](https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern) pattern, which focuses on topics.
-This entails that in each message at least a topic must be present. Because multiple quizzes can be played at the time, a quizId must also be present. For traceability we have decided to also add the sender to the message.
+Because multiple quizzes can be played at the time, a quizId must be present.
 
 A lot of the messages will not carry data but trigger an "update" event. Such a message will look something like this:
 
 ```js
 {
-    topic: 'new team'
     quizId: '123',
-    sender: 'teamname'
 }
 ```
 
-The app which receives this message can, if it needs to, fetch the team from the API. Which, coincidentally will cache their information including the picture.
+The app which receives this message can, if it needs to, fetch the details from the API. Which, coincidentally, will cache the information.
 
 A message that does carry data looks like this:
 
 ```js
 {
-    topic: 'question',
     quizId: '123',
-    sender: 'quizz master',
-    data: '{"question": "How many loafs of bread does a baker bake daily?"}'
+    answer: 'this is probably wrong :('
 }
 ```
 
-Because we will use Socket.io for our websocket communication the "topic" part will be handled in the communication layer and will therefore dissappear from the message, leaving us with the following example messages:
+Because we will use Socket.io for our websocket communication the "topic" part will be handled in the communication layer and will therefore not be present in the message.
 
-**When the Quizmaster chooses a new question (topic: *new question*)**
 
-```js
-let question = {
-    quizId: '123',
-    sender: 'quizz master',
-    data: '{"question": "How many loafs of bread does a baker bake daily?"}'
-}
-```
-
-**When someone answers the question (topic: *answer*)**
-
-```js
-let answer = {
-    quizId: '123',
-    sender: 'team a',
-    data: '{"answer": "How many loafs of bread does a baker bake daily?"}'
-}
-```
-
-Code to send such messages would then look something like the following code:
+Code to send such messages would look something like the following code:
 
 ```js
 let socket = require('socket.io')(80);
@@ -212,23 +197,14 @@ socket.broadcast.emit('answer', answer);
 Client code can listen to a topic and receive its data like so:
 
 ```js
-    socket.on('answer', function (msg) {
-      // my msg
-    });
+socket.on('answer', function (msg) {
+  // my msg
+});
 ````
-
-### 4.1.1 available websocket topics
-
-The following list houses all, currently known, websocket topics:
-
-- new question
-- answer
-- new team
-- score
 
 ## 4.2 MongoDB
 
-To structure our MongoDB we have decided to use five collections. The collection names, description and a link to an example document within the collection can be viewed in the table below.
+To structure our Mongo database we have decided to use five collections. The collection names, description and a link to an example document within the collection can be viewed in the table below.
 
 | Collection |           Description           | Example document                                                                          |
 |------------|:-------------------------------:|-------------------------------------------------------------------------------------------|
@@ -265,27 +241,27 @@ Mongoose uses Schemas to organize data. These Schemas are derived from the colle
 
 Testing an application can be done in a thousand different ways, we are going to test the following things:
 
-- API tests for Express routes with [supertest](https://github.com/visionmedia/supertest).
-- Unit tests for Mongoose Models with [Mocha](https://mochajs.org/), [chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/).
+- API tests for Express routes with [Chai](http://chaijs.com/) and [ChaiHTTP](https://github.com/chaijs/chai-http).
+- Unit tests for Mongoose Models with [Mocha](https://mochajs.org/) and [chai](http://chaijs.com/).
 
 ## 5.1 API tests for our Express routes
 
-Supertest aims to provide a high-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by [superagent](https://github.com/visionmedia/superagent).
+ChaiHttp aims to provide a high-level abstraction for testing HTTP, while still allowing you to drop down to the lower-level API provided by chai.
 
-An example of a test with supertest:
+An example of a test with ChaiHttp:
 
 ```js
-request(app)
-  .get('/user')
-  .expect('Content-Type', /json/)
-  .expect('Content-Length', '15')
-  .expect(200)
-  .end(function(err, res) {
-    if (err) throw err;
-  });
+chai.request(server)
+.get('/Categories/')
+.end((err, res) => {
+    res.should.have.status(200);
+    res.body.should.be.a('array');
+    res.body.length.should.be.eql(2);
+   done();
+});
 ```
 
-This bit of code tests the `/user` path and expects a HTTP-status code 200 and a json string with the length of 15.
+This bit of code tests the `/Categories` path and expects a HTTP-status code 200 and an array with the length of 2.
 
 ## 5.2 Unit tests for Mongoose Models
 

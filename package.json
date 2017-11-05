@@ -5,7 +5,7 @@
         "start": "npm run shared_modules && docker-compose up -d",
         "seed": "node test/populateDatabase.js",
         "mockups": "http-server -c-1 mockups",
-        "docs": "node_modules/.bin/spectacle -d -p 7999 -t ./definitions/public definitions/swagger.yml",
+        "docs": "node_modules/.bin/spectacle -d -p 8008 -t ./definitions/public definitions/swagger.yml",
         "shared_modules": "node ./copy_shared_components.js",
         "generate:nodejs": "mkdir generated && cd generated && yo swaggerize --apiPath ./../definitions/swagger.yml --framework express && cd ../"
     },

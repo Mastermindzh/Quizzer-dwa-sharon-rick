@@ -3,17 +3,17 @@ module.exports = data = {
     {
       name: 'Team1',
       password: '1234',
-      picture: 'somefilestring'
+      picture: 'seeddata.jpeg'
     },
     {
       name: 'Team2',
       password: '1a2b',
-      picture: 'somefilestring'
+      picture: 'seeddata.jpeg'
     },
     {
       name: 'Team3',
       password: 'abcd',
-      picture: 'somefilestring'
+      picture: 'seeddata.jpeg'
     }
   ],
   questions: [
