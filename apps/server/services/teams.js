@@ -25,11 +25,12 @@ exports.getTeam = function (id) {
  * @param name name of the team you want
  * @param callback method which will receive the team
  */
-exports.getTeamByName = function (name) {
+function getTeamByName(name) {
   return mongoose.Team.findOne({
     name: name
   }).exec();
 }
+exports.getTeamByName = getTeamByName
 
 /**
  * Create a new Team and add it to the database
@@ -61,7 +62,7 @@ exports.getCurrentAnswer = (quizId, teamId) => {
     quizzes.getQuiz(quizId).then(quiz => {
       quizzes.getCurrentDbQuestion(quiz).then(response => {
         response.answers.forEach(answer => {
-          if(answer.teamId.toString() === teamId){
+          if (answer.teamId.toString() === teamId) {
             fullfill(answer)
           }
         })
@@ -74,3 +75,18 @@ exports.getCurrentAnswer = (quizId, teamId) => {
     })
   })
 }
+
+exports.apply = ((teamName, quizId, io) => {
+  return new Promise((fullfill, reject) => {
+    getTeamByName(teamName).then(team => {
+      io.emit('new-team', {
+        teamId: team._id,
+        quizId: quizId
+      })
+      fullfill('test')
+    }).catch(err => {
+      console.log(err)
+      reject("can't find the team")
+    })
+  })
+});
