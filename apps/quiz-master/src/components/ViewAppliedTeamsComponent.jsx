@@ -45,9 +45,8 @@ class ViewAppliedTeamsComponent extends Component {
     axios.post(config.backend + '/quizzes/' + this.state.quizId + '/startQuiz',
       this.state.approvedTeams
     ).then(response => {
-      axios.get(config.backend + '/approve/' + this.state.quizId).then(()=>{
-        this.setState({fireRedirect: true})
-      })
+      axios.get(config.backend + '/approve/' + this.state.quizId)
+      this.setState({fireRedirect: true})
     }).catch(error => {
       alert("something went wrong: "+error);
     })
