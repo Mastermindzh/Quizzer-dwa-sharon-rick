@@ -50,7 +50,7 @@ class PlayComponent extends Component {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-question", data => {
-      if (data.quizId == this.state.quizId) {
+      if (data.quizId === this.state.quizId) {
         store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: data.question })
       }
     });
@@ -84,7 +84,7 @@ class PlayComponent extends Component {
           <div className="col-lg-3" />
           <BoxComponent size="6">
             <h2 className="header-distance">Question</h2>
-            <p>{(this.state.question) !== null && this.state.question.question}</p>
+            <p>{(this.state.question) !== undefined && this.state.question.question}</p>
             <form onSubmit={this.handleSubmit}>
               <div className="col-lg-12">
                 <div className="form-group">

@@ -136,6 +136,13 @@ App.post('/startQuiz', (req, res) => {
 
 })
 
+/** example websocket message on team approval */
+App.get('/approve/:quizId', (req,res) => {
+  io.emit('quiz-start', {
+    quizId: req.param.quizId
+  })
+})
+
 /**
  * Login to the current quiz (will give you the answer back)
  */

@@ -8,6 +8,8 @@ import axios from "axios"
 import store from "../store/RootStore"
 import actions from '../reducers/actions.js'
 import config from '../config.js'
+import socketIOClient from "socket.io-client";
+import loader from "../icons/loader.gif";
 
 class LoginComponent extends Component {
 
@@ -18,9 +20,11 @@ class LoginComponent extends Component {
       password: '',
       code: '',
       fireRedirect: false,
-      state: "login"
+      state: "login",
+      waitingForApproval: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goToPlayComponent = this.goToPlayComponent.bind(this);
   }
 
   /**
@@ -44,22 +48,32 @@ class LoginComponent extends Component {
       password: this.state.password,
       code: this.state.code
     }).then(response => {
-
-      alert(JSON.stringify(response))
-
-      // if login == go then...
-      // store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: response.data.question });
-      // store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
-      // store.dispatch({ type: actions.SET_TEAM_NAME, payload: this.state.name })
-      // this.setState({ fireRedirect: true })
+      if (response.data === 'team application sent') {
+        this.setState({ waitingForApproval: true })
+        this.socket = socketIOClient(config.backend);
+        this.socket.on("quiz-start", data => {
+          if (data.quizId === this.state.quizId) {
+            this.goToPlayComponent(response);
+          }
+        });
+      } else {
+        this.goToPlayComponent(response);
+      }
     }).catch(error => {
-      console.log("error: "+error);
+      console.log("error: " + error);
       alert("no dice");
     })
   }
 
+  goToPlayComponent(response) {
+    store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: response.data.question });
+    store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
+    store.dispatch({ type: actions.SET_TEAM_NAME, payload: this.state.name })
+    this.setState({ fireRedirect: true })
+  }
+
   render() {
-    const { name, password, code} = this.state;
+    const { name, password, code } = this.state;
     return (
       <div className="container">
 
@@ -76,28 +90,38 @@ class LoginComponent extends Component {
 
             {this.state.state === "login" ? (
               <div>
-                <p>Please enter your team info below
-                </p>
-                <div className="col-lg-12">
-                  <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                      <input type="text" name="name" className="form-control" id="name" placeholder="team name" onChange={this.handleChange.bind(this, "name")} />
-                    </div>
-                    <div className="form-group">
-                      <input type="password" name="password" className="form-control" id="password" placeholder="password" onChange={this.handleChange.bind(this, "password")} />
-                    </div>
-                    <div className="form-group">
-                      <input type="text" name="quizId" className="form-control" id="code" placeholder="Quiz Code" onChange={this.handleChange.bind(this, "code")} />
+
+                {this.state.waitingForApproval && (
+                  <div>
+                    <p>Waiting for approval</p>
+                    <img src={loader} alt="loading image" />
+                  </div>
+                )}
+                {!this.state.waitingForApproval && (
+                  <div>
+                    <p>Please enter your team info below</p>
+                    <div className="col-lg-12">
+                      <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                          <input type="text" name="name" className="form-control" id="name" placeholder="team name" onChange={this.handleChange.bind(this, "name")} />
+                        </div>
+                        <div className="form-group">
+                          <input type="password" name="password" className="form-control" id="password" placeholder="password" onChange={this.handleChange.bind(this, "password")} />
+                        </div>
+                        <div className="form-group">
+                          <input type="text" name="quizId" className="form-control" id="code" placeholder="Quiz Code" onChange={this.handleChange.bind(this, "code")} />
+                        </div>
+                        <div className="col-lg-12" style={{ paddingTop: '40px' }}>
+                          <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && code.length > 0} />
+                        </div>
+
+                      </form>
                     </div>
                     <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-                      <SubmitButton text="Log in!" enabled={name.length > 0 && password.length > 0 && code.length > 0} />
+                      <ButtonComponent path="/register" text="Register" />
                     </div>
-                  </form>
-                </div>
-                <div className="col-lg-12" style={{ paddingTop: '40px' }}>
-                  <ButtonComponent path="/register" text="Register" />
-                </div>
-
+                  </div>
+                )}
               </div>
             ) : (
                 <div>
