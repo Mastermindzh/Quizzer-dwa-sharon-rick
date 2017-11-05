@@ -89,13 +89,25 @@ class EditRoundsComponent extends Component {
 
   }
 
-  handleAddQuestion(event, question) {
-    event.preventDefault()
+  handleAddQuestion(question) {
     console.log("question: "+question)
     if (this.state.currentQuestions.length === 12) {
       alert("You can only have 12 questions in a round");
     } else {
-      //todo add question to round
+//todo also fix quizId here.
+      axios.post(config.backend + '/quizzes/59fef6ea016a434986710f9c/'+this.state.roundNumber+'/addQuestion',
+        {question: question}
+      ).then(response => {
+        console.log("in add question response")
+        //this.setState({fireRedirect: true})
+        //todo somehow reload page, redirect to itself?
+      }).catch(error => {
+        console.log("error: " + error);
+        alert("something went wrong");
+      })
+
+
+
     }
   }
 
@@ -124,7 +136,7 @@ class EditRoundsComponent extends Component {
         <div className="col-md-8 wobbly-border">
           <p>Available Questions</p>
           {this.state.availableQuestions && this.state.availableQuestions.map((question, i) => {
-            return <AvailableQuestionsComponent key={i} id={question.id} question={question.question} handleAddQuestion={this.handleAddQuestion.bind(this)}/>
+            return <AvailableQuestionsComponent key={i} id={question._id} question={question.question} handleAddQuestion={this.handleAddQuestion.bind(this)}/>
           })}
           <ButtonComponent path={"/"} text={"Add Selected Question"}/>
         </div>

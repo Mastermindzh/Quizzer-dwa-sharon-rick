@@ -149,29 +149,14 @@ App.get('/teamApplicantTest', (req, res) => {
 
 })
 
-// App.post('/startQuiz', (req, res) => {
-//   quizzes.updateQuizStatus(req.body.quizId, req.body.teams, "Playing").then(quiz => {
-//     res.send(quiz._id)
-//   }).catch(err => {
-//     console.log(err);
-//     res.status(401).send("not authorized");
-//   })
-//
-// })
-//
-// App.post('/newRound', (req, res) => {
-//   quizzes.newRound(req.body.quizId, req.body.categories).then(quiz => {
-//     console.log("quiz with new round: "+JSON.stringify(quiz))
-//     res.send(quiz._id)
-//   }).catch(err => {
-//     console.log(err);
-//     res.status(401).send("not authorized.")
-//   })
-// })
+App.post('/quizzes/:id/:round/addQuestion', (req, res)=>{
 
-
-
-
+  quizzes.addQuestion(req.params.id, req.params.round, req.body.question).then(result =>{
+    res.send(200,'question successfully added.')
+  }).catch(err=>{
+    res.send(400, err)
+  })
+})
 /**
  * Login to the current quiz (will give you the answer back)
  */

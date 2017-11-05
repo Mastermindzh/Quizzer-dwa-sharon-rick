@@ -12,6 +12,12 @@ class AvailableQuestionsComponent extends Component {
     };
   }
 
+  addQuestion(event){
+    event.preventDefault();
+    console.log("id: "+this.state.id)
+    this.props.handleAddQuestion(this.state.id)
+  }
+
 
   componentWillMount() {
     this.setState({id: this.props.id, question: this.props.question});
@@ -27,7 +33,7 @@ class AvailableQuestionsComponent extends Component {
       <div>
         <BoxComponent>
           <p>{this.state.question}</p>
-          <button className='btn btn-large wobbly-border dashed thin' onClick={this.props.handleAddQuestion(this.state.id)}>
+          <button className='btn btn-large wobbly-border dashed thin' onClick={this.addQuestion.bind(this)}>
             Add
           </button>
         </BoxComponent>
