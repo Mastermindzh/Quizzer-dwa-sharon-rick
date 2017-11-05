@@ -149,26 +149,11 @@ class App extends Component {
 
   render() {
     return (
-
-      <
-      Switch >
-      <
-      Route exact path = '/'
-      component = {
-        LoginComponent
-      }
-      /> <
-      Route path = '/scores'
-      component = {
-        ScoreboardComponent
-      }
-      /> <
-      Route path = '/winner'
-      component = {
-        WinnerComponent
-      }
-      /> <
-      /Switch>
+      <Switch>
+        <Route exact path='/' component={LoginComponent}/>
+        <Route path='/scores' component={ScoreboardComponent}/>
+        <Route path='/winner' component={WinnerComponent}/>
+      </Switch>
     )
   }
 }
