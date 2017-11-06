@@ -143,7 +143,7 @@ class EditRoundsComponent extends Component {
     });
 
     myPromise.then(response => {
-      if (response[0]) {
+      if (response) {
         console.log("other q is playing, so this is not allowed.");
         alert("Another question is being played, you can't start a new one right now.")
       } else {

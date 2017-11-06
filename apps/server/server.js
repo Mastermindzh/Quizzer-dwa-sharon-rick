@@ -91,6 +91,9 @@ App.get('/closeQuestion/:quizId', (req, res) => {
   io.emit('update-table', {
     quizId: req.params.quizId
   })
+  io.emit('question-end', {
+    quizId: req.params.quizId
+  })
   res.send('question closed fired')
 });
 
