@@ -48,11 +48,38 @@ class PlayComponent extends Component {
 
   componentDidMount() {
     this.updateState(store.getState());
+
+
+    axios.get(config.backend + '/quizzes/' + store.getState().quizId + '/currentQuestion').then(response => {
+      if (response.data.category !== undefined) {
+        axios.get(config.backend + '/categories/' + response.data.category).then(data => {
+          store.dispatch({
+            type: actions.CHANGE_CURRENT_QUESTION,
+            payload: {
+              question: response.data,
+              category: data.data
+            }
+          })
+        })
+      }
+    })
+
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-question", data => {
-      console.log('hello new-question')
-      if (data.quizId.toString() == this.state.quizId.toString()) {
-        store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: data.question })
+      if (data.quizId == this.state.quizId.toString()) {
+        axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
+          if (response.data.category !== undefined) {
+            axios.get(config.backend + '/categories/' + response.data.category).then(data => {
+              store.dispatch({
+                type: actions.CHANGE_CURRENT_QUESTION,
+                payload: {
+                  question: response.data,
+                  category: data.data
+                }
+              })
+            })
+          }
+        })
       }
     });
   }

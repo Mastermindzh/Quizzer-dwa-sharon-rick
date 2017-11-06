@@ -11,7 +11,7 @@ export default function rootReducer(state = appState, action) {
   switch (action.type) {
     case actions.CHANGE_CURRENT_QUESTION:
       return { ...state,
-        currentQuestion: action.payload
+        currentQuestion: action.payload.question,
       }
     case actions.SET_QUIZ_ID:
       return { ...state,
