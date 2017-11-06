@@ -66,7 +66,7 @@ class PlayComponent extends Component {
 
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-question", data => {
-      if (data.quizId == this.state.quizId.toString()) {
+      if (data.quizId == store.getState().quizId.toString()) {
         axios.get(config.backend + '/quizzes/' + data.quizId + '/currentQuestion').then(response => {
           if (response.data.category !== undefined) {
             axios.get(config.backend + '/categories/' + response.data.category).then(data => {
