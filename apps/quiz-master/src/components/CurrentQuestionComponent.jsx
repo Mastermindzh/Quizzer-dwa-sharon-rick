@@ -101,7 +101,7 @@ class CurrentQuestionComponent extends Component {
         <QuestionComponent question={this.state.question} answer={this.state.answer} />
 
 
-        {this.state.answers.map((team, i) => {
+        {this.state.answers != '' && this.state.answers.map((team, i) => {
           return <TeamAnswerComponent team={team.teamId} answer={team.answer} quiz={this.state.quizId} status={team.approved} key={i} />;
         })}
 
