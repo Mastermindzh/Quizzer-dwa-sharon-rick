@@ -182,7 +182,7 @@ App.post('/login', (req, res) => {
     } else {
       if (quiz.status.toLowerCase() === "open") {
         teams.apply(req.body.name, quiz._id, io).then(response => {
-          res.send('team application sent')
+          res.send({message:'team application sent', quizId: quiz._id})
         })
       } else {
         teams.getTeamByName(req.body.name).then(team => {

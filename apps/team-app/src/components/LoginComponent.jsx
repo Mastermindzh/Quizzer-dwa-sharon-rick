@@ -66,6 +66,7 @@ class LoginComponent extends Component {
   }
 
   goToPlayComponent(response) {
+    alert(JSON.stringify(response))
     store.dispatch({ type: actions.SET_QUIZ_ID, payload: response.data.quizId })
     store.dispatch({ type: actions.SET_TEAM_NAME, payload: this.state.name })
     this.setState({ fireRedirect: true })
