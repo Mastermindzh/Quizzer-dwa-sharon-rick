@@ -65,24 +65,25 @@ Use the following credentials:
 ### 3. Apply both teams for the quiz
 ### 4. Accept both teams for the quiz
 ### 5. Start the quizz
-### 6. Show that both team apps have started -> NO! websocket message is not send, send it from quizmaster ViewAppliedTeamsComponent.
+### 6. Show that both team apps have started
 ### 7. Select 3 categories
 ### 8. Start round
 ### 9. Add a question to the round
-### 10. Start a question
-### 11. Go to the tab with the `sharon` team and enter a **wrong** answer
-### 12. Go to the tab with the `Rick` and enter the correct answer
+### 10. Login to scoreboard
+### 11. Start a question -> websocket teamapp
+### 12. Go to the tab with the `sharon` team and enter a answer
+### 12. Go to the tab with the `Rick` and enter a answer
 ### 13. Show that the scoreboard updated (yellow boxes)
-### 14. Close Question
-### 15. Approve the wrong answer team `sharon` gave.
+### 14. Accept answer
+### 15. Close Question
 ### 16. Start the new question and show that everything updated
 
-====
 
-### 18. Explain that we have a sample dataset which shows that we can resume a quiz + show that we can win a quiz.
-### 19. Run the ` npm run seed ` command in the root directory
-### 20. Log the scoreboard in to the avengers quiz (code: 1a2b3c)
-### 21. Log Team1 in to the avengers quiz (Team1, 1234, 1a2b3c)
+### 17. Explain that we have a sample dataset which shows that we can resume a quiz + show that we can win a quiz.
+
+### 18. Run the ` npm run seed ` command in the root directory
+### 19. Log the scoreboard + quiz master in to the avengers quiz (code: 1a2b3c)
+### 20. Log Team1 in to the avengers quiz (Team1, 1234, 1a2b3c)
 ### 21. Close the currently running quizz
 ### 22. Team3  should have won, Team1 should be second and the third place goes to team2.
 ### 23. Run the `npm test` command in the server directory to show that all tests pass.

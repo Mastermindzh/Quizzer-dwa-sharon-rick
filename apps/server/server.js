@@ -103,6 +103,10 @@ App.get('/newQuestion/:quizId', (req,res) =>{
   })
   res.send('question new-question fired')
 })
+App.get('/judgement', (req,res) =>{
+  io.emit('judgement', {})
+  res.send('judgement fired')
+})
 
 /**
  * Route to apply for a quiz

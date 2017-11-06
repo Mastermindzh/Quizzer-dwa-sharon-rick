@@ -56,6 +56,10 @@ class TeamCardComponent extends Component {
       }
     })
 
+    this.socket.on("judgement", data => {
+        this.fetchAnswer(store.getState().quizId)
+    })
+
     axios.get(config.backend + "/teams/" + this.props.team).then(response => {
       this.setState({ teamName: response.data.name, teamImage: config.backend + "/" + response.data.picture })
     }).catch(err => {

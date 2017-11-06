@@ -31,6 +31,7 @@ class TeamAnswerComponent extends Component {
       judgement: status
     }
     axios.put(config.backend + "/quizzes/" + this.props.quiz + '/judge', body).then(response => {
+      axios.get(config.backend + '/judgement')
       this.setState({status: status})
     })
   }
