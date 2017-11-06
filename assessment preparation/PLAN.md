@@ -36,11 +36,12 @@ Make sure you are on the **latest** master branch and that you ran `npm install`
 
 1. Open up the project in your code editor
 2. in the root folder execute: `npm run docs`
-3. in the root folder execute: `docker-compose up`
-4. in the preparation folder execute: `node clearDatabase.js`
-5. register a team called `sharon` with the password `123` and use the [images/team1.jpg](images/team1.jpg) image.
-6. Start Robo3T and connect to `localhost:8009`
-7. Open up the following browser tabs:
+3. run `npm run shared_modules`
+4. in the root folder execute: `docker-compose up`
+5. in the preparation folder execute: `node clearDatabase.js`
+6. register a team called `sharon` with the password `123` and use the [images/team1.jpg](images/team1.jpg) image.
+7. Start Robo3T and connect to `localhost:8009`
+8. Open up the following browser tabs:
 
     - [Spectacle](http://localhost:8008)
     - [Scoreboard](http://localhost:8002)

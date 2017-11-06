@@ -48,7 +48,7 @@ class LoginComponent extends Component {
       password: this.state.password,
       code: this.state.code
     }).then(response => {
-      if (response.data === 'team application sent') {
+      if (response.data.message === 'team application sent') {
         this.setState({ waitingForApproval: true })
         this.socket = socketIOClient(config.backend);
         this.socket.on("quiz-start", data => {
