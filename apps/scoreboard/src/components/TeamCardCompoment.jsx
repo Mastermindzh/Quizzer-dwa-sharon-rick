@@ -50,7 +50,7 @@ class TeamCardComponent extends Component {
       }
     })
 
-    this.socket.on("question-start", data => {
+    this.socket.on("new-question", data => {
       if (data.quizId === this.state.quizId) {
         this.setState({answer: {}, showAnswer: false})
       }
