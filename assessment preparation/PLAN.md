@@ -77,10 +77,7 @@ Use the following credentials:
 ### 14. Accept answer
 ### 15. Close Question
 ### 16. Start the new question and show that everything updated
-
-
 ### 17. Explain that we have a sample dataset which shows that we can resume a quiz + show that we can win a quiz.
-
 ### 18. Run the ` npm run seed ` command in the root directory
 ### 19. Log the scoreboard + quiz master in to the avengers quiz (code: 1a2b3c)
 ### 20. Log Team1 in to the avengers quiz (Team1, 1234, 1a2b3c)
