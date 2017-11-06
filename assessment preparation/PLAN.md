@@ -52,16 +52,10 @@ Make sure you are on the **latest** master branch and that you ran `npm install`
 ## Testing
 
 ### 1. Register a team
-
 Use the following credentials:
 - rick
 - 1234
 - [images/team2.png](images/team2.png)
-
-- sharon
-- 1234
-- [images/team1.png](images/team1.png)
-
 ### 2. Create a quiz with code - quizzer
 ### 3. Apply both teams for the quiz
 ### 4. Accept both teams for the quiz
