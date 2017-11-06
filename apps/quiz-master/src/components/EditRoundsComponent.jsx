@@ -132,8 +132,8 @@ class EditRoundsComponent extends Component {
 
   handleStartQuestion(questionId) {
     var myPromise = new Promise((resolve, reject) => {
-      console.log("==> currentqs: " + JSON.stringify(this.state.currentQuestions))
       this.state.currentQuestions.forEach(question => {
+        console.log(question.status)
         if (question.status.toLowerCase() === 'open') {
           console.log("====found one====")
           resolve(true);
@@ -143,7 +143,8 @@ class EditRoundsComponent extends Component {
     });
 
     myPromise.then(response => {
-      if (response[0]) {
+      console.log("response: "+JSON.stringify(response))
+      if (response) {
         console.log("other q is playing, so this is not allowed.");
         alert("Another question is being played, you can't start a new one right now.")
       } else {
