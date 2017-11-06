@@ -50,7 +50,8 @@ class PlayComponent extends Component {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
     this.socket.on("new-question", data => {
-      if (data.quizId === this.state.quizId) {
+      console.log('hello new-question')
+      if (data.quizId.toString() == this.state.quizId.toString()) {
         store.dispatch({ type: actions.CHANGE_CURRENT_QUESTION, payload: data.question })
       }
     });

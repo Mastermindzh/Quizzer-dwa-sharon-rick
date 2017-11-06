@@ -150,6 +150,7 @@ class EditRoundsComponent extends Component {
 
         axios.post(config.backend + '/quizzes/' + this.state.quizId + '/' + this.state.roundNumber + '/updateQuestion', { question: questionId })
           .then(response => {
+            axios.get(config.backend + '/newQuestion/' + this.state.quizId)
             this.setState({ redirectBack: true })
           }).catch(err => {
             alert(err)

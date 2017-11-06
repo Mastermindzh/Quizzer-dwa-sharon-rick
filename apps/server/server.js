@@ -69,8 +69,6 @@ io.on('connection', function (client) {
 
 // Custom endpoints
 
-const QUIZIDFORTESTMESSAGES = "59fef91fe44d0a36bc000cc9"
-
 App.post('/image', upload.single('teamImage'), function (req, res, next) {
   res.send(req.file.filename);
 })
@@ -95,6 +93,13 @@ App.get('/closeQuestion/:quizId', (req, res) => {
   })
   res.send('question closed fired')
 });
+
+App.get('/newQuestion/:quizId', (req,res) =>{
+  io.emit('new-question', {
+    quizId: req.params.quizId
+  })
+  res.send('question new-question fired')
+})
 
 /**
  * Route to apply for a quiz

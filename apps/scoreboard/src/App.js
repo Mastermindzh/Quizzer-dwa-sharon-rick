@@ -62,17 +62,13 @@ class App extends Component {
     this.updateState(store.getState());
     this.socket = socketIOClient(config.backend);
 
-    this.socket.on("new-question", data => {
-      this.quizUpdate(data)
-    });
-
     this.socket.on("update-table", data => {
       this.updateTable(data);
     })
 
-    // this.socket.on("new-question", data => {
-    //   this.updateCurrentQuestion(data)
-    // })
+    this.socket.on("new-question", data => {
+      this.updateCurrentQuestion(data)
+    })
 
     this.socket.on("round-end", data => {
       this.updateChart(data)
